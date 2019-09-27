@@ -1,0 +1,35 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Paul Issott <paul@slitaz.org>
+pkgname="accessx"
+pkgver="0.951"
+pkgrel=0
+pkgdesc="Set and display Xkeyboard (XCB) Accessx features"
+url="http://cita.disability.uiuc.edu/software/accessx/freewareaccessx.php"
+arch="all"
+license="GPL2"
+depends="tk tcl"
+makedepends="libx11-dev libxext-dev tk-dev"
+source="http://cita.disability.uiuc.edu/software/accessx/files/$pkgname${pkgver/./}.tar.gz
+	accessx-0951.patch"
+builddir="$srcdir/$pkgname"
+options="!check"
+
+prepare() {
+	default_prepare
+	sed -i 's|$(CC) $(OPTS) ax.C|$(CC) $(LDFLAGS) $(OPTS) ax.C|' Makefile
+}
+
+build() {
+	make \
+		OPTS="$CXXFLAGS" \
+		XLIBDIR="-L/usr/lib" \
+		LLIBS="$(pkg-config --libs xext) $(pkg-config --libs x11)"
+}
+
+package() {
+	install -Dm755 accessx "$pkgdir/usr/bin/accessx"
+	install -Dm755 ax      "$pkgdir/usr/bin/ax"
+}
+
+sha512sums="2e152e15f89b95c1776327161ea36b879d2060e46e4414d0dc2e877967f570c427073ec514aecc447a5a7afedf53c43c6b5dbe30164e8098528e78392b5fa9c3  accessx0951.tar.gz
+9a5c35b1ddd0ec2b79c0d9c65fce108db9af47d407e8d0f9c83be70d77b52d22e277d0394378b8f3ecd1c233e9ccf8c0601b71580e96841ce7f714ed61b43b95  accessx-0951.patch"
