@@ -1,0 +1,87 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="slitaz-configs"
+pkgver="316"
+pkgrel=0
+pkgdesc="SliTaz config files"
+url="http://www.slitaz.org/"
+arch="noarch"
+license="GPL3"
+makedepends="gettext-tiny"
+subpackages="slitaz-themes $pkgname-base"
+source="$pkgname-$pkgver.tar.bz2::http://hg.slitaz.org/$pkgname/archive/$pkgver.tar.bz2"
+
+package() {
+#	# xcompmgr produces visual glitches on the screen
+#	sed -i 's|xcompmgr|compton|' ob-menu/menu.xml.in
+#	ln -s menu.en.xml $pkgdir/etc/xdg/openbox/menu.xml
+
+	# find /usr/share/locale -type f -name 'slitaz*'
+
+	mkdir -p "$pkgdir"
+	cp -a "$builddir"/rootfs/* "$pkgdir"
+
+	# Put applications.conf to /etc/skel
+	mkdir -p "$pkgdir/etc/skel/.config/slitaz/"
+	cp -a "$pkgdir/etc/slitaz/applications.conf" "$pkgdir/etc/skel/.config/slitaz/"
+
+	cd "$pkgdir/etc/skel"
+	mkdir -p Desktop Documents Downloads Images Music Public Templates Videos
+
+	# actually isolinux splash is png
+	mv "$pkgdir/boot/isolinux/splash.jpg" "$pkgdir/boot/isolinux/splash.png"
+
+	# LXPanel settings are in lxpanel package
+	rm -r "$pkgdir/etc/lxpanel"
+
+	# Polkit *.pkla files are not working anymore,
+	# Polkit switches to javascript-based rules
+	rm -r "$pkgdir/etc/polkit-1"
+
+	# LXsession settings are in lxsession package
+	rm -r "$pkgdir/etc/skel/.config/lxsession"
+
+	# Fix symlink (was regular file) to GTK bookmarks
+	rm -r "$pkgdir/etc/skel/.gtk-bookmarks"
+	ln -s .config/gtk-3.0/bookmarks "$pkgdir/etc/skel/.gtk-bookmarks"
+
+	# Beaver is gone...
+	sed -i 's|beaver|leafpad|' "$pkgdir/usr/share/applications/defaults.list"
+
+	# SliTaz backgrounds in the slitaz-next package
+	rm "$pkgdir"/usr/share/images/slitaz-background*
+
+	# SLiM theme in the slim package
+	rm -r "$pkgdir/usr/share/slim"
+
+	# PCManFM settings in the pcmanfm package
+	rm -r "$pkgdir/usr/share/slitaz/lxde"
+
+	# Remove templates, use that in /usr/share/templates/ only
+	rm "$pkgdir"/etc/skel/Templates/*
+
+	# Now we need ConsoleKit
+	sed -i 's|exec dbus-launch|exec ck-launch-session dbus-launch|' "$pkgdir/etc/skel/.xinitrc"
+
+	# Enable colored terminal prompt by default
+	sed -i '/PS1.*m/ s|#PS1=|PS1=|' "$pkgdir/etc/skel/.profile"
+}
+
+base() {
+	mkdir -p "$subpkgdir/etc" "$subpkgdir/usr"
+	mv "$pkgdir/boot/"     "$pkgdir/root/"       "$subpkgdir"
+	mv "$pkgdir/etc/skel/" "$pkgdir/etc/slitaz/" "$subpkgdir/etc"
+	mv "$pkgdir/usr/share/"                      "$subpkgdir/usr"
+	pkgdesc="SliTaz config files for text based systems"
+	depends=""
+}
+
+themes() {
+	mkdir -p "$subpkgdir/usr/share/themes"
+	mv "$pkgdir"/usr/share/themes/SliTaz*/ "$subpkgdir/usr/share/themes"
+	mv "$pkgdir"/usr/share/lxdm/           "$subpkgdir/usr/share"
+	pkgdesc="SliTaz config files (GTK+2, Openbox3, LXDM and SLiM themes)"
+	depends="slim"
+}
+
+sha512sums="fadc366ddcf03209921a14b176113b3e3b16e23e8f9a5baaf196a2cfa9551a887ab42ff20cce19b12600d78421111b745e0fa0cc6ece78a43f5d0b335e088be1  slitaz-configs-316.tar.bz2"
