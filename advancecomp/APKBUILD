@@ -1,0 +1,50 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Pascal Bellard <pascal.bellard@slitaz.org>
+pkgname="advancecomp"
+pkgver="2.1"
+pkgrel=0
+pkgdesc="Recompression utilities for .ZIP, .PNG, .MNG and .GZ"
+url="http://www.advancemame.it/comp-readme"
+arch="all"
+license="GPL2"
+makedepends="zlib-dev zlib-static"
+subpackages="$pkgname-doc $pkgname-static:_static"
+source="https://github.com/amadvance/advancecomp/releases/download/v$pkgver/$pkgname-$pkgver.tar.gz"
+#builddir="$srcdir/$pkgname-$pkgver"
+options="!check"
+
+prepare() {
+	./autogen.sh
+	cp -a "$builddir" "$builddir-static"
+}
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc
+	make
+
+	msg "make static tools"
+	cd "$builddir-static"
+	./configure \
+		LDFLAGS='-static' \
+		--prefix=/usr \
+		--sysconfdir=/etc
+	make
+}
+
+package() {
+	cd "$builddir"
+	make DESTDIR="$pkgdir" install
+}
+
+_static() {
+	cd "$builddir-static"
+	make DESTDIR="$subpkgdir" install
+	rm -r "$subpkgdir/usr/share" # the same man pages
+
+	replaces="$pkgname"
+	pkgdesc="$pkgdesc (static binary)"
+}
+
+sha512sums="62abc585b282483bf5994491db3965463f4a54db642e489460d678f95faefc5d62f80bcd9e5a2a2ba3cd708d5cda7457a2b773be1a65385ef5528324e2d2949b  advancecomp-2.1.tar.gz"
