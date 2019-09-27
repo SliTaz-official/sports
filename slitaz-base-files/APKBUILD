@@ -1,0 +1,49 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="slitaz-base-files"
+pkgver="340"
+pkgrel=0
+pkgdesc="SliTaz Linux tree and the necessary files for the base system"
+url="http://www.slitaz.org/"
+arch="all"
+license="BSD AND GPL3"
+source="$pkgname-$pkgver.tar.bz2::http://hg.slitaz.org/$pkgname/archive/$pkgver.tar.bz2"
+
+build() {
+	make DESTDIR="$pkgdir"
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	cd "$pkgdir"
+	mkdir -p bin dev home media/cdrom media/flash media/usbdisk mnt proc root \
+		run sbin sys tmp usr/bin usr/games usr/lib usr/sbin usr/share/doc \
+		var/cache var/games var/lib var/lock var/log/slitaz var/spool var/tmp \
+		var/run
+
+	# Create /etc/mtab symlink
+	ln -s /proc/mounts "$pkgdir/etc/mtab"
+
+	# Add httphelper link
+	ln -s httphelper.sh "$pkgdir/usr/lib/slitaz/httphelper"
+
+	# Update copyright year
+	grep -rl 'copy; 2' "$pkgdir/var/www" | xargs \
+		sed -i "s/copy; [0-9]*/copy; $(date +%Y)/"
+
+	# Set release
+	echo 'next' > "$pkgdir/etc/slitaz-release"
+	# Set mirror1 as default mirror
+	sed -i 's|mirror\.slitaz\.org|mirror1.slitaz.org|' "$pkgdir/etc/slitaz/slitaz.conf"
+
+	# Set arch
+	sed -i "s|SLITAZ_ARCH=.*|SLITAZ_ARCH=\"$ARCH\"|" "$pkgdir/etc/slitaz/slitaz.conf"
+
+	chmod 1777 "$pkgdir/tmp"
+	chmod  640 "$pkgdir/etc/shadow"
+	chmod  640 "$pkgdir/etc/gshadow"
+	chmod 0750 "$pkgdir/root"
+}
+
+sha512sums="9abd836969fc4b987e298aca0e4f28fa582a83529a96c54b88f4bb04038d8da3588ad42edb710d6c0744f8f9a950c00d05db82e08802ca51ce1c5188f9f183a4  slitaz-base-files-340.tar.bz2"
