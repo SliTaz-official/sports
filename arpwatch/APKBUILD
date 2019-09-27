@@ -1,0 +1,32 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="arpwatch"
+pkgver="2.1a15"
+pkgrel=0
+pkgdesc="arpwatch and arpsnmp network monitoring tools"
+url="ftp://ftp.ee.lbl.gov/"
+arch="all"
+license="BSD"
+makedepends="libpcap-dev"
+subpackages="$pkgname-doc"
+source="$url$pkgname-$pkgver.tar.gz
+	install.patch"
+options="!check"
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--mandir=/usr/share/man
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install install-man
+
+	install -d -m 0755 "$pkgdir/var/lib/arpwatch"
+	touch              "$pkgdir/var/lib/arpwatch/arp.dat"
+
+}
+
+sha512sums="f770b5b7954afe910dafb016e6e886a4e785564bcdc0ea0de9d7b1ca6a9a0b219a9d1b50b6f42a67afc2f836e782e8ff85ba5780583015d62c9694ac53f0bf90  arpwatch-2.1a15.tar.gz
+d798640e6d714434f6770aa43b0e0a534d2f403eb31839695aa2e0d9374cb29160e17fb2bead77e77fbfdfb1cea7c5f351609e0573e7ac9c3592df867afdf3cf  install.patch"
