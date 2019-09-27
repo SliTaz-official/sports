@@ -1,0 +1,26 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="slitaz-doc"
+pkgver="159"
+pkgrel=0
+pkgdesc="SliTaz system documentation"
+url="http://www.slitaz.org/"
+arch="noarch"
+license="GPL3"
+source="$pkgname-$pkgver.tar.bz2::http://hg.slitaz.org/$pkgname/archive/$pkgver.tar.bz2"
+options="!check"
+
+package() {
+	mkdir -p \
+		"$pkgdir/usr/share/doc" \
+		"$pkgdir/usr/share/applications" \
+		"$pkgdir/etc/skel/Desktop"
+	cp -a "$builddir/slitaz" "$pkgdir/usr/share/doc"
+
+	# Desktop file and pixmaps.
+	cp "$builddir/applications/slitaz-doc.desktop" "$pkgdir/etc/skel/Desktop"
+	cp "$builddir/applications/system-doc.desktop" "$pkgdir/usr/share/applications"
+	cp -a "$builddir/pixmaps"                      "$pkgdir/usr/share"
+}
+
+sha512sums="76f6c63510d16149f6dd405ffb4b35e824e78113ba728aa3ac3bee7f8709e9b4584b09308759f7dd21f766059d12bf822ce5b94f70d2d058677d23f37ef379e3  slitaz-doc-159.tar.bz2"
