@@ -1,0 +1,25 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="aaphoto"
+pkgver="0.45"
+pkgrel=0
+pkgdesc="Automatic photo adjusting"
+url="http://log69.com/aaphoto_en.html"
+arch="all"
+license="GPL3"
+makedepends="libpng-dev libjpeg-turbo-dev"
+source="http://log69.com/downloads/aaphoto_sources_$pkgver.tar.gz"
+options="!check"
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="203343a51a64a0422f4af2f80523bb7cb90aa04c10b64bd3aa3091460cf5de1bb86d677c564809813703a2c65f15736bc8d4e3c9273b3f3a72ca7c89f3311599  aaphoto_sources_0.45.tar.gz"
