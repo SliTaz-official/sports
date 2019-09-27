@@ -1,0 +1,80 @@
+--- aescrypt-3.14/gui/aescrypt-gui.orig	2019-09-25 20:06:50.000000000 +0300
++++ aescrypt-3.14/gui/aescrypt-gui	2019-09-25 21:19:42.000000000 +0300
+@@ -12,9 +12,11 @@
+ my $userpm      = `which rpm 2>/dev/null`;
+ my $zenity      = `which zenity 2>/dev/null`;
+ my $kdialog     = `which kdialog 2>/dev/null`;
++my $yad         = `which yad 2>/dev/null`;
+ my $aescrypt    = `which aescrypt 2>/dev/null`;
+-my $prefergnome = 0;
+-my $preferkde   = 0;
++my $preferzenity  = 0;
++my $preferkdialog = 0;
++my $preferyad     = 0;
+ my $filename;
+ my $extension;
+ my $direction;
+@@ -29,6 +31,7 @@
+ chomp($userpm);
+ chomp($zenity);
+ chomp($kdialog);
++chomp($yad);
+ chomp($aescrypt);
+ 
+ if (@ARGV == 1) {
+@@ -51,7 +54,7 @@
+ #print "zenity      = '$zenity'\n";
+ #print "kdialog     = '$kdialog'\n";
+ 
+-if (($zenity eq "") && ($kdialog eq "")) {
++if (($zenity eq "") && ($kdialog eq "") && ($yad eq "")) {
+   print "No dialog prompting utility is available\n";
+   if ($useaptget ne "") {
+     print "try running 'apt-get install zenity' as root\n";
+@@ -62,18 +65,20 @@
+   }
+   exit(1);
+ } if (($gnomepid ne "") && ($zenity ne "")) {
+-  $prefergnome = 1;
++  $preferzenity  = 1;
+ } elsif (($kdepid ne "") && ($kdialog ne "")) {
+-  $preferkde   = 1;
++  $preferkdialog = 1;
+ } elsif ($zenity ne "") {
+-  $prefergnome = 1;
+-} else {
+-  $preferkde   = 1;
++  $preferzenity  = 1;
++} elsif ($kdialog ne "") {
++  $preferkdialog = 1;
++} elsif ($yad ne "") {
++  $preferyad     = 1;
+ }
+-#print "prefergnome = '$prefergnome'\n";
+-#print "preferkde   = '$preferkde'\n";
++#print "prefergnome = '$preferzenity'\n";
++#print "preferkde   = '$preferkdialog'\n";
+ 
+-if ($prefergnome) {
++if ($preferzenity) {
+   print "Preferring Zenity\n";
+   my $newdialog = `zenity --help | grep 'password' 2>&1`;
+   # ("--width=350", "--no-wrap") are added to zenity calls as a workaround to 
+@@ -88,11 +93,16 @@
+     @warningmsg  = ("zenity", "--title=AESCrypt", "--width=350", "--no-wrap", "--warning", "--text");
+   }
+   @errormsg    = ("zenity", "--title=AESCrypt", "--width=350", "--no-wrap", "--error", "--text");
+-} else {
++} elsif ($preferkdialog) {
+   print "Preferring KDialog\n";
+   @passwordcmd = ("kdialog", "--title", "AESCrypt", "--password", "Enter $direction password");
+   @warningmsg  = ("kdialog", "--title", "AESCrypt", "--passivepopup");
+   @errormsg    = ("kdialog", "--title", "AESCrypt", "--error");
++} elsif ($preferyad) {
++  print "Preferring Yad\n";
++  @passwordcmd = ("yad", "--title=AESCrypt", "--window-icon=security-high", "--text=Type your password", "--entry", "--hide-text");
++  @warningmsg  = ("yad", "--title=AESCrypt", "--window-icon=security-high", "--center", "--image=dialog-warning", "--button=gtk-close", "--text");
++  @errormsg    = ("yad", "--title=AESCrypt", "--window-icon=security-high", "--center", "--image=dialog-error", "--button=gtk-close", "--text");
+ }
+ if (! -x $aescrypt) {
+   errorMsg("AESCrypt command is not found");

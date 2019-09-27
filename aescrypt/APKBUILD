@@ -1,0 +1,44 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="aescrypt"
+pkgver="3.14"
+pkgrel=0
+pkgdesc="File encryption software"
+url="https://www.aescrypt.com/"
+arch="all"
+license="PublicDomain"
+subpackages="$pkgname-gui:_gui $pkgname-doc"
+source="${url}download/v3/linux/$pkgname-$pkgver.tgz
+	gui-yad.patch"
+
+prepare() {
+	default_prepare
+	sed -i 's|Icon=.*|Icon=security-high|' "$builddir/gui/AESCrypt.desktop"
+}
+
+build() {
+	cd "$builddir/src"
+	make
+}
+
+check() {
+	cd "$builddir/src"
+	make test
+}
+
+package() {
+	install -Dm755 "$builddir/src/aescrypt"        "$pkgdir/usr/bin/aescrypt"
+	install -Dm755 "$builddir/src/aescrypt_keygen" "$pkgdir/usr/bin/aescrypt_keygen"
+	install -Dm644 "$builddir/man/aescrypt.1"      "$pkgdir/usr/share/man/man1/aescrypt.1"
+}
+
+_gui() {
+	install -Dm755 "$builddir/gui/aescrypt-gui"     "$subpkgdir/usr/bin/aescrypt-gui"
+	install -Dm644 "$builddir/gui/AESCrypt.desktop" "$subpkgdir/usr/share/applications/AESCrypt.desktop"
+
+	pkgdesc="$pkgdesc (GUI)"
+	depends="aescrypt perl yad"
+}
+
+sha512sums="ac06604e2121f0c0f098e87d43c493b7285c58ac7419c284e6a93218dfa7381d4ca69ee775842fde89226092e05978d662eddefe734afe38f67b28df68d87b68  aescrypt-3.14.tgz
+160f58ec5b9e2b56f1878ebf750b0b3140492946d26cdb8510e45af3e540c7eb9cf946b990b89b46934b1346b8f16287c569c07e4013feda1ff92db183845c77  gui-yad.patch"
