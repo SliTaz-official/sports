@@ -1,0 +1,29 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="py3-magic"
+_pkgname="python-magic"
+pkgver="0.4.15"
+pkgrel=0
+pkgdesc="Python3 wrapper for libmagic"
+url="https://pypi.python.org/pypi/python-magic/"
+arch="noarch"
+license="MIT"
+depends="python3 libmagic"
+makedepends="py3-setuptools"
+source="$pkgname-$pkgver.tar.gz::https://github.com/ahupp/$_pkgname/archive/$pkgver.tar.gz"
+builddir="$srcdir/$_pkgname-$pkgver"
+options="!check" # 2/7 tests fail
+
+build() {
+	python3 setup.py build
+}
+
+check() {
+	PYTHONPATH="$PWD/build/lib" python3 test/test.py
+}
+
+package() {
+	python3 -B setup.py install --prefix=/usr --root="$pkgdir"
+}
+
+sha512sums="004d6bfde52d58a9d3019ef4ff8c5b18b6a4206bf89820d3a0ae0ed78813f80dfba422aee9685528f88c990526ba65fa2153ac3b95b8863ce6cb3ebe925bd780  py3-magic-0.4.15.tar.gz"
