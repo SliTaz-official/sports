@@ -1,0 +1,23 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="apngopt"
+pkgver="1.4"
+pkgrel=0
+pkgdesc="Optimizes existing APNG animation"
+url="https://sourceforge.net/projects/apng/"
+arch="all"
+license="zlib/libpng"
+makedepends="zlib-dev libpng-dev"
+source="https://downloads.sourceforge.net/apng/$pkgname-$pkgver-src.zip"
+builddir="$srcdir"
+options="!check"
+
+build() {
+	make
+}
+
+package() {
+	install -Dm755 apngopt "$pkgdir/usr/bin/apngopt"
+}
+
+sha512sums="8dd97ca6fdd10b1285c3a850ab0f6e14113df0b4a607877a6fb7c5bacded02432504e3af87a43c4aa660bad7226f300af8e0967368ca1eef00c9df7f624d578c  apngopt-1.4-src.zip"
