@@ -1,0 +1,26 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Pascal Bellard <pascal.bellard@slitaz.org>
+pkgname="aldo"
+pkgver="0.7.7"
+pkgrel=0
+pkgdesc="Morse code learning tool"
+url="http://www.nongnu.org/aldo/"
+arch="all"
+license="GPL3"
+makedepends="libao-dev"
+subpackages="$pkgname-doc"
+source="http://savannah.nongnu.org/download/aldo/$pkgname-$pkgver.tar.bz2"
+options="!check"
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="b68f9bd96210f17b6a37bc49f114bba70b75357967580cb4644454789b70285439f15bedb55fb93aa1bc0e5027c46a65679fcefb6a66332ca37d866d9c169e0b  aldo-0.7.7.tar.bz2"
