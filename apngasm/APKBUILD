@@ -1,0 +1,23 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="apngasm"
+pkgver="2.91"
+pkgrel=0
+pkgdesc="Creates APNG animation from PNG/TGA image sequence"
+url="http://apngasm.sourceforge.net/"
+arch="all"
+license="zlib/libpng"
+makedepends="zlib-dev libpng-dev"
+source="https://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver-src.zip"
+builddir="$srcdir"
+options="!check"
+
+build() {
+	make
+}
+
+package() {
+	install -Dm755 apngasm "$pkgdir/usr/bin/apngasm"
+}
+
+sha512sums="2415389a989f7a7ff7f3e1328f7920c7515c9a492c89ef216ff53db68fe2f1a674ff60d5f4bfd5a8c710f625456557ae7d5b25f486ac826e3113976cd9fc11dc  apngasm-2.91-src.zip"
