@@ -1,0 +1,75 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="slitaz-tools"
+pkgver="1030"
+pkgrel=0
+pkgdesc="SliTaz tools provide installer and utils usable on terminal"
+url="http://www.slitaz.org/"
+arch="noarch"
+license="GPL3"
+subpackages="$pkgname-boxes tazdrop"
+source="$pkgname-$pkgver.tar.bz2::http://hg.slitaz.org/$pkgname/archive/$pkgver.tar.bz2 \
+        zone-mini.tab iso3166.tab"
+options="!check"
+
+build() {
+	make
+}
+
+package() {
+	mkdir -p "$pkgdir/usr/share"
+	make DESTDIR="$pkgdir" install
+	chmod 0644 "$pkgdir"/usr/share/locale/*/*/*.mo
+	touch "$pkgdir/etc/firewall.conf"
+
+	depends="slitaz-boot-scripts dialog gettext-base slitaz-configs-base"
+	# SUGGESTED="slitaz-tools-boxes"
+}
+
+boxes() {
+	cd $builddir
+	make DESTDIR=$subpkgdir install-boxes
+
+	# make zone-mini.tab for timezone selector
+#	TAB=$WOK/tzdata/install/usr/share/zoneinfo/zone.tab
+#	OUT=$pkgdir/usr/share/zoneinfo/zone-mini.tab
+#	echo -n > $OUT
+#	ZONES="$(cat $TAB | sed '/#/ d' | cut -d'	' -f1,3 | sort -u)"
+#	for COUNTRY in $(echo "$ZONES" | cut -d'	' -f1 | sort -u); do
+#		echo -ne "$COUNTRY\t" >> $OUT
+#		for LOC in $(echo "$ZONES" | sed -n "/$COUNTRY/ s|.*\t\(.*\)|\1|p"); do	#"
+#			echo -n "${LOC##*/} " >> $OUT
+#		done
+#		echo >> $OUT
+#	done
+#	sed -i 's| $||g' $OUT
+#	# Remove historical locations for UA
+#	sed -i 's| Uzhgorod Zaporozhye||' $OUT
+
+	# country names
+#	cp -a $WOK/tzdata/install/usr/share/zoneinfo/iso3166.tab \
+#		$pkgdir/usr/share/zoneinfo/
+
+	install -Dm 0644 "$srcdir/zone-mini.tab" "$subpkgdir/usr/share/zoneinfo/zone-mini.tab"
+	install -Dm 0644 "$srcdir/iso3166.tab"   "$subpkgdir/usr/share/zoneinfo/iso3166.tab"
+
+	chmod 0644 "$subpkgdir"/usr/share/locale/*/*/*.mo
+
+	#CONFIG_FILES="/etc/wireless"
+	pkgdesc="All SliTaz GTK/Yad boxes to command line tools"
+	depends="slitaz-tools gettext-base yad"
+}
+
+tazdrop() {
+	cd "$builddir"
+	make msgfmt
+	cd "$builddir/tazdrop"
+	make DESTDIR="$subpkgdir" install
+
+	pkgdesc="SliTaz desktop Drag N' Drop tool"
+	depends="gtk2 yad"
+}
+
+sha512sums="05073d5e00b628f84a88b0b62c7ac37cdf9bdcf82d27c9447204ccf3ec2030d8db07f8f2b9afd188d9ad60eeb421983f37ac157d9b3c12c3506dc623769d3f53  slitaz-tools-1030.tar.bz2
+3b4a9ef9a117ec18c64312771fca8aff40249b0011e58ae85ed5b23d24665f5bf960293e60823344203badb9f36f2a8901bf8d12f6089df5844d39837262fb6d  zone-mini.tab
+45b85aa8433eef1a86cc9ff147018b4fe42049f416e6595317a74d9a4e80728e80f96cef07dc4440107a3575e17e921d3d6cd46541b7ba02b17b925245033c6e  iso3166.tab"
