@@ -1,0 +1,23 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="apng2gif"
+pkgver="1.8"
+pkgrel=0
+pkgdesc="Convert APNG animations into animated GIF format"
+url="http://apng2gif.sourceforge.net/"
+arch="all"
+license="zlib/libpng"
+makedepends="zlib-dev libpng-dev"
+source="https://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver-src.zip"
+builddir="$srcdir"
+options="!check"
+
+build() {
+	make
+}
+
+package() {
+	install -Dm755 apng2gif "$pkgdir/usr/bin/apng2gif"
+}
+
+sha512sums="54fee0bf1e5448531298a816562a611cb5f2f661d40ade622e2d24e58a30de96fa69254ee891c5329e8b065c999b95620215d6e1ae276f0c596ffe69b0b31cda  apng2gif-1.8-src.zip"
