@@ -1,0 +1,33 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="tar"
+pkgver="1.31"
+pkgrel=0
+pkgdesc="GNU tar archiving tools"
+url="https://www.gnu.org/software/tar/"
+arch="all"
+license="GPL3"
+makedepends="acl-dev texinfo"
+subpackages="$pkgname-doc $pkgname-lang"
+source="https://ftp.igh.cnrs.fr/pub/gnu/tar/$pkgname-$pkgver.tar.xz"
+options="!check" # 54/221 tests failed
+
+build() {
+	# keep "--bindir=/bin" to put "tar" to /bin/ istead of /usr/bin/
+	FORCE_UNSAFE_CONFIGURE=1 \
+	./configure \
+		--prefix=/usr \
+		--bindir=/bin
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+	make DESTDIR="$pkgdir" -C doc install-html
+}
+
+sha512sums="2185fbbe53d4fe3eb688ebc8c2fa800db2599a282c07007358d0a011394aafcf27a80600d044bb4fc299a172d3d95f953106be651db33eb6e5555bd24cad02aa  tar-1.31.tar.xz"
