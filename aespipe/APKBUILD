@@ -1,0 +1,29 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Pascal Bellard <pascal.bellard@slitaz.org>
+pkgname="aespipe"
+pkgver="2.4e"
+pkgrel=0
+pkgdesc="AES encrypting or decrypting pipe"
+url="http://loop-aes.sourceforge.net/aespipe.README"
+arch="all"
+license="GPL"
+subpackages="$pkgname-doc"
+source="http://loop-aes.sourceforge.net/aespipe/$pkgname-v$pkgver.tar.bz2"
+builddir="$srcdir/$pkgname-v$pkgver"
+
+build() {
+	CFLAGS="$CFLAGS -no-pie" LDFLAGS="$LDFLAGS -no-pie" \
+	./configure --prefix=/usr
+	make
+}
+
+check() {
+	cd "$builddir"
+	make tests
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="e038f710ac971e5ba740648c0f255e8bc9fcea9be1a6b76208a453f21f013e1662c006d4f4495fa2b2560fd9b0c236947462a9b337a120073c6a5335b29f077e  aespipe-v2.4e.tar.bz2"
