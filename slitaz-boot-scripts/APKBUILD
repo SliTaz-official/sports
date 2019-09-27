@@ -1,0 +1,24 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="slitaz-boot-scripts"
+pkgver="456"
+pkgrel=0
+pkgdesc="Provide all the initialisation scripts used at boot time"
+url="http://www.slitaz.org/"
+arch="noarch"
+license="GPL3"
+source="$pkgname-$pkgver.tar.bz2::http://hg.slitaz.org/$pkgname/archive/$pkgver.tar.bz2"
+options="!check"
+
+package() {
+	mkdir -p               "$pkgdir"
+	cp -a "$builddir/etc"  "$pkgdir"
+	cp -a "$builddir/usr"  "$pkgdir"
+	cp -a "$builddir/init" "$pkgdir"
+
+	chmod 755 "$pkgdir"/etc/init.d/*.sh
+	chmod 755 "$pkgdir"/etc/init.d/rc*
+	chmod 755 "$pkgdir"/init
+}
+
+sha512sums="6e13b2c40eaaa69f693f7aa8cf1da35b58f1be0951658c132d593ddc09bb79453ab834407849f5f571643f8b47ae6231c4e970fcc101a15449067be5c1ff7709  slitaz-boot-scripts-456.tar.bz2"
