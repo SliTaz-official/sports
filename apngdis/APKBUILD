@@ -1,0 +1,23 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="apngdis"
+pkgver="2.9"
+pkgrel=0
+pkgdesc="Deconstruct APNG file into a sequence of PNG frames"
+url="http://apngdis.sourceforge.net/"
+arch="all"
+license="zlib/libpng"
+makedepends="zlib-dev libpng-dev"
+source="https://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver-src.zip"
+builddir="$srcdir"
+options="!check"
+
+build() {
+	make
+}
+
+package() {
+	install -Dm755 apngdis "$pkgdir/usr/bin/apngdis"
+}
+
+sha512sums="4bcce5066c37ea5e4db0bfaf2f6a81e4d3ba7f5b6c952f598facff27f84cc1a3af778f4db096119cb9f4aa57c0193c90acf7bed28f283b6930f5b3121dd9cf32  apngdis-2.9-src.zip"
