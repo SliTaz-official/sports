@@ -1,0 +1,36 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="aalib"
+_pkgver="1.4rc5" # original version, not acceptable by abuild
+pkgver="1.4_rc5" # fixed version
+pkgrel=0
+pkgdesc="A portable ASCII art graphic library"
+url="http://aa-project.sourceforge.net/aalib/"
+arch="all"
+license="LGPL2"
+makedepends="ncurses-dev libxt-dev"
+subpackages="$pkgname-dev $pkgname-doc"
+source="http://downloads.sourceforge.net/aa-project/$pkgname-$_pkgver.tar.gz
+	aclocal-fixes.patch"
+builddir="$srcdir/$pkgname-1.4.0"
+options="!check"
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc \
+		--infodir=/usr/share/info \
+		--mandir=/usr/share/man \
+		--disable-static \
+		--with-curses-driver=yes \
+		--with-x
+	sed -i 's| -shared | -Wl,-Os,--as-needed\0|g' libtool
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="3e4506eccce3b81ccbbb79a4a1b90abd39e2259e6043fde90f70b9ca279bd4c37758a047167267b97c4ec92f64fb17c7c8f548114f0d0c6e78ddb9463b5f1299  aalib-1.4rc5.tar.gz
+04635a8e8ff115efae928a75ab942abff6836cae1970d4d6598c27cb9614023b2605561b27edac22b37eb4f7fe955e25ec945fa2d22dba7f973690b3a3be5658  aclocal-fixes.patch"
