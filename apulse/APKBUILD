@@ -1,0 +1,31 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Xander Ziiryanoff <psychomaniak@xakep.ru>
+pkgname="apulse"
+pkgver="0.1.12"
+pkgrel=0
+pkgdesc="PulseAudio emulator for ALSA"
+url="https://github.com/i-rinat/apulse"
+arch="all"
+license="MIT"
+makedepends="cmake alsa-lib-dev glib-dev"
+subpackages="$pkgname-doc"
+source="$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz"
+options="!check"
+
+build() {
+	mkdir build
+	cd    build
+
+	cmake \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=Release \
+		..
+	make
+}
+
+package() {
+	cd "$builddir/build"
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="9fe39ab93e90d7ec589c7632bf439bfc7fe8bbd0792ce1197ec8547fbe1901fec50facdf33c55cfbadbc1af4414fdf48f1f241406903a8f15f445b97dca7076a  apulse-0.1.12.tar.gz"
