@@ -1,0 +1,46 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="amiwm"
+_pkgver="0.21pl2"
+pkgver="0.21_p2"
+pkgrel=0
+pkgdesc="Amiga look alike window manager"
+url="http://www.lysator.liu.se/~marcus/amiwm.html"
+arch="all"
+license="other"
+makedepends="bison flex libx11-dev libxext-dev libice-dev libxt-dev libxmu-dev"
+subpackages="$pkgname-doc"
+source="ftp://ftp.lysator.liu.se/pub/X11/wm/amiwm/$pkgname$_pkgver.tar.gz
+	amiwm-man.patch
+	amiwm-0.21_p2-flex-2.6.3-fix.patch
+	amiwm.xdesktop
+	ppmtoinfo.1
+	requestchoice.1"
+builddir="$srcdir/$pkgname$_pkgver"
+options="!check"
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc
+	make gram.h
+	make
+}
+
+package() {
+	make prefix="$pkgdir/usr" mandir='${prefix}/share/man' install
+
+	ln -sf ../lib/amiwm/requestchoice       "$pkgdir/usr/bin/requestchoice"
+	install -Dm644 "$srcdir/amiwm.xdesktop" "$pkgdir/usr/share/xsessions/amiwm.desktop"
+
+	mkdir -p "$pkgdir/usr/share/man/man1"   "$pkgdir/usr/share/doc/$pkgname-$pkgver"
+	cp "$srcdir"/*.1   "$pkgdir/usr/share/man/man1" # from Debian
+	cp README* LICENSE "$pkgdir/usr/share/doc/$pkgname-$pkgver"
+}
+
+sha512sums="6504a4fd4c30a571b0c501b46fdc442fcc993c27b4595753f7bfa12a38c0b997a01d939c7a35e6c499aa0f8972bc0fda7cc88a9fe77091f363f8cd5a9e8d50de  amiwm0.21pl2.tar.gz
+9340cf3ccebdfae6919342473dbe6551803d4ecbe7fdac9851cf563adc2d229772fb50b7fb7a1fc07a743584c84819560da8be8690c038d0c3398b3c50ae2b64  amiwm-man.patch
+14982dba3c1baf8bbca9daee204c32d3312c2505127bd4e2744eb9348784e927fbf4c2cb7e3f50c84494d62a714313c7bf0762023ad84fdb3707e108e1778693  amiwm-0.21_p2-flex-2.6.3-fix.patch
+804f2ad243b4b3c66bdb9548066a4d4f2f4c9e64d0af2e4b6fd1ed223b64c8c0e513b33581fa9e0fc82c729f18a20e9624578f6f8c17f9af11d7d787aba2aa6d  amiwm.xdesktop
+723808751216e377bb117d26e0305371f69ca65b544f7d66316ecb0cf3e34d9fc943096ef88ced45f009979943501cf6a105d0bbfcf37c759f9281b3e6493155  ppmtoinfo.1
+6b23876c64d027299b2440c8924f3593e66ce7b55f6b4889c9b97d19ceb54e85480624f9777abb4be819bbcd8b556d75d3fb2573ea47af6b9c1701649e460be1  requestchoice.1"
