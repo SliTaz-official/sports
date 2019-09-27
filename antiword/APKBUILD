@@ -1,0 +1,27 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Pascal Bellard <pascal.bellard@slitaz.org>
+pkgname="antiword"
+pkgver="0.37"
+pkgrel=0
+pkgdesc="MS Word reader to plain text or PostScript"
+url="http://www.winfield.demon.nl/"
+arch="all"
+license="GPL-2"
+subpackages="$pkgname-doc"
+source="http://www.winfield.demon.nl/linux/$pkgname-$pkgver.tar.gz"
+options="!check"
+
+build() {
+	make
+}
+
+package() {
+	make \
+		DESTDIR="$pkgdir" \
+		GLOBAL_INSTALL_DIR=/usr/bin \
+		global_install
+
+	install -Dm644 Docs/antiword.1 "$pkgdir/usr/share/man/man1/antiword.1"
+}
+
+sha512sums="6cd8fb9137238417544cf8754829a2d5296055d730ea62a8a025236baa79516190317d146401ff40cde73e1ee2c3c374a2ea01b2e5d24e149310bcabb8bfdce8  antiword-0.37.tar.gz"
