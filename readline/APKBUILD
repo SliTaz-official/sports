@@ -1,0 +1,64 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="readline"
+pkgver="8.0.1"
+pkgrel=0
+_myver=${pkgver%.*}
+pkgdesc="GNU readline library"
+url="https://tiswww.cwru.edu/php/chet/readline/rltop.html"
+arch="all"
+license="GPL-2.0-or-later"
+makedepends_host="ncurses-dev"
+subpackages="$pkgname-static $pkgname-dev $pkgname-doc libhistory"
+source="https://ftp.gnu.org/gnu/readline/readline-$_myver.tar.gz
+	inputrc"
+#	fix-ncurses-underlinking.patch
+options="!check"
+
+for _patch in $(seq -w 001 ${pkgver##*.}); do
+	_name=$pkgname${_myver//./}-$_patch
+	source="$source $_name.diff::https://ftp.gnu.org/gnu/$pkgname/$pkgname-$_myver-patches/$_name"
+done
+
+builddir="$srcdir/$pkgname-$_myver"
+
+prepare() {
+	local i
+	cd "$builddir"
+	for i in $source; do
+		case ${i%::*} in
+		*.diff) msg ${i#*::}; patch -p0 -i "$srcdir"/${i%::*} ;;
+		esac
+	done
+	default_prepare
+}
+
+build() {
+	./configure \
+		--build="$CBUILD" \
+		--host="$CHOST" \
+		--prefix=/usr \
+		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
+		--enable-static \
+		--enable-shared
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	rmdir "$pkgdir/usr/bin" # empty dir
+	mkdir -p "$pkgdir/etc"
+#	install -m644 "$srcdir/inputrc" "$pkgdir/etc/inputrc"
+}
+
+libhistory() {
+	pkgdesc="GNU History Library"
+	mkdir -p "$subpkgdir/usr/lib"
+	mv "$pkgdir"/usr/lib/$subpkgname.* "$subpkgdir/usr/lib"
+}
+
+sha512sums="41759d27bc3a258fefd7f4ff3277fa6ab9c21abb7b160e1a75aa8eba547bd90b288514e76264bd94fb0172da8a4faa54aab2c07b68a0356918ecf7f1969e866f  readline-8.0.tar.gz
+5dbe872e94166aaed7ca2edec5a34ef9b13b254381e252cc6d851877b461579903cbb5b5dc588eabececcf1ebe636f6cb4da406cd01b64757f8c7e7f62e9a276  inputrc
+a148cda6ac97935d51ede1bbacf847d7d2cba8861cf3941d32e3da2f45f16dcc05b20845b63d4264692520db8329e1236cf2bc4fd8ccbe6e40921bbbdeb2cb1c  readline80-001.diff"
