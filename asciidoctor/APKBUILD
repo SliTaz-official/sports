@@ -1,0 +1,24 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="asciidoctor"
+pkgver="1.5.8"
+pkgrel=0
+pkgdesc="A text processor for converting AsciiDoc markup into HTML 5, DocBook 4.5 and other formats"
+url="https://rubygems.org/gems/asciidoctor"
+arch="noarch"
+license="MIT"
+depends="ruby ruby-libs"
+makedepends="ruby-dev"
+source="http://rubygems.org/downloads/$pkgname-$pkgver.gem"
+options="!check"
+
+package() {
+	gem install \
+		--no-document \
+		--ignore-dependencies \
+		--no-user-install \
+		--build-root "$pkgdir" \
+		"$srcdir/$pkgname-$pkgver.gem"
+}
+
+sha512sums="34ff0df98ff9ebb2d3640629870cd848cf2f4b617564a42e7b30b6cf60c01d1188b4cc695af49550e054c9e833accc1ed5d622b4952ece3da99c8ed98af769ac  asciidoctor-1.5.8.gem"
