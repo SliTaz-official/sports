@@ -1,0 +1,11 @@
+--- a/abcde
++++ b/abcde
+@@ -252,7 +252,7 @@
+ 			$PAGER "$PAGEFILE"
+ 			# If that fails, check for less
+ 		elif [ -x /usr/bin/less ]; then
+-			/usr/bin/less -f "$PAGEFILE"
++			/usr/bin/less "$PAGEFILE"
+ 			# more should be on all UNIX systems
+ 		elif [ -x /bin/more ]; then
+ 			/bin/more "$PAGEFILE"
