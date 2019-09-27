@@ -1,0 +1,34 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Pascal Bellard <pascal.bellard@slitaz.org>
+pkgname="arp-scan"
+pkgver="1.9.5"
+pkgrel=0
+pkgdesc="The ARP Scanner"
+url="https://github.com/royhills/arp-scan"
+arch="all"
+license="GPL3"
+depends="perl"
+makedepends="autoconf automake libpcap-dev"
+subpackages="$pkgname-doc"
+source="$pkgname-$pkgver.tar.gz::$url/archive/$pkgver.tar.gz"
+
+prepare() {
+	autoreconf --install
+}
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc
+	make
+}
+
+check() {
+	make check
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="a10c510dc668b103fc508619d04e5870fdf6f576b79222904cfe988b4e9255604ce1a724100318a662d5f77d33270bc733f0e3091fb9da034a54b9ab402cbcab  arp-scan-1.9.5.tar.gz"
