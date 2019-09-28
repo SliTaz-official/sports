@@ -1,0 +1,5 @@
+#!/bin/sh
+
+grep -q dropbear /etc/inetd.conf && sed -i '/dropbear/d' /etc/inetd.conf
+
+exit 0

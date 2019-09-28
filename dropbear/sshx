@@ -1,0 +1,119 @@
+#!/bin/sh
+
+xdbclient() {
+	read host data
+	svr=${DISPLAY#*:}
+	n=$((10+($RANDOM % 90)))
+	dpy=localhost:$n
+	scr=${DISPLAY/${DISPLAY%.*}/$dpy}
+	r="" ; p="22"; k=""
+	while true; do
+		a="$1"
+		r="$r $1"
+		shift
+		case "$a" in
+			-p) p=$1;;
+			-i) k="$k-i $1 ";;
+		esac
+		case "$a" in
+			-[piIlLRWKBJ]) r="$r $1"; shift;;
+			-*) ;;
+			*) break;;
+		esac
+	done
+	xhost +localhost >/dev/null 2>&1
+	pxypass="${DBPROXY_PASSWORD:+export DROPBEAR_PASSWORD=$DBPROXY_PASSWORD; }"
+	[ -n "$1" ] || set -- "${TERM:-xterm} -ls || ${TERM:-sakura} -l || xterm -ls"
+
+	exec dbclient -f -R $((6000+$n)):localhost:$((6000+${svr%.*})) $r \
+		${DBPROXY:+-J "sh -c '${pxypass}dbclient ${k}-B ${a#*@}:$p $DBPROXY'"} \
+		"xauth add $dpy $data; export DISPLAY=$scr; $@ ; xauth remove $dpy" \
+		</dev/null >/dev/null
+}
+
+pppssh() {
+	ssh="dbclient -y"
+	$ssh $1 true || {
+		if [ -z "$DROPBEAR_PASSWORD" ]; then
+			echo -n "ssh password: "
+			read -s -t 30 DROPBEAR_PASSWORD
+			export DROPBEAR_PASSWORD
+		fi
+		$ssh $1 true || exit 1
+	}
+	extra="$(route -n | awk -vd=$(nslookup ${1#*@} | sed '/::/d' | \
+		 sed '$!d;s/.*: \([^ ]*\).*/\1/') \
+		'$1=="0.0.0.0"{ print d " gw " $2 " dev " $8 }')"
+
+	for i in ${4/default/128.0.0.0/1 0.0.0.0/1}; do
+		echo "route add -net $i dev \$1"
+	done > /etc/ppp/ip-up.d/pppssh$$
+
+	[ "$4" ] && echo "route add $extra" >> /etc/ppp/ip-up.d/pppssh$$
+	chmod +x /etc/ppp/ip-up.d/pppssh$$
+
+	n=10.$(($$%256)).$(($$/256))
+	n="${2:-$n.1:$n.2} passive"
+
+	ppp="/usr/sbin/pppd local noauth nodetach"
+	arg="$n pty '$ssh $1 $ppp ${3:-proxyarp} notty'"
+	pppsvr="$ppp $n ${3:-proxyarp} notty >/dev/null"
+
+	sshcmd="nc -ulp $5 -e $pppsvr"
+	udpcmd="nc -u ${1#*@} $5"
+	if [ "$6" == 'test' ]; then
+		sshcmd="nc -ulp $5 -e nc localhost 22"
+		udpcmd="dbclient -y -J \"nc -u ${1#*@} $5\" ${1%@*}@localhost $pppsvr"
+	fi
+
+	if [ -n "$5" ]; then
+		arg="noipdefault pty '$udpcmd'"
+		$ssh -f $1 "$sshcmd"
+	fi
+
+	eval $ppp $arg ipparam pppssh$$
+	[ "$4" ] && route del $extra
+	rm -f /etc/ppp/ip-up.d/pppssh$$ 2>/dev/null
+}
+
+xfbvnc() {
+	p=5900
+	while netstat -tln | grep -q ":$p "; do
+		p=$(($p+1))
+	done
+
+	[ -r /dev/input/mice ] || echo "Warning: Cannot read mouse input." 1>&2
+
+	svr=${1#*/}
+	[ "$svr" == "$1" ] && svr=127.0.0.1
+
+	dbclient -y -f -N -L $p:$svr:${2:-5900} ${1%/*}
+	fbvnc 127.0.0.1 $p
+	kill $(netstat -tlnp 2>/dev/null | sed "/:$p /!d;s|.* \\([0-9]*\\)/[^ ]*|\\1|")
+}
+
+case "$(basename $0)" in
+	*vnc)
+		if [ -n "$1" ]; then
+			xfbvnc "$@"
+		else
+			cat <<-EOT
+				Usage: $0 '[sshargs] user@remote[/lanip]' [vncport]
+				$(fbvnc --help 2>&1 | sed '1,/Usage:/d')
+			EOT
+		fi;;
+	ppp*)
+		if [ -n "$1" ]; then
+			pppssh "$@"
+		else
+			cat <<-EOT
+				Usage: $0 '[sshargs] user@remote' '[localip:remoteip] [localpppargs]' 'remotepppargs' 'routes' [udp-port]
+				Example: $0 tux@slitaz.org '' '' '192.168.1.0/24 10.1.2.0/24'
+			EOT
+		fi;;
+	*)
+		if [ -z "$DISPLAY" ]; then
+			exec dbclient -y "$@"
+		fi
+		xauth list $DISPLAY | xdbclient -y "$@"
+esac
