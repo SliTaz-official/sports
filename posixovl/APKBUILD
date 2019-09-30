@@ -1,0 +1,35 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Pascal Bellard <pascal.bellard@slitaz.org>
+pkgname="posixovl"
+pkgver="1.3"
+pkgrel=0
+pkgdesc="FUSE file system that provides POSIX functionality"
+url="https://sourceforge.net/projects/posixovl/"
+arch="all"
+license="GPL2"
+makedepends="fuse-dev attr-dev"
+subpackages="$pkgname-doc"
+source="https://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.xz
+	posixovl.patch"
+options="!check"
+
+prepare() {
+	default_prepare
+	./autogen.sh
+}
+
+build() {
+	./configure \
+		--prefix=/usr
+		# --sbindir=/usr/bin
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install install-man1
+
+	install -Dm644 format.txt "$pkgdir/usr/share/doc/$pkgname-$pkgver/format.txt"
+}
+
+sha512sums="8182c9e852cd605adf7bb9c79904ec72cae432771be0f06527504f29e7676168a4c0d1a6af8fede92726d8b2429709265083946a76f54766c6660d674ee8b42f  posixovl-1.3.tar.xz
+7a6a8cf3b9c8a005311619e998dad7a2121b95c6589d820244406883b4d8ebfb2683113d8a6c01509fc83a8e41549c74ed41a2de19e3154eff488493e62d5c5e  posixovl.patch"
