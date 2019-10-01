@@ -1,0 +1,31 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="915resolution"
+pkgver="0.5.3"
+pkgrel=0
+pkgdesc="Intel video BIOS hack to support certain resolutions"
+url="http://915resolution.mango-lang.org/"
+arch="all"
+license="Public-Domain"
+subpackages="$pkgname-doc"
+source="$url$pkgname-$pkgver.tar.gz
+	915resolution-0.5.3-widescreen-resolution.patch
+	915resolution-0.5.3-cedarview.patch"
+options="!check"
+
+build() {
+	make
+}
+
+package() {
+	install -Dm755 "$builddir/915resolution" "$pkgdir/usr/sbin/915resolution"
+	install -Dm755 "$builddir/dump_bios"     "$pkgdir/usr/sbin/dump_bios"
+
+	docdir="$pkgdir/usr/share/doc/$pkgname-$pkgver"
+	mkdir -p "$docdir"
+	cp LICENSE.txt README.txt chipset_info.txt "$docdir"
+}
+
+sha512sums="9e6362349ff9b83fc35efe2f0ed366ac2b384e2a3caba8745fff6939bc74246249999006f565e34d0e8fe1f0fc75e82a780246d6957265dc5c7663badcbf0b12  915resolution-0.5.3.tar.gz
+52ca73d0ef348a4d4ad8e96596c6fdd8a0e2be464418d7287390bd316d75a9341a9f103d14f37bc2fbd736e75d0a52fe4e140a2072c2ebf5e48ea32d201e3d1b  915resolution-0.5.3-widescreen-resolution.patch
+bdd55cf9feb34730c21f83f5f5d7eeb89586aced4a9aa28ad043686cd41e23e3b57a9d7f52909233ebd051fcde03effd4bfcd33b0ba107c4003289cd7429a6ed  915resolution-0.5.3-cedarview.patch"
