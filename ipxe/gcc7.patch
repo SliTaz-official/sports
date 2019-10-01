@@ -1,0 +1,22 @@
+--- src/tests/setjmp_test.c
++++ src/tests/setjmp_test.c
+@@ -154,12 +154,19 @@
+ 		case 0: setjmp_ok ( &alpha ); break;
+ 		case 1: setjmp_ok ( &beta ); break;
+ 		case 2:	longjmp_ok ( &alpha, 0 );
++			/* FALLTHROUGH */
+ 		case 3: longjmp_ok ( &alpha, 1 );
++			/* FALLTHROUGH */
+ 		case 4: longjmp_ok ( &alpha, 2 );
++			/* FALLTHROUGH */
+ 		case 5: longjmp_ok ( &beta, 17 );
++			/* FALLTHROUGH */
+ 		case 6: longjmp_ok ( &beta, 29 );
++			/* FALLTHROUGH */
+ 		case 7: longjmp_ok ( &alpha, -1 );
++			/* FALLTHROUGH */
+ 		case 8: longjmp_ok ( &beta, 0 );
++			/* FALLTHROUGH */
+ 		case 9: longjmp_ok ( &beta, 42 );
+ 		}
+ 	}

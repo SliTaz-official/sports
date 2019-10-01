@@ -1,0 +1,13 @@
+http://forum.ipxe.org/showthread.php?tid=14933&pid=28527#pid28527
+
+--- src/Makefile.housekeeping.orig	2019-09-29 19:59:22.000000000 +0000
++++ src/Makefile.housekeeping	2019-10-01 14:00:50.000000000 +0000
+@@ -451,7 +451,7 @@
+ CFLAGS		+= -diag-disable 1599 # Hidden variables
+ CFLAGS		+= -Wall -Wmissing-declarations
+ endif
+-CFLAGS		+= $(WORKAROUND_CFLAGS) $(EXTRA_CFLAGS)
++CFLAGS		+= $(WORKAROUND_CFLAGS) $(EXTRA_CFLAGS) -fno-pie
+ ASFLAGS		+= $(WORKAROUND_ASFLAGS) $(EXTRA_ASFLAGS)
+ LDFLAGS		+= $(WORKAROUND_LDFLAGS) $(EXTRA_LDFLAGS)
+ HOST_CFLAGS	+= -O2 -g

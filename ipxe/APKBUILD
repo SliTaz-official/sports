@@ -1,0 +1,84 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Pascal Bellard <pascal.bellard@slitaz.org>
+pkgname="ipxe"
+pkgver="20190929"
+_commit="3fe683e" #bab29afacf224e6b0921f6329bebcdca7"
+pkgrel=0
+pkgdesc="Open source network boot firmware"
+url="http://ipxe.org/"
+arch="all"
+license="GPL2 OR UBDL"
+makedepends="perl xz-dev dos2unix"
+subpackages="$pkgname-pxe"
+source="$pkgname-$pkgver.tar.bz2::https://git.ipxe.org/ipxe.git/snapshot/$_commit.tar.bz2
+	ipxe.cmd
+	no-pie.patch"
+#	lkrnprefix.S gcc7.patch
+builddir="$srcdir/$pkgname-$_commit/src"
+options="!check"
+
+prepare() {
+	default_prepare
+
+	# Fix https://git.ipxe.org/ipxe.git/commit/163f8acba0fbb6e3c44aec5286d3d076e1f44f22
+	sed -i 's/.*.section ".pages".*/.if64 ;\n&/;$a.endif' \
+		arch/x86/transitions/librm.S
+
+	#sed -i 's/^ASFLAGS.*/& -adhlns=$(<:.S=.lst)/' Makefile
+#	sed -i 's|-llzma|& -lpthread|' Makefile.*
+	sed -i '
+		s|//\(#define.*CONSOLE_FRAMEBUFFER\)|\1|;
+		s|//\(#define.*CONSOLE_SERIAL\)|\1|' config/console.h
+	sed -i '
+		s|//\(#define.*IMAGE_PNG\)|\1|;
+		s|//\(#define.*CONSOLE_CMD\)|\1|;
+		s|//\(#define.*REBOOT_CMD\)|\1|' config/general.h
+#	cp $stuff/lkrnprefix.S arch/i386/prefix
+}
+
+build() {
+	export CFLAGS="$CFLAGS -fno-pie"
+
+	# refer to http://ipxe.org/appnote/buildtargets
+	case $CARCH in
+		i?86)   platform='bin-i386-pcbios';;
+		x86_64) platform='bin-x86_64-pcbios';;
+	esac
+
+	make $platform
+
+	make $platform/undionly.pxe    $platform/undionly.kpxe \
+	     $platform/undionly.kkpxe  $platform/undionly.kkkpxe \
+	     $platform/ipxe.pxe        $platform/ipxe.kpxe \
+	     $platform/ipxe.kkpxe      $platform/ipxe.kkkpxe \
+	     $platform/ipxe.nbi        $platform/ipxe.lkrn \
+	     EMBED="$srcdir/ipxe.cmd"
+}
+
+package() {
+	case $CARCH in
+		i?86)   platform='bin-i386-pcbios';;
+		x86_64) platform='bin-x86_64-pcbios';;
+	esac
+
+	mkdir -p "$pkgdir/boot/"
+	cp -a "$builddir/$platform/ipxe.lkrn" "$pkgdir/boot/ipxe"
+	OFS=$((0x156))
+	unix2dos <<EOT | dd bs=1 of="$pkgdir/boot/ipxe" conv=notrunc seek=$OFS count=$((0x1F0-$OFS))
+$pkgdesc
+EOT
+
+	mkdir -p "$pkgdir/usr/share/boot/"
+	cp -a "$builddir/$platform/ipxe.kpxe"     "$pkgdir/usr/share/boot/ipxe.pxe"
+	cp -a "$builddir/$platform/undionly.kpxe" "$pkgdir/usr/share/boot/undi.pxe"
+}
+
+pxe() {
+	mkdir -p "$subpkgdir"
+	mv "$pkgdir/usr" "$subpkgdir"
+	pkgdesc="$pkgdesc (for pxe server)"
+}
+
+sha512sums="f0f9a7ee2c66c8fefae0c38be188972f57e6d2daf3c41236860c4a280220db25a9a965d34253612b0f4626f69493e92e8501918ae5e426d9f338a60e2147545f  ipxe-20190929.tar.bz2
+d371d94c5dc7b9228c2846093e7462212538a19471fd606c8bbd2688aeadf3878f33c1ee992fd663517ed829504fd41cad0c5a855432e9cf91b56ee2929bbf9f  ipxe.cmd
+85c5da43bcd3f59b0bbb2c3d1d7030af2fbde432b7543cec675b5094a144a9cc4595904316589d3c6de14a7349ca67e047bd21c933bb6f93eb0ec423d74f65dc  no-pie.patch"
