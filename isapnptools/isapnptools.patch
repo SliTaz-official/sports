@@ -1,0 +1,31 @@
+--- isapnptools-1.27/src/callbacks.c.orig	2001-05-15 20:37:04.000000000 +0000
++++ isapnptools-1.27/src/callbacks.c	2019-10-02 01:20:04.927195864 +0000
+@@ -51,6 +51,7 @@
+ #include <stdio.h>
+ #include <errno.h>
+ #include <string.h>
++#include <stdlib.h> /* exit() */
+ 
+ /****************************************************************************/
+ 
+--- isapnptools-1.27/include/isapnp/iopl.h.orig	2001-05-15 20:37:05.000000000 +0000
++++ isapnptools-1.27/include/isapnp/iopl.h	2019-10-02 01:13:36.728176924 +0000
+@@ -58,7 +58,7 @@
+ #    ifdef _AXP_
+ #       include <sys/io.h>
+ #    else
+-#       include <asm/io.h>
++#       include <sys/io.h>
+ #    endif
+ #  endif	      	   /* __GLIBC__ */
+ #else
+--- isapnptools-1.27/src/pnp-select.c.orig	2001-05-15 20:37:04.000000000 +0000
++++ isapnptools-1.27/src/pnp-select.c	2019-10-02 01:22:00.227593657 +0000
+@@ -17,6 +17,7 @@
+ 
+ #include <isapnp/resource.h>
+ #include <isapnp/pnp.h>
++#include <stddef.h>
+ 
+ #define ASSERT(condition)	/* as nothing */
+ 
