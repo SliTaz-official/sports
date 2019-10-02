@@ -1,0 +1,61 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="gtk-engines"
+pkgver="2.20.2"
+pkgrel=0
+pkgdesc="Standard GTK+2 theme engines"
+url="http://linuxfromscratch.org/blfs/view/svn/x/gtk-engines.html"
+arch="all"
+license="LGPL2.1"
+makedepends="file gtk+2.0-dev intltool which"
+subpackages="$pkgname-clearlooks $pkgname-dev $pkgname-lang"
+source="https://download.gnome.org/sources/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.bz2
+	lang.patch
+	normalize-whitespace.patch"
+
+build() {
+	./configure \
+		--prefix=/usr
+	sed -i 's| -shared | -Wl,-Os,--as-needed\0|g' libtool
+	make
+}
+
+check() {
+	make test
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	# Remove translations and whitespace for smaller size
+	sed -e '/xml:lang=/d' \
+	    -e 's|^ *||' \
+	    -e '/^$/d' \
+	    -i "$pkgdir"/usr/share/gtk-engines/*.xml
+
+	# Remove comments and whitespace for smaller size
+	sed -e 's|^[ 	][ 	]*||' \
+	    -e 's|^#.*$||' \
+	    -e 's|[ 	][ 	]*| |g' \
+	    -e 's| *= *|=|g; s| *{ *|{|g; s| *}|}|g; s|, *|,|g; s| *(|(|g' \
+	    -e 's| # .*$||' \
+	    -e 's| $||' \
+	    -e '/^$/d' \
+	    -i "$pkgdir"/usr/share/themes/*/gtk-2.0/gtkrc
+}
+
+_move() {
+	mkdir -p "$subpkgdir/$(dirname $1)"
+	mv "$pkgdir$1" "$subpkgdir$1"
+}
+
+clearlooks() {
+	_move /usr/lib/gtk-2.0/2.10.0/engines/libclearlooks.so
+	_move /usr/share/gtk-engines/clearlooks.xml
+	_move /usr/share/themes/Clearlooks
+	pkgdesc="Default gtk-engine, with adjustable colors"
+}
+
+sha512sums="049ae20d47a28b60fe5b0484e3c11bc6cd62d6167478f1d83df3066d618827ca9204767ab1b7a9ca02f542c3fc7929efc1bb85f65d66aaf5d5b15718b6de19e9  gtk-engines-2.20.2.tar.bz2
+8ffa66b5dbe235780adecd2176da9e3b0414e270f7c7aa7ec051880775f23f065684d481208d80d105efd6fb857a0fe27bb1a55a6f0ce1f7d4900ab650a0ae9e  lang.patch
+ba47a034582ee83cdcdbcb803c88b5d7272f82d8db0ed115a8d88a2b9efc10e0343c03d42cf62201b252bbf2bae69054c4c25ec7da174c475b041eeded08949b  normalize-whitespace.patch"

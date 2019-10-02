@@ -1,0 +1,11 @@
+--- gtk-engines-2.20.2/po/Makefile.in.in.orig	2010-09-23 13:40:24.000000000 +0000
++++ gtk-engines-2.20.2/po/Makefile.in.in	2019-10-02 11:17:21.117411947 +0000
+@@ -34,7 +34,7 @@
+ datarootdir = @datarootdir@
+ libdir = @libdir@
+ DATADIRNAME = @DATADIRNAME@
+-itlocaledir = $(prefix)/$(DATADIRNAME)/locale
++itlocaledir = $(datadir)/locale
+ subdir = po
+ install_sh = @install_sh@
+ # Automake >= 1.8 provides @mkdir_p@.
