@@ -1,0 +1,32 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="clearlooks-compact"
+pkgver="1.5"
+pkgrel=0
+pkgdesc="Clearlooks Compact GTK Theme"
+url="https://martin.ankerl.com/2007/11/04/clearlooks-compact-gnome-theme/"
+arch="noarch"
+license="LGPL2.1"
+depends="gtk-engines-clearlooks"
+source="https://martin.ankerl.com/files/2007/11/ClearlooksCompact-$pkgver.tar.bz2"
+builddir="$srcdir/Clearlooks Compact"
+options="!check"
+
+package() {
+	install -Dm644 index.theme   "$pkgdir/usr/share/themes/ClearlooksCompact/index.theme"
+	install -Dm644 gtk-2.0/gtkrc "$pkgdir/usr/share/themes/ClearlooksCompact/gtk-2.0/gtkrc"
+
+	# Remove comments and whitespace for smaller size
+	sed -e 's|^[ 	][ 	]*||' \
+	    -e 's|^#.*$||' \
+	    -e 's|[ 	][ 	]*| |g' \
+	    -e 's| *= *|=|g; s| *{ *|{|g; s| *}|}|g; s|, *|,|g; s| *(|(|g' \
+	    -e 's| # .*$||' \
+	    -e 's| $||' \
+	    -e '/^$/d' \
+	    -i "$pkgdir"/usr/share/themes/*/gtk-2.0/gtkrc
+	sed -e '/^Encoding=/d' \
+	    -i "$pkgdir"/usr/share/themes/*/index.theme
+}
+
+sha512sums="d40cb48c9af46136903dc1ae95ec102bfcbcdbdb3d4ef6548daa7896b18be69e0a75a2cafe68ae6cd5ff61276a5c40f146f4ddd4836519f236742056cc71f016  ClearlooksCompact-1.5.tar.bz2"
