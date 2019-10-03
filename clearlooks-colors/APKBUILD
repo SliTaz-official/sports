@@ -1,0 +1,35 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="clearlooks-colors"
+pkgver="2.0"
+pkgrel=0
+pkgdesc="Clearlooks Colors contains eight GTK Clearlooks themes"
+url="https://www.gnome-look.org/content/show.php/Clearlooks-Colors?content=75417"
+arch="noarch"
+license="GPL"
+depends="gtk-engines-clearlooks"
+source="$pkgname-$pkgver.tgz::https://github.com/SliTaz-official/$pkgname/archive/$pkgver.tar.gz"
+#builddir="$srcdir/Clearlooks-Colors-$pkgver"
+options="!check"
+
+package() {
+	T="$pkgdir/usr/share/themes"
+	mkdir -p "$T"
+	cp -a "$builddir"/Clearlooks* "$T"
+	rm -rf "$T"/*Metacity
+
+	# Remove comments and whitespace for smaller size
+	sed -e 's|^[ 	][ 	]*||' \
+	    -e 's|^#.*$||' \
+	    -e 's|[ 	][ 	]*| |g' \
+	    -e 's| *= *|=|g; s| *{ *|{|g; s| *}|}|g; s|, *|,|g; s| *(|(|g' \
+	    -e 's| # .*$||' \
+	    -e 's| $||' \
+	    -e '/^$/d' \
+	    -i "$pkgdir"/usr/share/themes/*/gtk-2.0/gtkrc \
+	       "$pkgdir"/usr/share/themes/*/gtk-2.0/panel.rc
+	sed -e '/^Encoding=/d' \
+	    -i "$pkgdir"/usr/share/themes/*/index.theme
+}
+
+sha512sums="0de857e5352a7d47d01d70ba08af2605f10658349265181e29587f322cf247f003d524b0d6370ecccfee3cb13c754277ef3fcc2d2c486147d99c87b1b132e6c8  clearlooks-colors-2.0.tgz"
