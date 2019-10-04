@@ -1,0 +1,11 @@
+--- lxinput-0.3.5/po/Makefile.in.in.orig	2016-02-20 23:47:26.000000000 +0000
++++ lxinput-0.3.5/po/Makefile.in.in	2019-10-04 09:49:26.461689837 +0000
+@@ -34,7 +34,7 @@
+ datarootdir = @datarootdir@
+ libdir = @libdir@
+ DATADIRNAME = @DATADIRNAME@
+-itlocaledir = $(prefix)/$(DATADIRNAME)/locale
++itlocaledir = $(datadir)/locale
+ subdir = po
+ install_sh = @install_sh@
+ # Automake >= 1.8 provides @mkdir_p@.

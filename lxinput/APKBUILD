@@ -1,0 +1,42 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="lxinput"
+pkgver="0.3.5"
+pkgrel=0
+pkgdesc="LXDE keyboard and mouse configuration"
+url="https://lxde.org/"
+arch="all"
+license="GPL3"
+depends="xset"
+makedepends="intltool gtk+2.0-dev"
+subpackages="$pkgname-doc $pkgname-lang"
+source="https://downloads.sourceforge.net/lxde/$pkgname-$pkgver.tar.xz
+	lang.patch"
+options="!check"
+
+prepare() {
+	default_prepare
+
+	# change icon in desktop file
+	sed -i 's|^Icon=.*$|Icon=preferences-desktop-keyboard|' \
+		data/lxinput.desktop.in
+}
+
+build() {
+	./configure \
+		--prefix=/usr
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	# skip icons (found in the icon theme)
+	rm "$pkgdir"/usr/share/lxinput/*.png
+
+	# remove whitespace for smaller size (36672->21230)
+	sed -i 's|^ *||' "$pkgdir"/usr/share/lxinput/lxinput.ui
+}
+
+sha512sums="d5233f03c4314ac16fb548db56ae2d17651b29d8a59bfef3e6e6805f6b9bc8100b0711bbc72e31a6bc458eccc6fe1b4a38cf097dbf6a1b04f600bba58ff03f35  lxinput-0.3.5.tar.xz
+53953df5e5922e456998e346266af31204228cbc4140f5b43a1540ebd96bab95a6255f7a9b775d38cce16f1348447521fde01df2e14802ef9b2b1cf48d5a6566  lang.patch"
