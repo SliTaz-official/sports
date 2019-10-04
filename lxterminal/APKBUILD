@@ -1,0 +1,31 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="lxterminal"
+pkgver="0.3.1"
+pkgrel=0
+pkgdesc="LXDE terminal emulator"
+url="https://wiki.lxde.org/en/LXTerminal"
+arch="all"
+license="GPL2"
+makedepends="intltool gtk+2.0-dev vte028-dev"
+subpackages="$pkgname-lang $pkgname-doc"
+source="https://downloads.sourceforge.net/lxde/$pkgname-$pkgver.tar.xz
+	lxterminal-icon.patch"
+#builddir="$srcdir/"
+options="!check"
+
+build() {
+	./configure \
+		--prefix=/usr
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	# remove icons (substituted by utilities-terminal)
+	rm -r "$pkgdir/usr/share/icons"
+}
+
+sha512sums="3063eb7bc7426293d35dc1d9c32d5841e4c3f0b417f3cfa3e5a7bf4d9b71df9c9d375d53d6dd6694b318085ba07167bd8403b2caea9c6e9197aef4b7802877fc  lxterminal-0.3.1.tar.xz
+c7b41cd596e8107bf40660ce2a6e68452d657ef0f093f73a691e3451d98fa018b281dde5253f1f93e4e28f3bdd624981d959941b50e5a57125622f2d98350fc1  lxterminal-icon.patch"

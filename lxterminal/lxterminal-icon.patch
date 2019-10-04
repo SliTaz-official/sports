@@ -1,0 +1,68 @@
+Set Freedesktop standard icon
+
+--- a/src/lxterminal.c
++++ b/src/lxterminal.c
+@@ -577,14 +577,7 @@
+         NULL, GTK_RESPONSE_OK,
+         NULL);
+     gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_OK);
+-    if (gtk_icon_theme_has_icon(gtk_icon_theme_get_default(), "lxterminal"))
+-    {
+-        gtk_window_set_icon_name(GTK_WINDOW(dialog), "lxterminal");
+-    }
+-    else
+-    {
+-        gtk_window_set_icon_from_file(GTK_WINDOW(dialog), PACKAGE_DATA_DIR "/icons/hicolor/128x128/apps/lxterminal.png", NULL);
+-    }
++    gtk_window_set_icon_name(GTK_WINDOW(dialog), "utilities-terminal");
+     g_signal_connect(G_OBJECT(dialog), "response", G_CALLBACK(terminal_name_tab_response_event), term);
+     GtkWidget * dialog_item = gtk_entry_new();
+     g_object_set_data(G_OBJECT(dialog), "entry", (gpointer) dialog_item);
+@@ -746,7 +739,7 @@
+     gtk_container_set_border_width(GTK_CONTAINER(about_dlg), 2);
+     gtk_about_dialog_set_version(GTK_ABOUT_DIALOG(about_dlg), VERSION);
+     gtk_about_dialog_set_program_name (GTK_ABOUT_DIALOG(about_dlg), _("LXTerminal"));
+-    gtk_about_dialog_set_logo(GTK_ABOUT_DIALOG(about_dlg), gdk_pixbuf_new_from_file(PACKAGE_DATA_DIR "/icons/hicolor/128x128/apps/lxterminal.png", NULL));
++    gtk_about_dialog_set_logo_icon_name(GTK_ABOUT_DIALOG(about_dlg), "utilities-terminal");
+     gtk_about_dialog_set_copyright(GTK_ABOUT_DIALOG(about_dlg), _("Copyright (C) 2008-2017"));
+     gtk_about_dialog_set_comments(GTK_ABOUT_DIALOG(about_dlg), _("Terminal emulator for LXDE project"));
+     gtk_about_dialog_set_license(GTK_ABOUT_DIALOG(about_dlg), "This program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program; if not, write to the Free Software\nFoundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.");
+@@ -1490,15 +1483,7 @@
+     #endif
+ 
+     /* Set window icon. */
+-    if (gtk_icon_theme_has_icon(gtk_icon_theme_get_default(), "lxterminal"))
+-    {
+-        gtk_window_set_icon_name(GTK_WINDOW(terminal->window), "lxterminal");
+-    }
+-    else
+-    {
+-        gtk_window_set_icon_from_file(GTK_WINDOW(terminal->window), 
+-            PACKAGE_DATA_DIR "/icons/hicolor/128x128/apps/lxterminal.png", NULL);
+-    }
++    gtk_window_set_icon_name(GTK_WINDOW(terminal->window), "utilities-terminal");
+     g_object_weak_ref(G_OBJECT(terminal->window), (GWeakNotify) terminal_window_exit, terminal);
+ 
+     /* Create a vertical box as the child of the toplevel window. */
+--- a/src/preferences.c
++++ b/src/preferences.c
+@@ -272,7 +272,7 @@
+ 
+     GtkDialog * dialog = GTK_DIALOG(gtk_builder_get_object(builder, "lxterminal_preferences"));
+     gtk_window_set_title(GTK_WINDOW(dialog), _("LXTerminal"));
+-    gtk_window_set_icon_from_file(GTK_WINDOW(dialog), PACKAGE_DATA_DIR "/icons/hicolor/128x128/apps/lxterminal.png", NULL);
++    gtk_window_set_icon_name(GTK_WINDOW(dialog), "utilities-terminal");
+ 
+     GtkWidget * w = GTK_WIDGET(gtk_builder_get_object(builder, "terminal_font"));
+     gtk_font_button_set_font_name(GTK_FONT_BUTTON(w), setting->font_name);
+--- a/data/lxterminal.desktop.in
++++ b/data/lxterminal.desktop.in
+@@ -4,7 +4,7 @@
+ _Comment=Use the command line
+ TryExec=lxterminal
+ Exec=lxterminal
+-Icon=lxterminal
++Icon=utilities-terminal
+ Type=Application
+ Categories=GTK;System;TerminalEmulator;
+ _Keywords=console;command line;execute;
