@@ -1,0 +1,25 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="lxtask"
+pkgver="0.1.8"
+pkgrel=0
+pkgdesc="LXDE task manager"
+url="https://wiki.lxde.org/en/LXTask"
+arch="all"
+license="GPL2"
+makedepends="gtk+2.0-dev intltool"
+subpackages="$pkgname-doc $pkgname-lang"
+source="https://downloads.sourceforge.net/lxde/$pkgname-$pkgver.tar.xz"
+options="!check"
+
+build() {
+	./configure \
+		--prefix=/usr
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="095904df6ecea699a2ea44ca6f1677d8882b1bb26926b716bd0d6a65ce5aece99e3ac833d5bf08dcadb42e269baa1d3bd7c6e974e58a64f6da147763e9a40c6a  lxtask-0.1.8.tar.xz"
