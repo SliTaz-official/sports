@@ -1,0 +1,31 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="libwnck2"
+_origin="libwnck"
+pkgver="2.31.0"
+pkgrel=0
+pkgdesc="Window Navigator Construction Kit"
+url="https://developer.gnome.org/libwnck/"
+arch="all"
+license="LGPL2"
+makedepends="intltool startup-notification-dev libx11-dev gtk+2.0-dev
+	gobject-introspection-dev xcb-util-dev"
+subpackages="$pkgname-static $pkgname-dev $pkgname-doc $pkgname-lang"
+source="http://ftp.gnome.org/pub/GNOME/sources/$_origin/${pkgver%.*}/$_origin-$pkgver.tar.xz
+	lang.patch"
+builddir="$srcdir/$_origin-$pkgver"
+options="!check"
+
+build() {
+	./configure \
+		--prefix=/usr
+	sed -i 's| -shared | -Wl,-Os,--as-needed\0|g' libtool
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="54262a08882021f08f3ba7f2ddfa33fc1f02e391a0f61cf999a50a089e0d277dfe13ab133c1a46e9abf0599bd24c21dacff80b51013cbb1375d2cd71ac9abbe9  libwnck-2.31.0.tar.xz
+b8428fd5888378ac6a992f32c401cb496fc001806655c6c2497fe73b392602a55b21a68bc299a23b85867facfb24d8756271b56b796334fcba0fca56b20a1651  lang.patch"
