@@ -1,0 +1,48 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="obconf"
+pkgver="2.0.4"
+pkgrel=0
+pkgdesc="Openbox configuration tool"
+url="http://openbox.org/wiki/ObConf:About"
+arch="all"
+license="GPL2"
+makedepends="gtk+2.0-dev libglade-dev openbox-dev gdk-pixbuf-dev
+	startup-notification-dev libxft-dev"
+subpackages="$pkgname-lang"
+source="http://openbox.org/dist/obconf/$pkgname-$pkgver.tar.gz
+	ru.po
+	obconf.desktop"
+options="!check"
+
+prepare() {
+	msgfmt -o $builddir/po/ru.gmo $srcdir/ru.po
+}
+
+build() {
+	./configure \
+		--prefix=/usr
+	sed -i 's/^mkdir_p = .*/mkdir_p = mkdir -p/' po/Makefile
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	# skip icon (found in the icon theme)
+	rm "$pkgdir"/usr/share/obconf/video-display.png
+
+	# remove whitespace for smaller size (292976->148446)
+	sed -i 's|^ *||' "$pkgdir"/usr/share/obconf/obconf.glade
+
+	cp -f "$srcdir/obconf.desktop" "$pkgdir/usr/share/applications/"
+
+	# purge pixmaps dump
+	install -Dm644 "$pkgdir/usr/share/pixmaps/obconf.png" \
+		"$pkgdir/usr/share/icons/hicolor/48x48/apps/obconf.png"
+	rm -r "$pkgdir/usr/share/pixmaps"
+}
+
+sha512sums="b8cf6f363fa8c2f1d21142a3f79687a72f683f564285b05751c822ddf7a421b09c3440cbc5b08eb09d151601c6ada835ff5cc940bf5abeec2210cca26b552294  obconf-2.0.4.tar.gz
+22692677d232ee35d8546f22ba1191a6704c2e04c2790cc74c527e0db0303fd3555322a85de24630978353ade29315fd4d85a2e4deb93d8db2e5c722b49dde13  ru.po
+395f5a17712360f71b1a7cbcf1ce5d22fa5bca8825566c5cb9e98ff0898176b11c96fecc28963b720616c3edaa6686798f0d1cbe3888087d730807adc711d155  obconf.desktop"
