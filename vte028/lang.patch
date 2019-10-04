@@ -1,0 +1,11 @@
+--- vte-0.28.2/po/Makefile.in.in.orig	2011-08-28 21:33:13.000000000 +0000
++++ vte-0.28.2/po/Makefile.in.in	2019-10-04 14:05:01.644501044 +0000
+@@ -34,7 +34,7 @@
+ datarootdir = @datarootdir@
+ libdir = @libdir@
+ DATADIRNAME = @DATADIRNAME@
+-itlocaledir = $(prefix)/$(DATADIRNAME)/locale
++itlocaledir = $(datadir)/locale
+ subdir = po
+ install_sh = @install_sh@
+ # Automake >= 1.8 provides @mkdir_p@.
