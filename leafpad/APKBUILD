@@ -1,0 +1,37 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="leafpad"
+pkgver="0.8.18.1"
+pkgrel=0
+pkgdesc="Simple GTK text editor"
+url="http://tarot.freeshell.org/leafpad/"
+arch="all"
+license="GPL2"
+makedepends="gtk+2.0-dev libxrender-dev xorgproto intltool"
+subpackages="$pkgname-lang"
+source="http://savannah.nongnu.org/download/$pkgname/$pkgname-$pkgver.tar.gz
+	icon.patch
+	lang.patch"
+options="!check"
+
+prepare() {
+	default_prepare
+	chmod +x install-sh
+}
+
+build() {
+	./configure \
+		--prefix=/usr
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	# remove icons (substituted by accessories-text-editor)
+	rm -r "$pkgdir/usr/share/icons" "$pkgdir/usr/share/pixmaps"
+}
+
+sha512sums="1caad712967f634f585ab32e406534b5ce2c5621008c1eb5b2b48f17ca0f48cd834ea2ea1c67eda4053fa84e8727ff0e708e99d3b5dad838dcf0701389788257  leafpad-0.8.18.1.tar.gz
+77e4180095e7aac5f6d5adc1405f5a8234e8d7d7e440d6c52e0f0c346182fdb116551e3827af30f850b9cef9d0f7cd4616411b025900812bf32df151f0eeafde  icon.patch
+d041ecedd2d2de6c79b7799910cbda96a216e9711c0f19515723c4859f07840c52038fec6bab3dcbd9a58316c10cf0294f2d4322a477686cabb13e2bb23cf730  lang.patch"
