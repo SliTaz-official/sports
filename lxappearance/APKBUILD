@@ -1,0 +1,26 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="lxappearance"
+pkgver="0.6.3"
+pkgrel=0
+pkgdesc="LXDE GTK+ theme switcher"
+url="https://wiki.lxde.org/en/LXAppearance"
+arch="all"
+license="GPL2"
+makedepends="intltool libx11-dev gtk+2.0-dev dbus-dev dbus-glib-dev"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-lang"
+source="https://downloads.sourceforge.net/lxde/$pkgname-$pkgver.tar.xz"
+options="!check"
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--enable-dbus
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="035cc952a33ac25408a4158cb4e745b17af3f29b5ceedfbe6b37235d16c801658403e862cd35ad7c8ca20fe6186fab1dce74a6e8d3b2eec12a30d532fc21662c  lxappearance-0.6.3.tar.xz"
