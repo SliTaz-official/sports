@@ -12,6 +12,7 @@ subpackages="$pkgname-dev"
 source="https://downloads.sourceforge.net/pcmanfm/libfm-$pkgver.tar.xz"
 # because of course it's in the libfm tarball
 builddir="$srcdir/libfm-$pkgver"
+replaces="libfm"
 
 build() {
 	cd "$builddir"
@@ -31,6 +32,11 @@ check() {
 package() {
 	cd "$builddir"
 	make DESTDIR="$pkgdir" install
+}
+
+dev() {
+	default_dev
+	replaces="libfm-dev"
 }
 
 sha512sums="f385cf7bf2f4800c11dd6474cd20009cbe1208f1d08570b61954ea8bd84c56cc49880cbf84d4b2aa4b91eb6929d017ebc427649391059b786d7e6fc4535e4f14  libfm-1.3.1.tar.xz"
