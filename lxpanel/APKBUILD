@@ -1,0 +1,64 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="lxpanel"
+_commit="b9ad6f2"
+pkgver="0.10.0"
+pkgrel=0
+pkgdesc="LXDE panel"
+url="https://wiki.lxde.org/en/LXPanel"
+arch="all"
+license="GPL2"
+makedepends="automake libtool intltool gtk+2.0-dev menu-cache-dev alsa-lib-dev
+	wireless-tools-dev libxml2-dev lxmenu-data libwnck2-dev libfm-dev
+	libfm-extra-dev keybinder-dev curl-dev"
+subpackages="$pkgname-extra $pkgname-dev $pkgname-doc $pkgname-lang"
+source="$pkgname-$_commit.tar.xz::https://git.lxde.org/gitweb/?p=lxde/lxpanel.git;a=snapshot;h=$_commit;sf=txz
+	cpu-color.patch
+	netstatus-icon.patch
+	slitaz-config
+	slitaz-panel"
+builddir="$srcdir/$pkgname-$_commit"
+options="!check"
+
+prepare() {
+	default_prepare
+	./autogen.sh
+}
+
+build() {
+	CFLAGS="$CFLAGS -lgmodule-2.0"
+	./configure \
+		--prefix=/usr \
+		--with-plugins="netstatus, -netstat, volume, cpu, deskno, batt, kbled, xkb, thermal, cpufreq, monitors, -indicator, weather"
+		# netstat: problems with plugin unresolved yet
+		# indicator: disabled, require libindicator
+	sed -i 's| -shared | -Wl,-Os,--as-needed\0|g' libtool
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	# SliTaz profile
+	install -Dm644 "$srcdir/slitaz-config" "$pkgdir/etc/xdg/lxpanel/slitaz/config"
+	install -Dm644 "$srcdir/slitaz-panel"  "$pkgdir/etc/xdg/lxpanel/slitaz/panels/panel"
+}
+
+extra() {
+	mkdir -p "$subpkgdir/usr/lib/lxpanel/plugins"
+	mv "$pkgdir/usr/lib/lxpanel/plugins/kbled.so" "$subpkgdir/usr/lib/lxpanel/plugins"
+	mkdir -p "$subpkgdir/usr/share/lxpanel/images"
+	cd "$pkgdir/usr/share/lxpanel/images"
+	mv ns-*.png *lock-*.png xkb-flags/ background.png file-manager.png \
+		gnome-*.png mute.png stock_volume.png volume-*.png window-manager.png \
+		"$subpkgdir/usr/share/lxpanel/images"
+	cd -
+
+	pkgdesc="$pkgdesc (extra files and plugins)"
+}
+
+sha512sums="07031b5b2a0a28d085daf0e5f24eb084893183bb39e3148ebdf7c5eb1ce138e34957c856341a98fc920fa03efa629e56071de6b610117f6edd1cc0d05f29d621  lxpanel-b9ad6f2.tar.xz
+48f306d9f1c5a269685e743285e578e838de3092c526a8ac2bcc8c577f1f8622dc760cc1ab6dcec6abf223228ae266b649dac9b84c54728e9cc874c2b1e4b83c  cpu-color.patch
+89b440cc1de0e8cb67b23296106bbfc73e7c03e8e86842fa1b182c4c1ce0a546d676da9433d72485053b8be056cb632b32ad128c12dd28baac142aa2a3299c5b  netstatus-icon.patch
+b4872bbbba4728513ef3611646978b945fb9c8b4c840e360c9f516b8325f22c675621b5a03729bcf5723a4d8fefecd971eee79513f9d14a266d0614b84585dae  slitaz-config
+e343c8b3110f8f1f11e9ef231c5c8288f31a700bfc568f35ac0af6808d6336d19cbd5d91fb56e3cb4caef0587f930acd8a3f91a3e26d5a527f0f1da0811ec1f7  slitaz-panel"

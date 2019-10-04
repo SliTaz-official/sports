@@ -1,0 +1,11 @@
+--- a/plugins/cpu/cpu.c
++++ b/plugins/cpu/cpu.c
+@@ -273,7 +273,7 @@
+ 
+     /* Clone a graphics context and set "green" as its foreground color.
+      * We will use this to draw the graph. */
+-    gdk_color_parse("green",  &c->foreground_color);
++    gdk_color_parse("#cfcfcf",  &c->foreground_color);
+ 
+     /* Connect signals. */
+     g_signal_connect(G_OBJECT(c->da), "configure-event", G_CALLBACK(configure_event), (gpointer) c);

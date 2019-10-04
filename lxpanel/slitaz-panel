@@ -1,0 +1,182 @@
+# lxpanel <profile> config file. Manually editing is not recommended.
+# Use preference dialog in lxpanel to adjust config when you can.
+
+Global {
+    edge=top
+    allign=center
+    margin=0
+    widthtype=percent
+    width=100
+    height=22
+    transparent=0
+    tintcolor=#222222
+    alpha=255
+    autohide=0
+    heightwhenhidden=2
+    setdocktype=1
+    setpartialstrut=1
+    usefontcolor=0
+    fontsize=10
+    fontcolor=#cfcfcf
+    usefontsize=0
+    background=0
+    backgroundfile=
+    iconsize=22
+    loglevel=2
+}
+
+Plugin {
+    type = menu
+    Config {
+        name=SliTazMenu.directory
+        image=start-here
+        tintcolor=#33230D
+        system {
+        }
+        separator {
+        }
+        item {
+            command=run
+            image=gtk-execute
+        }
+        separator {
+        }
+        item {
+            image=system-shutdown-panel-restart
+            command=logout
+        }
+    }
+}
+
+Plugin {
+    type = launchbar
+    Config {
+        Button {
+            id=pcmanfm.desktop
+        }
+        Button {
+            id=sakura.desktop
+        }
+        Button {
+            id=netsurf.desktop
+        }
+    }
+}
+
+
+Plugin {
+    type = pager
+}
+
+Plugin {
+    type = taskbar
+    expand=1
+    Config {
+        tooltips=1
+        IconsOnly=0
+        AcceptSkipPager=1
+        ShowIconified=1
+        ShowMapped=1
+        ShowAllDesks=0
+        UseMouseWheel=1
+        UseUrgencyHint=1
+        FlatButton=0
+        MaxTaskWidth=150
+        spacing=1
+    }
+}
+
+Plugin {
+    type = xkb
+    Config {
+        DisplayType=1
+        PerWinLayout=0
+        NoResetOpt=0
+        KeepSysLayouts=1
+        Model=pc105
+        LayoutsList=us
+        VariantsList=,
+        ToggleOpt=shift_caps_toggle
+        FlagSize=4
+    }
+}
+
+Plugin {
+    type = tray
+}
+
+Plugin {
+    type = volumealsa
+}
+
+Plugin {
+    type = netstatus
+    Config {
+        iface=eth0
+        configtool=subox tazpanel network
+    }
+}
+
+Plugin {
+    type = batt
+    Config {
+        HideIfNoBattery=1
+        AlarmCommand=notify-send -u critical -i battery-caution -c battery 'Battery low' 'Please complete your work as soon as possible'
+        AlarmTime=10
+        BackgroundColor=#404040
+        BorderWidth=3
+        ChargingColor1=#00A100
+        ChargingColor2=#00A100
+        DischargingColor1=#DB2C23
+        DischargingColor2=#DB2C23
+        Size=11
+    }
+}
+
+Plugin {
+    type = cpufreq
+}
+
+Plugin {
+    type = monitors
+    Config {
+        DisplayCPU=1
+        DisplayRAM=0
+        CPUColor=#0000FF
+    }
+}
+
+Plugin {
+    type = dclock
+    Config {
+        ClockFmt=%R
+        TooltipFmt=%c
+        BoldFont=1
+        IconOnly=0
+        CenterText=1
+    }
+}
+
+Plugin {
+    type = menu
+    Config {
+        name=user.directory
+        image=avatar-default
+        tintcolor=#33230D
+        item {
+            image=system-log-out-panel
+            name=Close X session
+            action=tazbox logout exit
+        }
+        item {
+            image=system-reboot-panel
+            name=Reboot system
+            action=tazbox logout reboot
+        }
+        item {
+            image=system-shutdown-panel
+            name=Shutdown system
+            action=tazbox logout halt
+        }
+    }
+}

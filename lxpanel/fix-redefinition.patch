@@ -1,0 +1,31 @@
+In file included from /usr/include/net/ethernet.h:10,
+                 from /usr/include/iwlib.h:29,
+                 from netstat/devproc.c:35:
+/usr/include/netinet/if_ether.h:111:8: error: redefinition of ‘struct ethhdr’
+ struct ethhdr {
+        ^~~~~~
+In file included from /usr/include/linux/ethtool.h:19,
+                 from netstat/devproc.c:34:
+/usr/include/linux/if_ether.h:159:8: note: originally defined here
+ struct ethhdr {
+        ^~~~~~
+
+--- lxpanel-25fd484/plugins/netstat/devproc.c.orig	2018-04-12 21:49:45.000000000 +0000
++++ lxpanel-25fd484/plugins/netstat/devproc.c	2019-10-03 16:39:02.740223557 +0000
+@@ -19,6 +19,7 @@
+  * along with this program; if not, write to the Free Software Foundation,
+  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+  */
++#define __UAPI_DEF_ETHHDR 0
+ #include <string.h>
+ #include <glib.h>
+ #include <fcntl.h>
+
+In file included from netstat/devproc.c:35:
+/usr/include/linux/ethtool.h:833:19: error: field ‘ether_spec’ has incomplete type
+  struct ethhdr    ether_spec;
+                   ^~~~~~~~~~
+/usr/include/linux/ethtool.h:1049:20: error: field ‘ether_spec’ has incomplete type
+   struct ethhdr    ether_spec;
+                    ^~~~~~~~~~
+
