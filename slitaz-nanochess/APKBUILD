@@ -1,0 +1,49 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Pascal Bellard <pascal.bellard@slitaz.org>
+pkgname="slitaz-nanochess"
+pkgver="1.0"
+pkgrel=0
+pkgdesc="Chess game in javascript (need an Unicode aware browser)"
+url="http://www.nanochess.org/"
+arch="noarch"
+license="GPL"
+source="index.html
+	nanochess.desktop"
+options="!check"
+
+build() {
+	# define colors
+	white="#f0f0b0"     # was #f0f0f0
+	black="#f05030"     # was #c0c0f0
+	gray="#843"         # was #dde
+	background="$white" # was white
+	red="blue"
+
+	mkdir -p "$builddir"
+	cp "$srcdir/index.html" "$builddir"
+	sed \
+		-e 's/<select/<input type=\\"button\\" value=\\"\&#9818; \&hArr; \&#9812;\\" onclick=\\"yy^=8;Z()\\">&/' \
+		-e 's/><option.*$/>";/' \
+		-e "s/ style='font-size:20px'//" \
+		-e 's/50px/"+P+"px/g' \
+		-e 's/=60/="+H+"/g' \
+		-e 's|for(a=|H=innerHeight/9;P=H*5/6;|' \
+		-e 's/^"<table/for(a=&/' \
+		-e "s/c0c\":\"f0f\")+\"0f0/$white\":\"$black\")+\"/" \
+		-e "s/#dde/$gray/" \
+		-e "s/red/$red/" \
+		-e 's/bgcolor=#/bgcolor=/' \
+		-e 's|^doc.*|yy=/\\?b/i.test(document.URL)?8:0;for(p=18;++p<23;)a+="<option>\&#9823; \&rarr; \&#98"+p+";</option>";document.write(a);|' \
+		-e "s|<script>|<style>body {background: $background; overflow: hidden;} input,select {background: transparent; -webkit-appearance: none;}</style>\n<title>Toledo chess</title>&|" \
+		-e 's|function Y|function Z(){if(y!=yy)setTimeout("X(0,0,0,21,u,2),X(0,0,0,21,u,1)",250);}\n&|' \
+		-e 's|if(y)set.*|Z();}}Z()|' \
+		-i index.html
+}
+
+package() {
+	install -Dm644 "$builddir/index.html"      "$pkgdir/var/www/chess/index.html"
+	install -Dm644 "$srcdir/nanochess.desktop" "$pkgdir/usr/share/applications/nanochess.desktop"
+}
+
+sha512sums="58ebce6982cdc3e1acc4e018bcfbec9b5993b4125e45d825c4b885be468555bc179907c7467f32f0ec2a013e68375d7c5c17cf69621ae77877593c3e80d9ae7d  index.html
+5b7477fac06c272a85e82350ed3ef604445d1cb88a63f96e014474e37973730dee14bbd2fb57cd13d828d3cf66f9f2418984527e1fcc4f1336d8610367d1c732  nanochess.desktop"
