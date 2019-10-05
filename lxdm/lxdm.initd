@@ -1,0 +1,12 @@
+#!/sbin/openrc-run
+
+depends() {
+	needs localmount
+}
+
+description="LXDE login manager"
+command="/usr/sbin/lxdm"
+command_args="-d"
+pidfile="/var/run/lxdm.pid"
+
+# uses the openrc templates for start()/stop()

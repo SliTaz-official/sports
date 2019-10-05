@@ -1,0 +1,23 @@
+--- a/data/lxdm.conf.in
++++ b/data/lxdm.conf.in
+@@ -1,6 +1,6 @@
+ [base]
+ ## uncomment and set autologin username to enable autologin
+-# autologin=dgod
++# autologin=tux
+ 
+ ## uncomment and set timeout to enable timeout autologin,
+ ## the value should >=5
+@@ -31,10 +31,10 @@
+ 
+ [display]
+ ## gtk theme used by greeter
+-gtk_theme=Clearlooks
++gtk_theme=Paper
+ 
+ ## background of the greeter
+-bg=/usr/share/backgrounds/default.png
++bg=/usr/share/images/slitaz-background.jpg
+ 
+ ## if show bottom pane
+ bottom_pane=1
