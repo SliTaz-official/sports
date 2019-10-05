@@ -1,0 +1,41 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="mhwaveedit"
+pkgver="1.4.24"
+pkgrel=0
+pkgdesc="Lightweight sound files editor, recorder and player"
+url="https://github.com/magnush/mhwaveedit/"
+arch="all"
+license="GPL2"
+makedepends="alsa-lib-dev libxml2-dev libx11-dev gtk+2.0-dev"
+subpackages="$pkgname-doc $pkgname-lang"
+source="https://github.com/magnush/mhwaveedit/archive/v$pkgver/$pkgname-$pkgver.tar.gz
+	mhwaveedit.desktop
+	config"
+options="!check"
+
+prepare() {
+	cp "$srcdir/mhwaveedit.desktop" "$builddir/share/applications/"
+	chmod +x install-sh
+}
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--without-sdl \
+		--without-libsamplerate \
+		--without-portaudio \
+		--without-libsndfile \
+		--without-esound
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	install -Dm644 "$srcdir/config" "$pkgdir/etc/skel/.mhwaveedit/config"
+}
+
+sha512sums="392a358ae812c4be7847c4987dec40043af2e1850d9ffc498cc13f930355a7f3c407d55924fe709e5080811e49d932428b45afe904496fcb75e21a043b71ff47  mhwaveedit-1.4.24.tar.gz
+54abd9be5b85bcfb6ff6135db7af4639e2c718cbc6870796bd56546c5baef282a547cf2d18ee98eb073a642949a4df40da9faf4ea53f44e8302095741d8ce6d7  mhwaveedit.desktop
+724fe7ae0dd84a8b5582520471ed59d4d700fd947be2eec321c42edca98327e7d6ddf8e3536e469b2a7a4643422123800709f9c919753291927225c1aa4c3ecf  config"
