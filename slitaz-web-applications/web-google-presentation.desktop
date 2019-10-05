@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Presentation
+Comment=Open, create and edit presentations.
+TryExec=browser
+Exec=browser https://docs.google.com/presentation/
+Icon=web-google-presentation
+Categories=Office;Presentation;

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Cloud Print
+Comment=Print documents and photos on any devices.
+TryExec=browser
+Exec=browser https://www.google.com/cloudprint/
+Icon=web-google-cloud-print
+Categories=Office;

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Developers
+Comment=Explore APIs, SDKs, Docs, codes and support resources.
+TryExec=browser
+Exec=browser https://developers.google.com/
+Icon=web-google-developers
+Categories=Development;

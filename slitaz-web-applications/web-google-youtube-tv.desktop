@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=YouTube TV
+Comment=Youtube TV (Best viewed with Firefox).
+TryExec=browser
+Exec=browser "https://www.youtube.com/?app=tv"
+Icon=web-google-youtube
+Categories=AudioVideo;Audio;Video;Player;TV;

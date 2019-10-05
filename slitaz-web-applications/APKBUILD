@@ -1,0 +1,188 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="slitaz-web-applications"
+pkgver="1.6"
+pkgrel=0
+pkgdesc="Set of desktop files for Web applications"
+url="http://www.slitaz.org/"
+arch="noarch"
+license="BSD AND Freeware AND Microsoft AND GPL3 AND WhatsApp-Inc"
+subpackages="web-google-services:_google web-picozu:_picozu web-skype:_skype
+	web-telegram:_telegram web-tweetdeck:_tweetdeck web-whatsapp:_whatsapp"
+source="
+	web-bitbucket.desktop           web-bitbucket.png
+	web-google-academic.desktop     web-google-academic.png
+	web-google-admob.desktop        web-google-admob.png
+	web-google-adsense.desktop      web-google-adsense.png
+	web-google-adwords.desktop      web-google-adwords.png
+	web-google-apps-work.desktop    web-google-apps-work.png
+	web-google-blogger.desktop      web-google-blogger.png
+	web-google-bookmarks.desktop    web-google-bookmarks.png
+	web-google-books.desktop        web-google-books.png
+	web-google-business.desktop     web-google-business.png
+	web-google-calendar.desktop     web-google-calendar.png
+	web-google-cloud-print.desktop  web-google-cloud-print.png
+	web-google-default.png
+	web-google-developers.desktop   web-google-developers.png
+	web-google-documents.desktop    web-google-documents.png
+	web-google-drawings.desktop     web-google-drawings.png
+	web-google-forms.desktop        web-google-forms.png
+	web-google-groups.desktop       web-google-groups.png
+	web-google-keep.desktop         web-google-keep.png
+	web-google-mail.desktop         web-google-mail.png
+	web-google-maps.desktop         web-google-maps.png
+	web-google-news.desktop         web-google-news.png
+	web-google-panoramio.desktop    web-google-panoramio.png
+	web-google-photos.desktop       web-google-photos.png
+	web-google-plus.desktop         web-google-plus.png
+	web-google-presentation.desktop web-google-presentation.png
+	web-google-search.desktop
+	web-google-sheets.desktop       web-google-sheets.png
+	web-google-sites.desktop        web-google-sites.png
+	web-google-translate.desktop    web-google-translate.png
+	web-google-trends.desktop
+	web-google-youtube-tv.desktop
+	web-google-youtube.desktop      web-google-youtube.png
+	web-jamendo.desktop             web-jamendo.png
+	web-paste.desktop
+	web-picozu.desktop              web-picozu.png
+	web-skype.desktop               web-skype.png
+	web-telegram.desktop            web-telegram.png
+	web-time.is.desktop
+	web-tweetdeck.desktop           web-tweetdeck.png    web-tweetdeck
+	web-twitter.desktop             web-twitter.png
+	web-whatsapp.desktop            web-whatsapp.png
+	web-wikipedia.desktop           web-wikipedia.png"
+options="!check"
+
+package() {
+	mkdir -p "$pkgdir/usr/share/applications" "$pkgdir/usr/share/pixmaps"
+	install -Dm755 "$srcdir/web-tweetdeck" "$pkgdir/usr/bin/web-tweetdeck"
+	cp "$srcdir"/*.desktop "$pkgdir/usr/share/applications/"
+	cp "$srcdir"/*.png     "$pkgdir/usr/share/pixmaps/"
+}
+
+_google() {
+	mkdir -p "$subpkgdir/usr/share/applications" "$subpkgdir/usr/share/pixmaps"
+	mv "$pkgdir"/usr/share/applications/web-google-*.desktop "$subpkgdir/usr/share/applications"
+	mv "$pkgdir"/usr/share/pixmaps/web-google-*.png          "$subpkgdir/usr/share/pixmaps"
+	pkgdesc="Google online services and Google online Office for your desktop"
+}
+
+_picozu() {
+	mkdir -p "$subpkgdir/usr/share/applications" "$subpkgdir/usr/share/pixmaps"
+	mv "$pkgdir"/usr/share/applications/web-picozu.desktop "$subpkgdir/usr/share/applications"
+	mv "$pkgdir"/usr/share/pixmaps/web-picozu.png          "$subpkgdir/usr/share/pixmaps"
+	pkgdesc="Online HTML5 image editor"
+}
+
+_skype() {
+	mkdir -p "$subpkgdir/usr/share/applications" "$subpkgdir/usr/share/pixmaps"
+	mv "$pkgdir"/usr/share/applications/web-skype.desktop "$subpkgdir/usr/share/applications"
+	mv "$pkgdir"/usr/share/pixmaps/web-skype.png          "$subpkgdir/usr/share/pixmaps"
+	pkgdesc="Makes it easier to connect with family and friends"
+}
+
+_telegram() {
+	mkdir -p "$subpkgdir/usr/share/applications" "$subpkgdir/usr/share/pixmaps"
+	mv "$pkgdir"/usr/share/applications/web-telegram.desktop "$subpkgdir/usr/share/applications"
+	mv "$pkgdir"/usr/share/pixmaps/web-telegram.png          "$subpkgdir/usr/share/pixmaps"
+	pkgdesc="Telegram web for all platforms"
+}
+
+_tweetdeck() {
+	mkdir -p "$subpkgdir/usr/share/applications" "$subpkgdir/usr/share/pixmaps" "$subpkgdir/usr/bin"
+	mv "$pkgdir"/usr/share/applications/web-tweetdeck.desktop "$subpkgdir/usr/share/applications"
+	mv "$pkgdir"/usr/share/pixmaps/web-tweetdeck.png          "$subpkgdir/usr/share/pixmaps"
+	mv "$pkgdir"/usr/bin/web-tweetdeck                        "$subpkgdir/usr/bin"
+	pkgdesc="A social media dashboard application for management of Twitter accounts"
+}
+
+_whatsapp() {
+	mkdir -p "$subpkgdir/usr/share/applications" "$subpkgdir/usr/share/pixmaps"
+	mv "$pkgdir"/usr/share/applications/web-whatsapp.desktop "$subpkgdir/usr/share/applications"
+	mv "$pkgdir"/usr/share/pixmaps/web-whatsapp.png          "$subpkgdir/usr/share/pixmaps"
+	pkgdesc="Send and receive WhatsApp messages right from your computer"
+}
+
+sha512sums="04c98cce9f3eb3c897e2f52c94f700ebf1dabf613bf7dc2d65dd829b90aece86d4f584af3bfe0e5cda54c9993383e746948ddb3beabd48f941b225cbd8ca040e  web-bitbucket.desktop
+65f88f340163e902b054f82c23ee1a4dfa1218b86dd1f2881090706add7b56f2224a8d7a2acee470ccb935a5f49c1031cfc2f34693d64807652483cf4aab42b0  web-bitbucket.png
+d580ac00596af56bbd5b53c30eafcbd690371944d4984cd2f3931d5980a9d27eb1d9746108fb4341e55f3c195d059cc8d0dbdd396fc43d9048192fd4b05c4f74  web-google-academic.desktop
+80c2ccca139002e90e500e67c18952d98d4c46aa55750f1dbd4a5fa3566f3ee38657d6fbc632efc1084d125a6e3c9ca96358a13cf04d581e633f9244379fd9bf  web-google-academic.png
+fd75d56d9cc726e55912822d15cded1819c2e128f4a37e370a2ef2083082057b5c1a134bd03556fe141c4bb03a1f0b0574617ebabd9b5a346efab6c13729c4b5  web-google-admob.desktop
+32c5d654d6bd14d8386b70c66201ad7a733af417489465808d7c58c793fd52b7be035ae274c9c38f7317f45db414af2e2a98a9afa8597e0c15c6ae3f3b79592b  web-google-admob.png
+59ede3b98755cb053d1bf2808d33f80b4613f216c5874869d893a2c9319c151024efd549f4f99f2f07aa277bfde795b89c0627cbd12ba37e3359357bce43e006  web-google-adsense.desktop
+00696c166bab94f824c9a252c5aba03c8d4ae4b257537520536a1ae79d2ec262558eb0b86e27318002d17a2125851b83e60e0e91b21a9d67ccd0090bd78ef5e6  web-google-adsense.png
+35ae071a334d7c62621f218c187f5c3b3e1f37925b8e5fd1d34658a9d2375f54b9eb261743f9225c36cc899bde8f529598273602dfdfb557db05a3101d54a74b  web-google-adwords.desktop
+3ddc1b429243bece7e7727d91fb8d7485aaa1d2c5d4b824812279d127e5e42fffaafa44b3c46df117047da56818d62256596fb04c8f9965056dccfcf013c197b  web-google-adwords.png
+80359dbd82e1f7658db03d6427682a74411d5a6504c00bf971b5147bc07519211597ba0248ef2932a4512f751be30a63b08565709bdb579d3eed2b8cb48ec808  web-google-apps-work.desktop
+572c116d697c50efb0d15ddab717404f70a585d3a5f5e54d6a696ab69b6afc0ac8b120e499e08f28765924fe29c66d25f62517b01d11dcb2306421d3c31c684a  web-google-apps-work.png
+cd04ad925847cb043c2371bbe9723b93a48d18a26f60f3f3dd0475b268a525f160c2317f7798ccdcfa6e51752a42887912b2b53046166b8cba593e007487d249  web-google-blogger.desktop
+89fcecd2756131e482a500e0a392527cfaa36660aa20678f2ba491228ff8188b35aa481f97a7dfae4a14381fc4a5f2aade4b83ddc7665d1647073f9645eb0660  web-google-blogger.png
+f79d76431453d0131e2b9979132581bd8ed06ed775700d45a2169d1b58bb0cca563a64556c3c1bdc93df44d2ec6cd2f473ef8c487ccb8ae69676e3c15360704c  web-google-bookmarks.desktop
+021a3b2ac2a20bd3dd40c575aaf8dfb762a47a3815a28bfb089ee8db7dcaa54b250c025b6a1a23f26cbf584655e5c5da1e337e2761dfbc7ede5a3e1a5f1fe879  web-google-bookmarks.png
+975975f6258159e7b88dd612fccfc71f1a827abcf20db2a65e44e02d351dc88592782f4345796095fb552b0890ccee0fa435f5d7ce633576495c8bf8889f18bc  web-google-books.desktop
+337fb294a4bdd9a0b63669a35ce9b416bf6dfac6185a4fdab9628c50e63d9f802f0555e9f859bbf4b6ce396ebc05d6c4a5955e4e0cf501af446e212439916ca0  web-google-books.png
+bdbd1ebe417115fd9c3bf8e90a3ac19d57a4cbf28e63f29cec59d413e54165bb7d2b23b0b1dad716f0d9a2c181bad5e87a331f874b94caa55e3d792aac91a9b8  web-google-business.desktop
+d590e2f342929febf79fd819b53fec53d01a2ed3398534754cecd4a354a1db016fa9d115a74978c75bb7fa6ef7d72dabc9223062d77d7c885c32d963ec430f97  web-google-business.png
+f6c473b0c432e7b0f9ea8e93b9a0868d49e9609cbb3a1c1515e4177f74c4bff18ad2286e306b4b3cf112742aee402c12bccbbac751f0d6c4d13b2036f2e8f17b  web-google-calendar.desktop
+c8f032fb37821ece7694f4a4d2a2f51f8684f3e417bdcb7b9a18e16368d6089e4a59cab9f00458337792bab732ad1ddf49d7901e959022294073be916cd9b801  web-google-calendar.png
+aa86d509eb62c0f539f46321120a478b7360e397f8f62707f7d1dfe9e41179aa17e75a736892d4cab5345e69c19a5a4b12bbbe026858a30c52d2d483ff5e5a07  web-google-cloud-print.desktop
+6b1a888388188d06e26b338d9970120e3e1d0b1e498c2ec1df53971122aea73c443774c07909c59a25864f336ddc62a6577274266ba134395b77ea03adba8c54  web-google-cloud-print.png
+09693ffe475c24830a5eb8fcf98bc15c9e3a6171e6ddb99da5672ae95c746574ccf1985576c193b72d57df455c3a0577b7acee3bf20decba29cb176bc882530a  web-google-default.png
+92e6f5f9f386c68a787bc36ccf31e917db09c00b4b8ec8b5fdc87d6edeb03ae1a36ece1703ce0bc3b1442e9fea4af07394187988066440b5afc8625f7499b931  web-google-developers.desktop
+d7d417b2bc78ed560fc1f4a6321de060fc53d75927bf3fb092c69a87a6c760757e339c3e253fc3470232fdb702df20e64b9816b87dabd35e2257665f41994773  web-google-developers.png
+b4f03f9d2118869e21187eb83ab0c49c200d037bd94af072c561e7d24ecc0fe0f1aac4904aca9759589b5ee595655f0c1c679ba836f2e7a02e8ca8077567a107  web-google-documents.desktop
+02f5465ad54801b052872297647cdab8d6ddc85a26e48b94b0cbe34e36fdc7851fca91f3e0eafb6b3b7f516fcbc5a493f6a2b3888c1415498fe424cd180e9e4d  web-google-documents.png
+d5f68a787ec5280daff3e085140f7b5da49e5b69670050b07f299af26a0ab4771fc687b717193d01fe7f0ed39317d8f6dae6924886c296e5ae7dd71aca864275  web-google-drawings.desktop
+0e817eea67013a3e85194ca69d904a9f87ff07d718db96446018f5b5612ff8d48c795cefc28b6aaf3c5eeb07ca1258717bc72902ed3c9c20e48d9cb97eb26aa7  web-google-drawings.png
+0d1a3ceb52e75fda7821db7fb6c0148ca8c565db5c8650dd90f80404db77e8a7968f2dbe59764bcfef4ab25a7ee001965911f0aa4f6b63cfd3034c21d8c7be09  web-google-forms.desktop
+2311c15f91c0c8fa2b6857e88f855af3fe45e886fccb64fe08680d180e4805383450acb6113ba1069e145c93a86d5a0d9865be344b80158b557f9ae7b02b8a46  web-google-forms.png
+e7929fbe6e70495f49a82bec7bc71b749da419b214223f7ac605721da435665e240b8892d485d5c193a41f06e7f44839659b81f475d7b7b526aaa72381f17e59  web-google-groups.desktop
+f31d46ca50776a8c9fc4c37a3f0abd033f923491690132c4f9ee95aa2809152839fc34df2061c1b61dbf166341865b369cd406c4d5778d6c266e57c353c7321a  web-google-groups.png
+8521a596db9df863260e40a20e822323429a036539abfbb307c0f1d2a8cc770302750f92099cf01e818524d31ceda4611471d575b25ad9ea62362f5dab3b730c  web-google-keep.desktop
+bfbb7e0a00e32fb86dca5c2c56f9375e994f9cc24e1fc6ba78324d68b0d2d52da75b04cce43e17db2a19faf31710e2f860f5c41fed1110cd06dbf3481e970c1b  web-google-keep.png
+f4590ae807b17d88465b1ce329e8a20441b946f58bd0ed10265a1d40b93391a815ae0dbbd99678f6931ef4adfe03f3a7bfe37e758898a790e984caa54981d614  web-google-mail.desktop
+5b1aca7cb5e42de4ad420e80b8adc59315c55a01c0dc2cea3f0083556650945f544903dab8519b2eceda53fe69908b4451c07767737a099f5d9b51611b6e7945  web-google-mail.png
+6e461d625c8ee0ae3f9eccce13a1d7b281668603dd4c25b5c8e2606d6de5d672bc75955608a1930e384f298bbde8b4f754a3a9170d71473542a346ecccc4232b  web-google-maps.desktop
+80e04885cc130e4970a953640de81bdf7abe389061a5daef092f5d3656e00f74f012ae07d9f42e86b65b6211ce3e6303ae3e7c32cf315134905e225075f40a81  web-google-maps.png
+70f7322fff7111c688a9640649d263270ea3f88172243a332839a29782722ed8d808c5799475824c5aac311b3b6aa38be57da187594bf9157f3fafbcb5fd0331  web-google-news.desktop
+05d194165e9ee2201124824be338a7d99c750b7fbc161e28bd6d0f4239e630925db501713a1904168df6bc43f311b7695e8c0877ce5be09cbcc5cb6b612fde17  web-google-news.png
+15b64d375f43df7629f418c86467d0afb9f4d007a882488548c9042c6aaa12db8512df3e4f67bfd170d5ab1f1bd4897a8f7a529076163bc710cb70fbd6a11f1d  web-google-panoramio.desktop
+565b779d53e6e842dc34135a84122f6f414ef138b40c0f34bd81d8e5843497c6d633684e7403a52b410589b56c76baf4b25886aa7c8c9ecad8b63d26e6d42c21  web-google-panoramio.png
+0215ad49834dc6430807b3d9220b092a4f7870f5414e20c26d5e01bf9b02d619e39cda4f932fa236b8ad938a997aab46b9f485808ae97dbf7ecd6edf724d7b69  web-google-photos.desktop
+ef1b28a7d332f0fa11c35e0902069689b2b23d12131054d81361464f1434677b1ba6e989356ec87fb8489738b0bf5c4318cbe16053809ee5ed2f4938f11c0b56  web-google-photos.png
+646d6b996f0afc94900a2a73b23f134ada6b0c515b7ea31cac5a4882f8c2a4a1f043c43042318e4c72b9a0ced7bb074965af3c02263154ecea5b1bc4800c1e12  web-google-plus.desktop
+665594d4b17f49079311ea3c1163375bc7448d702f260047baa1a75acf76314e2abe53923008c38918e40af59b4ec58c63d8f1f395facdb079b44d30172dbfd4  web-google-plus.png
+73bb7fe38bc9fbd297972c00aad2d24fe081c333aeb4060b30f2bbbd65be9615e6ab24b1d8d9945f266fa928d089d0c55c158af25615c7708e9d94a381775edf  web-google-presentation.desktop
+55c31711f6549ff0e19ba790a5ccc53a625b60685d8e37a10bcf7b7213a0741fd56605e4c3d15b655f0c473c41875f29f6f6fb1781b5ae04833a1d6010441558  web-google-presentation.png
+b7a6ee4fc8058045222c498a86d51ab6917c316a27efd453d08983383d293b14ed73a7e12f55d4fe90dcc8747d9c764ac589655b99ae4e878fac151eeae3d9c9  web-google-search.desktop
+15fce6e07d55bb579ff2e39e11ac7fd8c7662585a6ad0e702d6d5b08a3b51f2821ba6c0b46d7ff2757f517af2455448ebcd0d860138f38e3d720039416e3e852  web-google-sheets.desktop
+b1e0753fe66acfb3b80c55334bb7ee080f1b39508cdfcac17dbb62e038ee05b7b2b075db7f0948bbd3c314c22c733c57ae561f720113f26125f386918c552876  web-google-sheets.png
+8d718081dc57e48165f5e5f026455a0c0089a77ac34ccfbfeb439baf11d67b1f3a3bdeb5a57573aa990154e6d8fa58c49da65c3ff07a8b686de4a02dc4e01a7a  web-google-sites.desktop
+f3ce60a81ba634dd8b274f09169a51d5094e0089c1a171bad10bf153a2b5d51cbca7411e839b4df9ef2b41ef0222fdfcc41cc20ef0876e3c41269285a09c2d6a  web-google-sites.png
+2e652bf8e333e8a859a0bbf61787904093541fbb60c3778660009f1de7fdabd333e7aebd6b5bd7a6f38d5b10e74e1ed504b0b97ad51c5a7d64dadd84ae653391  web-google-translate.desktop
+4cc6f9698c9f59e1b621ff51a6c8ff7c388badc1ec35ec9fd3df67057db8a93ab710d11c4847937236b4ff63f88b71d26215086166efe6174c4553d8c01a03e9  web-google-translate.png
+2b7ecb86994193c803fcdfb89232c2711d3f914dafe52644b6af4f1148edd10533786585dedee4bfb054e8ea1f2d991a7e794933af99eecf61e4e90637fade2e  web-google-trends.desktop
+cb9f829ada1a35a9c05e83ee1fec9be1cd6505ea0ea8a3acc4ebf7ce2f4767114abb3cc3d105fad99ce72be7a8ca4b134b9d08ebbfbc351d90e896f40cf625be  web-google-youtube-tv.desktop
+88b961bc49bb886c0256280b884e0d8395864ffc53bbb7f1de545a1db4adf7f0a1be7d6349acf66e717420fd2318c2ca07ade5bc80feef145ac38d59d4c8c2b6  web-google-youtube.desktop
+2a76160dac0a973579ea1114f55e31b42b45a6ad94c10a0b0e9de4e0f524f9d8a5a3722e36ddc446a7fd901050e683417305abaa61c0cec5e4ac74ac94d8816d  web-google-youtube.png
+503f9c893faa88bca4904415471211399f0397d2945ddb5e9bcffadae8c3083b9b5193a8211c6e3c5ba14d44101a541c9fb7580ce80eeeb15748fccf8fb9127a  web-jamendo.desktop
+57750752ce85f314d31d8b88acdf8424586fcf1da36727d7b8b2fccc49053d514a2bf64e2a24e1642439c8198842f6643539ba6ea585d58c307a763ff2ef2f17  web-jamendo.png
+37cb8b8f11e1a6bb6d3dd504d86f0c64da99dc8fe3091a9d7707b5b8334906760a9e8ad97f0bc4b049140eca95ecd01335c1337e4e418639394159a632415e3f  web-paste.desktop
+16c5afd0086c4e1d97ed33d194cfff507361d33899834b55e3c14714934463d076a93a098bc06566e4eb475496b0b05b1fd99407a010ee56e5287ac4b331efc4  web-picozu.desktop
+84226d7c713e6f4fd6e83d550d43c5abeac2305d66729bbf99231f1df6d32dfcf87cb0df10d4b50d2a045eb378061deb918a8ca379cdccc8fa7d3d04b9451523  web-picozu.png
+c1b045182e1685a9c60b1b2bb0b5f2175fae5e3f9335ee08432fa94ce28fe9b38405102830646b581f4e4216c574a61ec514a92c7e39a5cf58a24140a9f815f6  web-skype.desktop
+66688a397611437b44677c25259044fd2fa97416a9608a43b9f871d37ec370b1c57188eeb55914246c448b6ac61334df17e143cc2fa5b870be4cff0a4db4999f  web-skype.png
+93892bb2bc6dc10e619dc810e58ba6b4dc733d9e397b825266e243e447901aec181d4ef0542292b9d9e20faf9eeba0b9c647d19e000e362129d7000f19afacab  web-telegram.desktop
+46ebac71071014ed6dc9a18387e4b64b9006eca74486ddfd24ddf32f418d48c0682897dd4573b69501d9383463110932354d69015573454d00000af3182c024e  web-telegram.png
+8d123606f08a12ccb34953274937548d02079a63cfb072a8f8124c0bae7bbfe821e5b47c0c10ca988ff54fae556e02bc373ad4f6b037c91ac08b797799362e2a  web-time.is.desktop
+c8c9ee5bf44950866c340feb4cf8ffb771cddd51af3cfa903a0de22cacd4647f6d095b35c216fa2e1a2e69ee654fae61cb03906a9656128748396142247a4371  web-tweetdeck.desktop
+6df8dfd816bc51faca2fac7d2779c7bc601d7d7d4866ec0ad9025ccf3bc3e06a290dc2404d6d9c9c7530ef07ec3e950fba1d3f6fbfd297dd239243ca4af9101c  web-tweetdeck.png
+7f895dd8335954ce6cef7563de4dcd4314c7292dc6ba89cc86c1bfb8840e97d70d9a67d73f0a05d0fd26877259b429035e92c2a31a8f898b61eb78a821b823ee  web-tweetdeck
+a3214f1b1a4f04689c3785b9de13b5e82b3ad58a15298deeb24e1176efbee55ff4b95730e2e213bf19dd6546db0bbb5efd301b8381dcd06fb4469e36f86b3f20  web-twitter.desktop
+cbaafada2027e4f4da705e8fea4158d975e275f43c9b6e4d03fcca76af89dccf05071c1ba2eb10a2dcf73bda67c7773ec402e6bf5681bf29764e2ffa068497f8  web-twitter.png
+f167586abeb4009e3797109feb4c65d993c59474a2879e26f4bef01ff0088c2a4efb7e406c701504656e0724d998ea78a15559d31f4640cb08d00b1df83be15a  web-whatsapp.desktop
+34caf3100bf2b9b0db810ecbde5f336b65e5278b5dddde66241ea57b45dd1a0a4bb781a8394888598199e33b1341ed3e2e6125772998c04d6e560a3a227195d5  web-whatsapp.png
+c0a30e9189b80e161d0c4ee2696c4b3edc8403a49bb4d9b9c73575c0d798f7582a6b14933d000b49fcf3624f804f22dc89fb441f24c042f5e1459743979efb65  web-wikipedia.desktop
+e142a8372c1a2c2d74208e267ecc90802fcbf242732c1c06d8283fac50bce77d84ff77e5524a0355930d8163ee252b5075c27f86b3af78dc69e583a9c195667f  web-wikipedia.png"

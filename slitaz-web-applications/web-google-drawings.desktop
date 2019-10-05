@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Drawings
+Comment=Create diagrams and flowcharts.
+TryExec=browser
+Exec=browser https://docs.google.com/drawings/
+Icon=web-google-drawings
+Categories=Office;

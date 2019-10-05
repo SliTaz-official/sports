@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Admob
+Comment=Monetize your apps intelligently.
+TryExec=browser
+Exec=browser https://www.google.com/admob/
+Icon=web-google-admob
+Categories=Network;

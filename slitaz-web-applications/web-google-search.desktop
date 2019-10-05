@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Search
+Comment=Search billions of Web pages.
+TryExec=browser
+Exec=browser https://encrypted.google.com/
+Icon=web-google-default
+Categories=Network;

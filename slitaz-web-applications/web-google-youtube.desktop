@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=YouTube Desktop
+Comment=YouTube allow discover and share online videos.
+TryExec=browser
+Exec=browser "https://www.youtube.com/?app=desktop"
+Icon=web-google-youtube
+Categories=AudioVideo;Audio;Video;

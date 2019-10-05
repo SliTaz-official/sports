@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Blogger
+Comment=Share your life online in a blog. Is fast, easy and free!
+TryExec=browser
+Exec=browser https://www.blogger.com/start
+Icon=web-google-blogger
+Categories=Network;

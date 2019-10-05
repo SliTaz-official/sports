@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Panoramio
+Comment=Discover the world through photos.
+TryExec=browser
+Exec=browser https://www.panoramio.com
+Icon=web-google-panoramio
+Categories=Graphics;Network;

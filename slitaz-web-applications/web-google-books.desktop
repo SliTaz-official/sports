@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Books
+Comment=Search for full texts of books.
+TryExec=browser
+Exec=browser https://books.google.com/
+Icon=web-google-books
+Categories=Education;

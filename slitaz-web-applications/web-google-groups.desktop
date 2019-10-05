@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Groups
+Comment=Create email lists and discussion groups.
+TryExec=browser
+Exec=browser https://groups.google.com/
+Icon=web-google-groups
+Categories=Network;

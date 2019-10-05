@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Trends
+Comment=Google Trends is a public web facility of Google Inc.
+TryExec=browser
+Exec=browser https://www.google.com/trends/
+Icon=web-google-default
+Categories=Network;

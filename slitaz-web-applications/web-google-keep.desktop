@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Keep
+Comment=Save what you are thinking.
+TryExec=browser
+Exec=browser https://keep.google.com/
+Icon=web-google-keep
+Categories=Office;

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Business
+Comment=Let your company well positioned in Google.
+TryExec=browser
+Exec=browser https://www.google.com/business/
+Icon=web-google-business
+Categories=Network;

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Google Scholar
+Name[ru]=Google Академия
+Comment=Search all scholarly literature from one convenient place
+TryExec=browser
+Exec=browser https://scholar.google.com/
+Icon=web-google-academic
+Categories=Education;

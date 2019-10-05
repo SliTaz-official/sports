@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Bookmarks
+Comment=Access your bookmarks on the web.
+TryExec=browser
+Exec=browser https://www.google.com.br/bookmarks/
+Icon=web-google-bookmarks
+Categories=Network;Utility;

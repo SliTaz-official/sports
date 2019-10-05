@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Maps
+Comment=Desktop web mapping service developed by Google.
+TryExec=browser
+Exec=browser https://maps.google.com/
+Icon=web-google-maps
+Categories=Graphics;Network;

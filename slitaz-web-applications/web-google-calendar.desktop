@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Calendar
+Comment=Organize your schedule and share events with your friends.
+TryExec=browser
+Exec=browser https://www.google.com/calendar/
+Icon=web-google-calendar
+Categories=Office;

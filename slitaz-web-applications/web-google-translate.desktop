@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Translate
+Comment=Translate texts, web pages and files in 50 languages.
+TryExec=browser
+Exec=browser https://translate.google.com/
+Icon=web-google-translate
+Categories=Utility;

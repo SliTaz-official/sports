@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Forms
+Comment=Open, create and edit forms.
+TryExec=browser
+Exec=browser https://docs.google.com/forms/
+Icon=web-google-forms
+Categories=Office;

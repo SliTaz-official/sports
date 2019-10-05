@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=WhatsApp Web
+Comment=Send and receive WhatsApp messages right from your computer.
+Exec=firefox-official "https://web.whatsapp.com/"
+Icon=web-whatsapp
+Categories=Network;

@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Google Mail
+Exec=browser http://mail.google.com/
+Icon=web-google-mail
+Categories=Network;

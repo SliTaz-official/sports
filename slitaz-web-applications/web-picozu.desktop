@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Picozu Image Editor (WebApp)
+Comment=Picozu the HTML5 online image editor.
+Exec=tazweb --notoolbar "https://www.picozu.com/editor"
+Icon=web-picozu
+Categories=Network;

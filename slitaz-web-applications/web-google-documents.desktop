@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Document
+Comment=Open, edit and create documents.
+TryExec=browser
+Exec=browser https://docs.google.com/document/
+Icon=web-google-documents
+Categories=Office;WordProcessor;

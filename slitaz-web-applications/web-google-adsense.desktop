@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google AdSense
+Comment=Simple way to earn money by placing ads on your website.
+TryExec=browser
+Exec=browser https://www.google.com/adsense/
+Icon=web-google-adsense
+Categories=Network;

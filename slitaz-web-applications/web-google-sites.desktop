@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Sites
+Comment=Create websites and wikis.
+TryExec=browser
+Exec=browser https://sites.google.com/
+Icon=web-google-sites
+Categories=Development;

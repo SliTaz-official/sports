@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Apps For Work
+Comment=Custom services for your company.
+TryExec=browser
+Exec=browser https://apps.google.com/
+Icon=web-google-apps-work
+Categories=Network;

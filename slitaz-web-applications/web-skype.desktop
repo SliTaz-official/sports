@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Skype Web (Beta)
+Comment=Makes it easier to connect with family and friends. (Better with Firefox)
+Exec=firefox-official "https://web.skype.com/"
+Icon=web-skype
+Categories=Network;

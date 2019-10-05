@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Plus
+Comment=Share your moments to the world.
+TryExec=browser
+Exec=browser https://plus.google.com/
+Icon=web-google-plus
+Categories=Network;

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Telegram Web
+Comment=Telegram web for all platforms.
+Exec=browser "https://web.telegram.org/"
+Icon=web-telegram
+Categories=Network;

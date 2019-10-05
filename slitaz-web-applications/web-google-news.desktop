@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google News
+Comment=Search the news today.
+TryExec=browser
+Exec=browser https://news.google.com/
+Icon=web-google-news
+Categories=Network;

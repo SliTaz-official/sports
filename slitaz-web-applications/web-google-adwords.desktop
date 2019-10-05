@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google AdWords
+Comment=Attract more customers, and pay only for results.
+TryExec=browser
+Exec=browser https://www.google.com/adwords/
+Icon=web-google-adwords
+Categories=Network;

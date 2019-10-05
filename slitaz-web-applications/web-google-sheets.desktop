@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Sheets
+Comment=Open, edit and create spreadsheets.
+TryExec=browser
+Exec=browser https://docs.google.com/spreadsheets/
+Icon=web-google-sheets
+Categories=Office;Spreadsheet;

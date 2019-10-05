@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Google Photos
+Comment=All your photos are backed up safely.
+TryExec=browser
+Exec=browser https://photos.google.com/
+Icon=web-google-photos
+Categories=Graphics;
