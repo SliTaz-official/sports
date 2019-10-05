@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Sudoku
+Name[zh_CN]=数独
+Comment=Sudoku game
+Exec=sudoku
+Icon=sudoku
+Terminal=false
+Categories=Game;

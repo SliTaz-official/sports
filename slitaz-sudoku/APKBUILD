@@ -1,0 +1,26 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Pascal Bellard <pascal.bellard@slitaz.org>
+pkgname="slitaz-sudoku"
+pkgver="2.3"
+pkgrel=0
+pkgdesc="Sudoku game in javascript"
+url="https://web.archive.org/web/20140124072600/http://10k.aneventapart.com/1/Entry/81"
+arch="noarch"
+license="unknown"
+source="index.html
+	sudoku
+	sudoku.desktop
+	sudoku.png"
+options="!check"
+
+package() {
+	install -Dm755 "$srcdir/sudoku"         "$pkgdir/usr/bin/sudoku"
+	install -Dm644 "$srcdir/sudoku.desktop" "$pkgdir/usr/share/applications/sudoku.desktop"
+	install -Dm644 "$srcdir/sudoku.png"     "$pkgdir/usr/share/icons/hicolor/48x48/apps/sudoku.png"
+	install -Dm644 "$srcdir/index.html"     "$pkgdir/var/www/sudoku/index.html"
+}
+
+sha512sums="394c528d50a2bc27fea2a2f861717ef6958f2cf187bbb5d856ac8b6258086613290571e4052cdd3650c0ef3597545fbf417ba068c30958827e33d51aa537aea1  index.html
+b39a483594f39778e78f0b20c362589baf260c122d1f37ef4952fde6d30694818c42290cdd7e8b26a93e90c2330ce611e290975cf6b9656dbe6550b1168f8921  sudoku
+a65d78ec21fe138b3d2c760f33e7f59690ba7750434ee3494ea20143d476b56fac20a5a9487fff7bec2cd71ab83965020475cc575782347f51b6682cfcc527ac  sudoku.desktop
+2e86ff0f9e87411dbc2a98898f2a45070ca49ef6b153110046a087430e7a152a60b60f7ebfe6f2c1e0a605de8893c3138b19efe0ef57d92d6fb7d11b6fe5d5f6  sudoku.png"
