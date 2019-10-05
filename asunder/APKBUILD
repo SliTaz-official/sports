@@ -1,0 +1,38 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="asunder"
+pkgver="2.9.3"
+pkgrel=0
+pkgdesc="GTK CD ripper and encoder"
+url="http://littlesvr.ca/asunder/"
+arch="all"
+license="GPL2"
+depends="cdparanoia"
+makedepends="gtk+2.0-dev alsa-lib-dev libcddb-dev cdparanoia-dev libxdamage-dev
+	intltool"
+subpackages="$pkgname-lang"
+source="${url}releases/$pkgname-$pkgver.tar.bz2
+	asunder.desktop"
+options="!check"
+
+prepare() {
+	cp "$srcdir/asunder.desktop" "$builddir"
+}
+
+build() {
+	./configure \
+		--prefix=/usr \
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	# purge pixmaps dump
+	install -Dm644 "$pkgdir/usr/share/pixmaps/asunder.png" \
+		"$pkgdir/usr/share/icons/hicolor/128x128/apps/asunder.png"
+	rm -r "$pkgdir/usr/share/pixmaps"
+}
+
+sha512sums="b6546e16c936285584480cf378be11e96717aeedc22a7c5163cc0791a41498597d8437369d00823710c56faabe1dea23e4be9c839eb1ee371415104f13d61296  asunder-2.9.3.tar.bz2
+e9a90005efe95ba616d79ccc495cdbe43f25788391ce268d9363201eea93e310c295037efe1bf18ab4240e81cbd822765a4c405e64af8b98f0dcbf59983142c9  asunder.desktop"
