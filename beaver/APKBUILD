@@ -1,0 +1,43 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="beaver"
+pkgver="0.4.1"
+pkgrel=0
+pkgdesc="Simple and very light advanced text editor"
+url="http://beaver-editor.sourceforge.net/"
+arch="all"
+license="GPL2"
+makedepends="intltool gtk+2.0-dev"
+subpackages="$pkgname-doc $pkgname-plugins"
+source="https://downloads.sourceforge.net/beaver-editor/$pkgname-$pkgver.tar.bz2
+	icon.patch
+	fix-inline.patch
+	beaver-slitaz.patch"
+options="!check"
+
+build() {
+	./configure \
+		--prefix=/usr
+	sed -i 's| -shared | -Wl,-Os,--as-needed\0|g' libtool
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	rm -r \
+		"$pkgdir/usr/share/beaver/pixmaps" \
+		"$pkgdir/usr/share/pixmaps" \
+		"$pkgdir/usr/include"
+}
+
+plugins() {
+	mkdir -p "$subpkgdir/usr"
+	mv "$pkgdir/usr/lib" "$subpkgdir/usr"
+	pkgdesc="$pkgdesc (plugins)"
+}
+
+sha512sums="3000bed3aa2a67d6c38a68a7782a9d5423bcec0b8420272b0f0dade604c094a7b52058b43222af38d56313f0aa27998028c984f69340bf28eeaa8b8a93548a1e  beaver-0.4.1.tar.bz2
+2acb6bee84cd5c139549d7fe19330a16ed7309c53ce6f3af22e433600318cdace9a5386d9f1b41d178a697cef77b712d7e09d258f46518ecec414d9fb372fb61  icon.patch
+d0e3220971391f2148d9e6425858ba24281595aec8b7c5a71b9afda1d3df5b59358a8b490df61ea076ecc2e695070ae1628ef13892c6d156158551ac2573c6a3  fix-inline.patch
+19a58bf2558e446dafcf629b97576800157ebbc6ee97f8ef94e53d7723031ac0d293048d129ffb6f2066000cc54ec8dc754d16147dec1807b4f5386211d0a21c  beaver-slitaz.patch"

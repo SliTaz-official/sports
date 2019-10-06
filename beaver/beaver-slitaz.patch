@@ -1,0 +1,67 @@
+--- beaver-0.4.1/data/beaver.conf.default.orig	2010-08-29 15:29:16.000000000 +0000
++++ beaver-0.4.1/data/beaver.conf.default	2019-09-22 21:17:17.582785824 +0000
+@@ -13,7 +13,7 @@
+ LabelLength=12
+ 
+ [Editor]
+-Font=Courier 12
++Font=Sans 11
+ BGRed=65535
+ BGBlue=65535
+ BGGreen=65535
+@@ -27,7 +27,7 @@
+ SelectedFGBlue=65535
+ SelectedFGGreen=65535
+ Wordwrap=false
+-TabWidth=8
++TabWidth=4
+ AutoIndent=true
+ 
+ [MsgBar]
+@@ -41,8 +41,8 @@
+ Position=0
+ 
+ [ToolBar]
+-Style=2
+-Size=1
++Style=0
++Size=0
+ 
+ [AutoSave]
+ Delay=0
+--- beaver-0.4.1/data/beaver.desktop.orig	2010-08-29 15:39:01.000000000 +0000
++++ beaver-0.4.1/data/beaver.desktop	2019-09-22 21:17:17.613783546 +0000
+@@ -1,12 +1,13 @@
+ [Desktop Entry]
+-Encoding=UTF-8
+-Name=Beaver
+-GenericName=Programmer's Text Editor
+-Comment=Beaver's an Early AdVanced EditoR
++Type=Application
++Name=Beaver Code Editor
++Name[fr]=Editeur de code Beaver
++Name[pt]=Editor de texto Beaver
++Name[pt_BR]=Editor de texto Beaver
++Name[ru]=Редактор кода Beaver
++Name[zh_CN]=Beaver代码编辑器
+ Exec=beaver %F
+-Terminal=false
+ Icon=beaver
+-MimeType=text/plain;application/x-shellscript;text/x-c;text/x-c++;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-makefile;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;
+-StartupNotify=false
+-Type=Application
+-Categories=Application;Development;TextEditor;GTK;
++StartupNotify=true
++Categories=Development;Building;
++MimeType=text/plain;text/x-chdr;text/x-csrc;text/x-c++hdr;text/x-c++src;text/x-java;text/x-perl;text/x-python;application/x-php;application/x-httpd-php*;application/xml;text/html;text/css;text/x-sql;text/x-diff;
+--- beaver-0.4.1/data/pixmaps/icons/Makefile.in.orig	2010-08-29 15:34:17.000000000 +0000
++++ beaver-0.4.1/data/pixmaps/icons/Makefile.in	2019-10-06 19:42:50.386650166 +0000
+@@ -260,7 +260,7 @@
+ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+ NULL = 
+-SUBDIRS = 16x16 22x22 32x32 48x48
++SUBDIRS = 16x16 48x48
+ EXTRA_DIST = \
+ 	$(NULL)
+ 
