@@ -1,0 +1,31 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="epdfview"
+pkgver="0.1.8"
+pkgrel=0
+pkgdesc="Lightweight PDF document viewer using Poppler"
+url="https://github.com/jristz/epdfview"
+arch="all"
+license="GPL2"
+makedepends="gtk+2.0-dev poppler-dev cairo-dev"
+subpackages="$pkgname-doc $pkgname-lang"
+source="$pkgname-$pkgver.tar.gz::https://github.com/jristz/epdfview/archive/$pkgver.tar.gz
+	epdfview-slitaz.patch"
+options="!check"
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--without-cups
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	install -Dm644 "$builddir/data/icon_epdfview-48.png" \
+		"$pkgdir/usr/share/icons/hicolor/48x48/apps/epdfview.png"
+}
+
+sha512sums="7ecc8960822ba9e013b72416531684d83ea2df6aca809b412c0954b7204610beaf6b925c919491268c9faabc340ae73a2ad3b0bf60b105f04a0ebcaf2545d015  epdfview-0.1.8.tar.gz
+1f64e22e5b47c84908230a498d84159fd8ee789f245c8ca1ee6a7a1d6725c143f831993e3f673a25d9099ecf8589c998732e1bcf56986c2209587dec754e4860  epdfview-slitaz.patch"
