@@ -1,0 +1,8 @@
+--- a/galculator.desktop.in
++++ b/galculator.desktop.in
+@@ -7,4 +7,4 @@
+ Terminal=false
+ Type=Application
+-Categories=Utility;
++Categories=Utility;Calculator;
+ StartupNotify=true

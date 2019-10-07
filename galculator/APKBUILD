@@ -1,0 +1,43 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="galculator"
+pkgver="2.1.4"
+pkgrel=0
+pkgdesc="Graphical scientific calculator"
+url="http://galculator.mnim.org/"
+arch="all"
+license="GPL2"
+makedepends="gtk+2.0-dev flex intltool"
+subpackages="$pkgname-doc $pkgname-lang"
+source="http://galculator.mnim.org/downloads/$pkgname-$pkgver.tar.bz2
+	galculator.desktop.patch
+	no-gtk3-ui.patch
+	galculator.svg"
+options="!check"
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--disable-gtk3
+	sed -i 's| -shared | -Wl,-Os,--as-needed\0|g' libtool
+	make
+}
+
+package() {
+	cp "$srcdir/galculator.svg" "$builddir/pixmaps"
+	make DESTDIR="$pkgdir" install
+
+	rm -r \
+		"$pkgdir/usr/share/pixmaps" \
+		"$pkgdir/usr/share/appdata"
+
+	# remove whitespace to minify size
+	for i in "$pkgdir"/usr/share/galculator/ui/*.ui; do
+		sed -i 's|^ *||' $i
+	done
+}
+
+sha512sums="ca5f373649d9bf26184e94ba6a501610efbb13e92a8723cda78b83aa495519e82e5b4fcd17f00f615eb702ed186598aecc70ae63a8238c32384b7f608cba4cfa  galculator-2.1.4.tar.bz2
+2a248f9343ced751f2414c5b820c19d1923113d55a97f0ad9ac0519b07432a1afd046d1e4babbe0338c7c8dfc8712d7d25b4079e2fa42034650b234ae06c0323  galculator.desktop.patch
+b409380eb67b2f6daa8afaf31ccfcdea6b0cf95c5de07fc8003062da9cf4ca60bfee9759ff74a5194be87e7577aa79750e267f98f160debffe32058f2909d44b  no-gtk3-ui.patch
+13f573ea47ffce1f2253a6038fc793414cae3cbccda1423229f0a8605a17c0da830cde8d2955f238e6f6d2e7aca2b6f32d68da08b28ed66c61bfe74fc3d75f82  galculator.svg"
