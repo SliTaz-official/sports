@@ -1,0 +1,24 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="nnn"
+pkgver="2.7"
+pkgrel=0
+pkgdesc="The missing terminal file manager for X"
+url="https://github.com/jarun/nnn/"
+arch="all"
+license="BSD-2"
+makedepends="ncurses-dev"
+subpackages="$pkgname-doc"
+source="https://github.com/jarun/nnn/releases/download/v$pkgver/$pkgname-v$pkgver.tar.gz"
+builddir="$srcdir/$pkgname"
+options="!check"
+
+build() {
+	make PREFIX=/usr norl
+}
+
+package() {
+	make PREFIX=/usr DESTDIR="$pkgdir" install
+}
+
+sha512sums="0662a67ade8ede918cdc4e3c485cbaef83834aa60e2ab6961ad7bab45b458a1ffbfb9c51ed335ae7bc877b8818d99228b1eb59e314ccf6207ebc9b64e1e11570  nnn-v2.7.tar.gz"
