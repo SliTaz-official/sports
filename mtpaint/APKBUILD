@@ -1,0 +1,50 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="mtpaint"
+pkgver="3.49.19"
+_commit="a9e445ef0167631363fe954bd3ea7aec7853ca1a"
+pkgrel=0
+pkgdesc="Painting program to create pixel art and manipulate digital photos"
+url="http://mtpaint.sourceforge.net/"
+arch="all"
+license="GPL3"
+makedepends="gtk+2.0-dev libpng-dev lcms2-dev zlib-dev libjpeg-turbo-dev tiff-dev"
+subpackages="$pkgname-doc $pkgname-lang"
+source="https://github.com/wjaguar/mtPaint/archive/$_commit.tar.gz
+	mtpaint-slitaz.patch
+	mtpaint.desktop
+	mtpaint-grab.desktop
+	mtpaint-doc
+	mtpaintrc"
+builddir="$srcdir/mtPaint-$_commit"
+options="!check"
+
+prepare() {
+	default_prepare
+	sed 's/mem_undo_limit,\t32/mem_undo_limit,\t64/' -i src/mainwindow.c
+}
+
+build() {
+	./configure \
+		--prefix=/usr \
+		asneeded release nogif jpeg nojp2 notiff nowebp lcms2 intl man
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	install -d     "$pkgdir/usr/share/applications/"
+	install -Dm644 "$srcdir"/*.desktop         "$pkgdir/usr/share/applications/"
+	install -Dm755 "$srcdir/mtpaint-doc"       "$pkgdir/usr/bin/mtpaint-doc"
+	install -Dm644 "$srcdir/mtpaintrc"         "$pkgdir/etc/mtpaint/mtpaintrc"
+	install -Dm644 "$builddir/doc/mtpaint.png" "$pkgdir/usr/share/icons/hicolor/48x48/apps/mtpaint.png"
+	rm -r "$pkgdir/usr/share/pixmaps"
+}
+
+sha512sums="37de6b5c6cca126a2b384dfcd1c419f49706f3c7b14a84748490779c1d0297283f6104fe1fda5bc9dd3521714d43f7744231756f08fee89b958e5581742d0b9c  a9e445ef0167631363fe954bd3ea7aec7853ca1a.tar.gz
+a7eb6f465dfcdec28fbde2f6103c63c77a4c761addb398fe8f209db49736019c5034c41d8dc5b85b7d9287689c0dcf4ff5865efe3652298613b7343bc288c7df  mtpaint-slitaz.patch
+826829b7216588378d5d0f88d5faffc431f068a1a188753933cd182fd627027753647e3dfa7c415eb6c3ad263e1b305d2fa841fdc2f355a434260db0a16b40ab  mtpaint.desktop
+83e96a9b0d16e1c0e216788113de01cf0c948eb564117f0d3ef26e0ad101e353eff5a93f19c28522ee202cab2ca797e675f231e2e9d622cf4b17646dbcf5abb1  mtpaint-grab.desktop
+c07b2060e24d2d51f238895cb7d76ce09f35a0699f3a878e46909f2f18e515bfb35da66a171c84aa352e1c09e985f251a578a562b70e4c99144672754f1ecc06  mtpaint-doc
+e988f0163bf29c8cd6f7a6dac09155e97b3fd32319c2d0b01c79d3d529796a177776f949a5d4d3953769d3257bc984a882320f28107b12b74d5bee5c62ee02e8  mtpaintrc"

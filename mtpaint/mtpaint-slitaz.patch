@@ -1,0 +1,13 @@
+--- mtPaint-a9e445ef0167631363fe954bd3ea7aec7853ca1a/src/spawn.c.orig	2019-06-28 14:43:02.000000000 +0000
++++ mtPaint-a9e445ef0167631363fe954bd3ea7aec7853ca1a/src/spawn.c	2019-10-07 21:37:40.520955460 +0000
+@@ -424,8 +424,8 @@
+ 		{"View EXIF data (leafpad)", "exif %f | leafpad"},
+ 		{"View filesystem data (xterm)", "xterm -hold -e ls -l %f"},
+ 		{"Edit in Gimp", "gimp %f"},
+-		{"View in GQview", "gqview %f"},
+-		{"Print image", "kprinter %f"},
++		{"View in GPicview", "gpicview %f"},
++		{"Print image", "yad --print --type=IMAGE --print-add-preview --filename=%f"},
+ 		{"Email image", "seamonkey -compose attachment=file://%f"},
+ 		{"Send image to Firefox", "firefox %f"},
+ 		{"Send image to OpenOffice", "soffice %f"},

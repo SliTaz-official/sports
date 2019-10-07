@@ -1,0 +1,16 @@
+[Desktop Entry]
+Type=Application
+Name=mtPaint Image Editor
+Name[fr]=Editeur d'images mtPaint
+Name[pt]=Editor de Imagens mtPaint
+Name[pt_BR]=Editor de Imagens mtPaint
+Name[ru]=Редактор изображений mtPaint
+GenericName=Image Editor
+GenericName[ru]=Редактор изображений
+Comment=Painting program to create pixel art and manipulate digital photos
+Comment[fr]=Créer et modifier des images
+Comment[ru]=Создавайте пиксельную графику и редактируйте цифровые фотографии
+Exec=mtpaint %F
+Icon=mtpaint
+Categories=GTK;Graphics;2DGraphics;RasterGraphics;
+MimeType=image/bmp;image/x-bmp;image/x-ms-bmp;image/gif;image/jpeg;image/jpg;image/pjpeg;image/x-pcx;image/png;image/x-png;image/x-portable-anymap;image/x-portable-bitmap;image/x-portable-graymap;image/x-portable-pixmap;image/svg;image/svg+xml;image/x-tga;image/tiff;image/xbm;image/x-xbm;image/x-xbitmap;image/xpm;image/x-xpm;image/x-xpixmap;
