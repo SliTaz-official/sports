@@ -1,0 +1,47 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="gcolor2"
+pkgver="0.4"
+pkgrel=0
+pkgdesc="GTK+2 color selector"
+url="http://gcolor2.sourceforge.net/"
+arch="all"
+license="GPL2"
+makedepends="intltool perl-xml-parser gtk+2.0-dev file"
+subpackages="$pkgname-lang"
+source="https://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.gz
+	mawk.patch
+	gcolor2-slitaz.patch
+	ru.po
+	gcolor2.pot
+	gcolor2.desktop"
+options="!check"
+
+prepare() {
+	default_prepare
+
+	# Add Russian translations
+	cp "$srcdir"/*.po*    po
+	sed -i 's|@CATALOGS@|ru.gmo|; s|@CATOBJEXT@|.gmo|' po/Makefile.in.in
+}
+
+build() {
+	./configure \
+		--prefix=/usr
+	sed -i 's| -shared | -Wl,-Os,--as-needed\0|g' libtool
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	# provide desktop file
+	install -Dm644 "$srcdir/gcolor2.desktop" "$pkgdir/usr/share/applications/gcolor2.desktop"
+}
+
+sha512sums="9b9677b4be8797c9b03deef9bf1b96e6497d2adf85f74d01f1b478f04d92cb912790c4d5fb74f403295219cac6c0d3fcabaa7de340975bbcdb68b0347f6042a3  gcolor2-0.4.tar.gz
+549f92c166901cdc9b90c2beb8b6c77935a82baa39522d9ea27c3652db4b67951692cb177ca76f5e4059565491176da17d027dae81d5af8aa110edfab8c6bbb5  mawk.patch
+2b9d65b33d56dea6c52ded4aef4f4ba4aa00b6ba661dc837d50d2ec5e630d9322fc179aa3f103d7d52bf4e7bc28299e5efee1c2362e10bd7acb97a5cb3320e0f  gcolor2-slitaz.patch
+07c70fa148d5cfb078b3872d287ae66c71147f8bb3c6de71bcdeb40aed17c6f2c01c419821df0cc5c1c16a46481955e3f97f60f3b80e2aceb7d270d172da803c  ru.po
+6d6fef8be501eddb64ca6712f943f726b21a5ce2ef45b28e50233ecc69753b7c8dee75bc08ac75f2db0fc9e40ba352f13345737311acc35ae4524d82639e9abb  gcolor2.pot
+d2261eb056e4f6860f17e4dec20f9fef2dd4d62de613cfa738a75ef95280efb9dc6db01c2f4d55c41e8a75f686e3e546823727f1f47a30229f5117fd8ba10b0e  gcolor2.desktop"

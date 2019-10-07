@@ -1,0 +1,11 @@
+--- gcolor2-0.4/configure.orig	2005-07-07 17:23:04.000000000 +0000
++++ gcolor2-0.4/configure	2019-10-07 07:45:52.009918316 +0000
+@@ -6155,7 +6155,7 @@
+   exit 1
+ fi
+ gentoo_lt_version="1.5.18"
+-gentoo_ltmain_version=`grep '^[:space:]*VERSION=' $ltmain | sed -e 's|^[:space:]*VERSION=||'`
++gentoo_ltmain_version=`grep '^[[:space:]]*VERSION=' $ltmain | sed -e 's|^[[:space:]]*VERSION=||'`
+ if test "$gentoo_lt_version" != "$gentoo_ltmain_version"; then
+   echo "$as_me:$LINENO: result: no" >&5
+ echo "${ECHO_T}no" >&6
