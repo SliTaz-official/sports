@@ -1,0 +1,32 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="sakura"
+pkgver="3.6.0"
+pkgrel=0
+pkgdesc="Simple GTK+3 and VTE-based terminal emulator"
+url="http://www.pleyades.net/david/projects/sakura"
+arch="all"
+license="GPL2"
+makedepends="cmake glib-dev gtk+3.0-dev vte-dev pcre2-dev"
+subpackages="$pkgname-doc $pkgname-lang"
+source="https://launchpad.net/sakura/trunk/$pkgver/+download/$pkgname-$pkgver.tar.bz2"
+options="!check"
+
+prepare() {
+	sed -i '/TryExec/d; s|Icon=.*|Icon=utilities-terminal|' sakura.desktop
+}
+
+build() {
+	cmake . \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=RELEASE
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	rm -rf "$pkgdir/usr/share/pixmaps"
+}
+
+sha512sums="4b9d2c15305a2b9a193031194afc0b50deeb32ae52f8b13967801cd57aa71424d7dedf0a9aedf7470aef8b58d8341c85ae37ef67b941b8b97912eb845c5df08f  sakura-3.6.0.tar.bz2"
