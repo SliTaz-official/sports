@@ -1,0 +1,42 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="sakura2"
+_orig="sakura"
+pkgver="2.4.2"
+pkgrel=0
+pkgdesc="Simple GTK+2 and VTE-based terminal emulator"
+url="http://www.pleyades.net/david/projects/sakura"
+arch="all"
+license="GPL2"
+makedepends="cmake glib-dev gtk+2.0-dev vte028-dev"
+subpackages="$pkgname-doc $pkgname-lang"
+source="https://launchpad.net/sakura/trunk/$pkgver/+download/$_orig-$pkgver.tar.bz2
+	sakura-icon.patch
+	ru.po.patch
+	fr.po.patch
+	sakura.desktop.patch"
+builddir="$srcdir/$_orig-$pkgver"
+options="!check"
+
+build() {
+	cmake . \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=RELEASE \
+		-Wno-dev
+	sed -i 's/$/ -lncurses/' CMakeFiles/sakura.dir/link.txt
+	sed -i 's/-u//' CMakeLists.txt
+	sed -i 's/-u//' CMakeFiles/man.dir/build.make
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	rm -rf "$pkgdir/usr/share/pixmaps"
+}
+
+sha512sums="97a4721771d9512a9b78ddcde3425cf5dd08540ec15ef4236e032319db7db35149ba0223a64849aca70b9e5b091c9bdf237a7be852cb54b79f6d79ab17945d3b  sakura-2.4.2.tar.bz2
+537f0b1d15fa423413d80e0a4a1b08e7b8475d1618ddd94d4de1f4dc6702f2d566192fbf106fe27b368918d07a7ee66273414b5d35a69546c8e77370a68d4bb4  sakura-icon.patch
+95259245f0c6400d5dcda62ad45baed77e839f7bf324de453be59215e195d42ded1f96cf30faa66d062cc0d6e71b6a03e4dda54c54e03abea1160edb165f21ff  ru.po.patch
+08563cda17fd994025755731b80a55f73df2eb8ab2479156c9f0b2e206c1500bbbb33cc97f50f987b2942987cd52c2e687e0033f3ccaeeac008e2a71333ea5df  fr.po.patch
+35339ff5209058dd61dc3067182b2ddff727d2e4409f528765fea5e361a37c9753c74855fbb103d0d72f94ca4e55220e949f496cdde0742dc1d4e9b8dd305869  sakura.desktop.patch"

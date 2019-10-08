@@ -1,0 +1,19 @@
+--- sakura-2.4.2/sakura.desktop	2011-07-30 19:35:11.000000000 +0000
++++ ../sakura.desktop	2019-09-22 21:17:24.051310418 +0000
+@@ -1,10 +1,9 @@
+ [Desktop Entry]
+-Name=Sakura
+-Comment=Use the command line
+-TryExec=sakura
+-Exec=sakura
+-Icon=terminal-tango
+ Type=Application
+-Categories=GTK;Utility;TerminalEmulator;System;
++Name=Sakura Terminal
++Name[fr]=Terminal Sakura
++Name[ru]=Терминал Sakura
++Exec=sh -c 'sakura --sync'
++Icon=utilities-terminal
++Categories=GTK;System;TerminalEmulator;
+ StartupNotify=true
+-X-Ubuntu-Gettext-Domain=sakura
