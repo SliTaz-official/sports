@@ -1,0 +1,62 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="gettext"
+pkgver="0.20.1"
+pkgrel=0
+pkgdesc="Utilities for the GNU Translation Project"
+url="https://www.gnu.org/software/gettext/"
+arch="all"
+license="GPL3"
+subpackages="$pkgname-base $pkgname-lang $pkgname-doc $pkgname-dev" # lang, doc, then dev
+source="https://ftp.gnu.org/gnu/$pkgname/$pkgname-$pkgver.tar.xz
+	gettext.sh"
+options="!check"
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--disable-static
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	# stripped gettext.sh
+	install -m755 "$srcdir/gettext.sh" "$pkgdir/usr/bin/gettext.sh"
+}
+
+base() {
+	mkdir -p "$subpkgdir/usr/bin"
+	for i in gettext gettext.sh envsubst ngettext; do
+		mv "$pkgdir/usr/bin/$i" "$subpkgdir/usr/bin"
+	done
+	pkgdesc="$pkgdesc (base tools)"
+}
+
+dev() {
+	default_dev
+
+	mkdir -p "$subpkgdir/usr/bin"
+	for i in $(ls "$pkgdir"/usr/bin/); do
+		case $i in
+			msgcat|msgfmt|msgmerge|xgettext) ;;
+			*) mv "$pkgdir"/usr/bin/$i "$subpkgdir"/usr/bin/;;
+		esac
+	done
+
+	mkdir -p "$subpkgdir/usr/lib"
+	for i in $(ls "$pkgdir"/usr/lib/); do
+		case $i in
+			libgettextlib*|libgettextsrc*) ;;
+			*) mv "$pkgdir"/usr/lib/$i "$subpkgdir"/usr/lib/;;
+		esac
+	done
+
+	mkdir -p "$subpkgdir/usr/share"
+	mv "$pkgdir"/usr/share/gettext-${pkgver%.*} "$subpkgdir"/usr/share
+	rmdir "$pkgdir/usr/share" # become empty
+}
+
+sha512sums="82ffa5a28068272d0587262f8d9269f9629c601da5d122b6645c9c4cf98bfe4149df01bb58522ccf8fe25b931672e18551d7fb34de1cbf6a0463a87f9f8ee221  gettext-0.20.1.tar.xz
+2cc4d5a5c13266ecb4e1211cbe05492ffa3c78e5250188145cbe6ac831c0d20309519347a2e705446c29710bcf36935ea75ec42711199ff970e744267437932f  gettext.sh"
