@@ -1,0 +1,38 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="gcr"
+pkgver="3.28.1"
+pkgrel=0
+pkgdesc="Displaying certificates and accessing key stores"
+url="https://developer.gnome.org/gcr/"
+arch="all"
+license="GPL2"
+makedepends="intltool gtk-doc gobject-introspection-dev gtk+3.0-dev vala
+	p11-kit-dev libgcrypt-dev"
+subpackages="$pkgname-base $pkgname-dev $pkgname-doc $pkgname-lang"
+source="https://download.gnome.org/sources/$pkgname/${pkgver%.*}/$pkgname-$pkgver.tar.xz"
+options="!check"
+
+prepare() {
+	sed -i -r 's:"(/desktop):"/org/gnome\1:' schema/*.xml
+}
+
+build() {
+	./configure \
+		--prefix=/usr
+	sed -i 's| -shared | -Wl,-Os,--as-needed\0|g' libtool
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+base() {
+	mkdir -p "$subpkgdir/usr/lib"
+	mv "$pkgdir"/usr/lib/libgcr-base-3.so.* "$subpkgdir/usr/lib"
+	mv "$pkgdir"/usr/lib/libgck-1.so.*      "$subpkgdir/usr/lib"
+	pkgdesc="$pkgdesc (base files)"
+}
+
+sha512sums="ae36c39584d6bc2ba9d86de8bc71eac21fb3251b966ab1eddf467d01ed5789ba6e6597c83ea2ed9403e632893e7c7cb6c17e04878d726b72528af9199bebb3da  gcr-3.28.1.tar.xz"
