@@ -1,0 +1,58 @@
+# Contributor: Max Rees <maxcrees@me.com>
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="terminus-font"
+pkgver="4.48"
+pkgrel=0
+pkgdesc="Monospace bitmap font"
+url="http://terminus-font.sourceforge.net/"  # No HTTPS
+arch="noarch"
+license="OFL-1.1"
+depends=""
+makedepends="bdftopcf python3"
+subpackages="$pkgname-x11 $pkgname-base"
+source="https://downloads.sourceforge.net/$pkgname/$pkgname-$pkgver.tar.gz
+	terminus.conf.patch"
+options="!check"  # Fonts have no test suite
+
+prepare() {
+	default_prepare
+
+	for i in dv1 gq2 ij1 ll2 br1; do
+		patch -Np1 -i alt/$i.diff
+	done
+}
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--psfdir=/usr/share/consolefonts \
+		--x11dir=/usr/share/fonts/X11/misc
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	install -Dm644 "$builddir"/75-yes-terminus.conf \
+		"$pkgdir"/etc/fonts/conf.avail/75-yes-terminus.conf
+	install -d "$pkgdir"/etc/fonts/conf.d
+	ln -s /etc/fonts/conf.avail/75-yes-terminus.conf \
+		"$pkgdir"/etc/fonts/conf.d/75-yes-terminus.conf
+}
+
+x11() {
+	mkdir -p "$subpkgdir"/usr/share
+	mv "$pkgdir"/usr/share/fonts "$subpkgdir"/usr/share
+	mv "$pkgdir"/etc             "$subpkgdir"
+	pkgdesc="$pkgdesc (Xorg pcf fonts)"
+}
+
+base() {
+	mkdir -p "$subpkgdir"/usr/share/consolefonts
+	mv "$pkgdir"/usr/share/consolefonts/ter-v* "$subpkgdir"/usr/share/consolefonts
+	pkgdesc="$pkgdesc (base console fonts)"
+}
+
+sha512sums="5f45f7d0e7396f02158f4751aaafb3f0a3fb68dbe3e5501f86a5138c6d52f5106053e38c368d560e5979e29250074dbde5165702b8905a564d029663a2219af4  terminus-font-4.48.tar.gz
+a83fb2579b07699e4d974d62fcf0096ac89761ba1bbf853a6f6151b03e5a57374ac438d4bb6b00a33832ac81e52313623fe9d40a4ed18af627ba06525ff004ee  terminus.conf.patch"

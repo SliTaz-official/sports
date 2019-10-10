@@ -1,0 +1,12 @@
+--- terminus-font-4.48/75-yes-terminus.conf.orig	2014-10-12 19:26:56.000000000 +0000
++++ terminus-font-4.48/75-yes-terminus.conf	2019-09-25 14:54:00.684309138 +0000
+@@ -9,4 +9,9 @@
+    </pattern>
+   </acceptfont>
+  </selectfont>
++ <alias>
++  <family>xos4 Terminus</family>
++  <prefer><family>Terminus</family></prefer>
++  <default><family>fixed</family></default>
++ </alias>
+ </fontconfig>
