@@ -1,0 +1,155 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="gvfs"
+pkgver="1.42.1"
+pkgrel=0
+pkgdesc="Userspace virtual filesystem"
+url="https://wiki.gnome.org/Projects/gvfs"
+arch="all"
+license="LGPL-2.0-or-later"
+depends="gsettings-desktop-schemas"
+makedepends="meson ninja shared-mime-info libxslt-dev glib-dev gtk-doc
+	docbook-xsl dbus-dev gcr-dev libcap-dev libgphoto2-dev libarchive-dev
+	libsoup-dev libcdio-paranoia-dev libmtp-dev fuse3-dev udisks2-dev
+	gtk+3.0-dev libbluray-dev libgudev-dev libsecret-dev libxml2-dev
+	openssh-client libnfs-dev expat-dev libgcrypt-dev libusb-dev
+	gsettings-desktop-schemas-dev"
+triggers="$pkgname.trigger=/usr/libexec/gvfs"
+subpackages="$pkgname-dev $pkgname-lang $pkgname-doc
+	$pkgname-admin
+	$pkgname-afp
+	$pkgname-archive
+	$pkgname-cdda
+	$pkgname-dav
+	$pkgname-fuse
+	$pkgname-gphoto2
+	$pkgname-gtk
+	$pkgname-mtp
+	$pkgname-nfs
+	$pkgname-udisks2
+	"
+source="https://download.gnome.org/sources/gvfs/${pkgver%.*}/$pkgname-$pkgver.tar.xz
+	disable-msgfmt"
+
+build() {
+	meson \
+		-Dprefix=/usr \
+		--buildtype=release \
+		build \
+		-Dsystemduserunitdir=no \
+		-Dtmpfilesdir=no \
+		\
+		-Dadmin=true         -Dafc=false              -Dafp=true \
+		-Darchive=true       -Dcdda=true              -Ddnssd=false \
+		-Dgoa=false          -Dgoogle=false           -Dgphoto2=true \
+		-Dhttp=true          -Dmtp=true               -Dnfs=true \
+		-Dsftp=true          -Dsmb=false              -Dudisks2=true \
+		\
+		-Dbluray=true        -Dfuse=true              -Dgcr=true \
+		-Dgcrypt=true        -Dgudev=true             -Dkeyring=true \
+		-Dlogind=false       -Dlibusb=true \
+		\
+		-Ddevel_utils=false  -Dinstalled_tests=false  -Dman=true
+
+	# msgfmt XML error: https://github.com/sabotage-linux/gettext-tiny/issues/36
+	cp build/daemon/org.gtk.vfs.file-operations.policy.in \
+	   build/daemon/org.gtk.vfs.file-operations.policy
+	patch -p1 -i "$srcdir"/disable-msgfmt
+
+	ninja -C build
+}
+
+check() {
+	ninja -C build test
+}
+
+package() {
+	DESTDIR="$pkgdir" ninja -C build install
+}
+
+_move() {
+	cd "$pkgdir"
+	IFS=$'\n'
+	for i in $@; do
+		find ! -type d -path "*/$i" \
+		| sed 's|^.||'
+	done \
+	| sort -u \
+	| while read i; do
+		mkdir -p "$subpkgdir"/${i%/*}
+		mv "$pkgdir$i" "$subpkgdir"/${i%/*}
+	done
+}
+
+admin() {
+	pkgdesc="$pkgdesc (admin backend)"
+	_move gvfsd-admin admin.mount
+}
+
+afp() {
+	pkgdesc="$pkgdesc (Apple Filing Protocol support - afp:///)"
+	_move gvfsd-afp afp.mount gvfsd-afp-browse afp-browse.mount
+}
+
+archive() {
+	pkgdesc="$pkgdesc (archive support - archive:///)"
+	_move gvfsd-archive archive.mount
+}
+
+cdda() {
+	pkgdesc="$pkgdesc (CDDA support)"
+	_move gvfsd-cdda cdda.mount
+}
+
+dav() {
+	pkgdesc="$pkgdesc (HTTP/WebDAV support)"
+	_move gvfsd-dav dav.mount gvfsd-http http.mount
+}
+
+fuse() {
+	pkgdesc="$pkgdesc (FUSE support)"
+	_move gvfsd-fuse
+}
+
+goa() {
+	pkgdesc="$pkgdesc (GOA support)"
+	_move gvfs-goa-volume-monitor *.GoaVolumeMonitor.service goa.monitor
+}
+
+google() {
+	pkgdesc="$pkgdesc (Google support)"
+	_move gvfsd-google google.mount
+}
+
+gphoto2() {
+	pkgdesc="$pkgdesc (Gphoto2 support)"
+	_move gvfsd-gphoto2 gphoto2.mount gvfs-gphoto2-volume-monitor *.GPhoto2VolumeMonitor.service gphoto2.monitor
+}
+
+gtk() {
+	pkgdesc="$pkgdesc (recent files support (GTK+3) - recent:///)"
+	_move gvfsd-recent recent.mount
+}
+
+mtp() {
+	pkgdesc="$pkgdesc (MTP support)"
+	_move gvfsd-mtp mtp.mount gvfs-mtp-volume-monitor *.MTPVolumeMonitor.service mtp.monitor
+}
+
+nfs() {
+	pkgdesc="$pkgdesc (NFS support - nfs:///)"
+	_move gvfsd-nfs nfs.mount
+}
+
+smb() {
+	pkgdesc="$pkgdesc (Samba support - smb:///)"
+	_move gvfsd-smb smb.mount gvfsd-smb-browse smb-browse.mount gvfs-smb.convert *.smb.gschema.xml
+}
+
+udisks2() {
+	pkgdesc="$pkgdesc (Udisks2 volume monitor)"
+	_move gvfs-udisks2-volume-monitor *.UDisks2VolumeMonitor.service udisks2.monitor
+}
+
+sha512sums="6e4833e04d8caa977ef6def91a49fbaa0b634ef8227583411766dfb4998916caabe59c863435023661d76b19b45f8c5613ca0ee2dea222161c2b2bdbf07c7167  gvfs-1.42.1.tar.xz
+19ead978eaec2383c122bde7e6d14f48bfbe8ca961782f91a337c3ab7f7139bf9a7b6b00cd0fae8f092d7a8ebe3e40f7424a37d524c70e8bed36bda439a2876e  disable-msgfmt"

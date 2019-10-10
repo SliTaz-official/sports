@@ -1,0 +1,9 @@
+--- gvfs-1.42.1/build/build.ninja.orig	2019-10-09 17:31:29.116953765 +0000
++++ gvfs-1.42.1/build/build.ninja	2019-10-09 17:35:04.447118454 +0000
+@@ -452,3 +452,3 @@
+-build daemon/org.gtk.vfs.file-operations.policy: CUSTOM_COMMAND daemon/org.gtk.vfs.file-operations.policy.in
+- COMMAND = /usr/bin/meson --internal msgfmthelper daemon/org.gtk.vfs.file-operations.policy.in daemon/org.gtk.vfs.file-operations.policy xml /home/slitaz/slitaz/gvfs/src/gvfs-1.42.1/po
+- description = Generating$ org.gtk.vfs.file-operations.policy_daemon_merge$ with$ a$ custom$ command.
++#build daemon/org.gtk.vfs.file-operations.policy: CUSTOM_COMMAND daemon/org.gtk.vfs.file-operations.policy.in
++# COMMAND = /usr/bin/meson --internal msgfmthelper daemon/org.gtk.vfs.file-operations.policy.in daemon/org.gtk.vfs.file-operations.policy xml /home/slitaz/slitaz/gvfs/src/gvfs-1.42.1/po
++# description = Generating$ org.gtk.vfs.file-operations.policy_daemon_merge$ with$ a$ custom$ command.
