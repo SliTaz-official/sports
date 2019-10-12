@@ -1,0 +1,11 @@
+--- iniparser-4.1/Makefile.orig	2017-11-02 09:09:15.000000000 +0000
++++ iniparser-4.1/Makefile	2019-10-12 10:06:07.759085811 +0000
+@@ -21,7 +21,7 @@
+ 
+ SHLD = ${CC} ${CFLAGS}
+ LDSHFLAGS = -shared -Wl,-Bsymbolic
+-LDFLAGS += -Wl,-rpath -Wl,/usr/lib -Wl,-rpath,/usr/lib
++#LDFLAGS += -Wl,-rpath -Wl,/usr/lib -Wl,-rpath,/usr/lib
+ 
+ # .so.0 is for version 3.x, .so.1 is 4.x
+ SO_TARGET ?= libiniparser.so.1
