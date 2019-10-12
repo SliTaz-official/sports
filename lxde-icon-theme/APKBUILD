@@ -1,0 +1,37 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="lxde-icon-theme"
+pkgver="0.5.1"
+pkgrel=0
+pkgdesc="LXDE standard icon theme"
+url="https://lxde.org/"
+arch="noarch"
+license="LGPL3"
+depends="$pkgname-base"
+subpackages="$pkgname-base"
+source="https://downloads.sourceforge.net/lxde/$pkgname-$pkgver.tar.xz"
+options="!check"
+
+build() {
+	./configure \
+		--prefix=/usr
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	find "$pkgdir" -type f -name placeholder -delete
+}
+
+base() {
+	mkdir -p "$subpkgdir"/usr/share/icons/nuoveXT2
+	mv "$pkgdir"/usr/share/icons/nuoveXT2/16x16 \
+	   "$pkgdir"/usr/share/icons/nuoveXT2/48x48 \
+	   "$pkgdir"/usr/share/icons/nuoveXT2/index.theme \
+	   "$subpkgdir"/usr/share/icons/nuoveXT2
+	pkgdesc="$pkgdesc (16 and 48 sizes only)"
+	depends="hicolor-icon-theme"
+}
+
+sha512sums="4ae0e7efd610bc68c4fec2fa00e83b4cc61a313fa4207c213d592f7c8f40bda79117e45dfe7df537baddc8834a55f8ab8864918655136d938a7201c7520597b5  lxde-icon-theme-0.5.1.tar.xz"
