@@ -1,0 +1,48 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="isomaster"
+pkgver="1.3.14"
+pkgrel=0
+pkgdesc="Graphical CD image (ISO) editor"
+url="http://littlesvr.ca/isomaster/"
+arch="all"
+license="GPL2"
+makedepends="gtk+2.0-dev iniparser-dev"
+subpackages="$pkgname-doc $pkgname-lang"
+source="http://littlesvr.ca/isomaster/releases/$pkgname-$pkgver.tar.bz2
+	isomaster.desktop
+	skel-isomaster"
+options="!check"
+
+prepare() {
+	rm -r iniparser-4.1/
+}
+
+build() {
+	make \
+		PREFIX=/usr \
+		USE_SYSTEM_INIPARSER=1
+}
+
+package() {
+	make \
+		PREFIX=/usr \
+		USE_SYSTEM_INIPARSER=1 \
+		DESTDIR="$pkgdir" \
+		install
+
+	mkdir -p "$pkgdir"/usr/share/icons/hicolor/64x64/apps/
+	ln -s ../../../../isomaster/icons/isomaster.png \
+		"$pkgdir"/usr/share/icons/hicolor/64x64/apps/isomaster.png
+
+	install -Dm644 "$srcdir"/isomaster.desktop "$pkgdir"/usr/share/applications/isomaster.desktop
+	install -Dm644 "$srcdir"/skel-isomaster    "$pkgdir"/etc/skel/.isomaster
+
+	docdir="$pkgdir"/usr/share/doc/$pkgname-$pkgver
+	mkdir -p "$docdir"
+	cp README.TXT CHANGELOG.TXT "$docdir"
+}
+
+sha512sums="5454baa4ce4e09df8ec4331718df3e1d81c0647867a21cfc4c4b15d90e509371a636e8fada7e624c0cf6d1b03b564bf89a2a26e13b5ec1b4cca91407bbc518f5  isomaster-1.3.14.tar.bz2
+bdfa67d83370b1c6cd38ec40c216c38933d0172ce74faf50ce71b1b70cc1d34f23935744584bc2b75b13ac34cb9036bdd2d506b99ecb10d18ab648694a845d08  isomaster.desktop
+fa6057819c5960fe8f12435e862a589e97cc4a178e7333c5de9968dd7454aeb381a502b94d07949b0cff81750a2951967237bdb0cf85139188561349eeb56349  skel-isomaster"
