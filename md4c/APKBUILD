@@ -1,0 +1,51 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="md4c"
+pkgver="0.3.4"
+pkgrel=0
+pkgdesc="C Markdown parser"
+url="https://github.com/mity/md4c/"
+arch="all"
+license="MIT"
+makedepends="chrpath"
+checkdepends="python3"
+subpackages="$pkgname-dev"
+source="$pkgname-$pkgver.tar.gz::https://github.com/mity/md4c/archive/release-$pkgver.tar.gz
+	pc.patch"
+builddir="$srcdir/$pkgname-release-$pkgver"
+
+prepare() {
+	default_prepare
+	mkdir build
+}
+
+build() {
+	cd build
+	cmake .. \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib \
+		-DBUILD_SHARED_LIBS=OFF \
+		-DCMAKE_BUILD_TYPE=MinSizeRel
+	make
+
+	# By default it make shared library.
+	# "MinSizeRel" minimize binary and library sizes comparing to "Release":
+	# bin: 132832 -> 124640, lib: 75408 -> 46736
+
+	# By disabling shared library (-DBUILD_SHARED_LIBS=OFF):
+	# bin: 202464 -> 165600, lib: absent
+}
+
+check() {
+	cd build
+	../scripts/run-tests.sh
+}
+
+package() {
+	make -C build DESTDIR="$pkgdir" install
+
+	chrpath -d "$pkgdir"/usr/bin/md2html # Fix RPATH
+}
+
+sha512sums="a469012dce112db261867d9cf881c83375c00b4aa7ee5c4725107496f918724266d95ac9e368945848528010ff45964df6ab4e396c4ea4cd0a07727b98daec17  md4c-0.3.4.tar.gz
+d6d843247b6e0fdaa9a8962580ef2d1647d44dcea5e9ef0c0ee82115dd4d652da8fc235c503f02ffe2ab44278510e0952b25894e734ce4f3ef5a7fc2e61237bd  pc.patch"

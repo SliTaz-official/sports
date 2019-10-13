@@ -1,0 +1,19 @@
+Setting of following variables will fill "Description:" and "Version:" fields
+in the pc file.
+
+--- md4c-release-0.3.4/CMakeLists.txt.orig	2019-06-19 15:04:48.000000000 +0000
++++ md4c-release-0.3.4/CMakeLists.txt	2019-10-13 22:04:59.038060356 +0000
+@@ -1,11 +1,13 @@
+ 
+ cmake_minimum_required(VERSION 3.4)
+ project(MD4C C)
++set(PROJECT_DESCRIPTION "Markdown for C")
+ 
+ set(MD_VERSION_MAJOR 0)
+ set(MD_VERSION_MINOR 3)
+ set(MD_VERSION_RELEASE 4)
+ set(MD_VERSION "${MD_VERSION_MAJOR}.${MD_VERSION_MINOR}.${MD_VERSION_RELEASE}")
++set(PROJECT_VERSION ${MD_VERSION})
+ 
+ if(WIN32)
+     # On Windows, given there is no standard lib install dir etc., we rather
