@@ -1,0 +1,21 @@
+--- lsb-release-1.4/Makefile.orig	2000-11-06 06:34:36.000000000 +0000
++++ lsb-release-1.4/Makefile	2019-10-14 20:38:11.843149855 +0000
+@@ -8,8 +8,8 @@
+ # This is $Revision: 1.5 $
+ 
+ # Config
+-prefix=/usr/local
+-mandir=${prefix}/man
++prefix=/usr
++mandir=${prefix}/share/man
+ 
+ all: man
+ 
+@@ -20,5 +20,5 @@
+ 	@gzip -9f lsb_release.1
+ 
+ install: all
+-	install -D -m 644 lsb_release.1.gz ${mandir}/man1/lsb_release.1.gz
+-	install -D -m 755 lsb_release ${prefix}/bin/lsb_release
++	install -D -m 644 lsb_release.1.gz $(DESTDIR)${mandir}/man1/lsb_release.1.gz
++	install -D -m 755 lsb_release      $(DESTDIR)${prefix}/bin/lsb_release

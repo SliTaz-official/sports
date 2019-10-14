@@ -1,0 +1,34 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="lsb-release"
+pkgver="1.4"
+pkgrel=0
+pkgdesc="Linux Standards Base (LSB) status of the distribution"
+url="https://wiki.linuxfoundation.org/lsb/start"
+arch="noarch"
+license="GPL-2.0-or-later"
+makedepends="perl"
+subpackages="$pkgname-doc"
+source="https://downloads.sourceforge.net/lsb/$pkgname-$pkgver.tar.gz
+	lsb-release
+	make.patch"
+options="!check"
+
+prepare() {
+	default_prepare
+	sed -i "s|n/a|unavailable|" lsb_release
+}
+
+build() {
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	install -Dm644 "$srcdir"/lsb-release "$pkgdir"/etc/lsb-release
+}
+
+sha512sums="84f6f8794380463587005043f601b7a40190cd9e3409abff7f5ce7658cf029a14346eff87838296d90307192bdeff68cc00480c5c04814da7acdb3e220640fde  lsb-release-1.4.tar.gz
+bdad6f7dca30d160af05886e42b9e661a59272d82fb88a325f31b116b0d58b9c6e574fb21218c61e8273e270dc9701aa3b0ede72ab650480964531e69b859da1  lsb-release
+f85891e09f2fb06a13f69c2cc56eaf79fe0ba610b30bdbd0a01ce552fde30aec768afd6fc4cd7709a28ac10b029aae0548738c9d6f0daa7684495cc7fe203020  make.patch"
