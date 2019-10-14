@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=XSession
+Name=JWM
+Comment=JWM Desktop
+Comment[fr]=Bureau JWM
+Comment[ru]=Рабочий стол JWM
+Exec=jwm

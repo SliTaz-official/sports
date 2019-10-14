@@ -1,0 +1,56 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="jwm"
+pkgver="2.3.7"
+pkgrel=0
+pkgdesc="A lightweight window manager for the X11 Window System"
+url="http://joewing.net/projects/jwm/"
+arch="all"
+license="MIT"
+depends="slitaz-configs-base xload xclock imlib2 hsetroot compton nano"
+makedepends="libx11-dev libpng-dev libjpeg-turbo-dev cairo-dev librsvg-dev
+	freetype-dev libxft-dev libxrender-dev fribidi-dev libxpm-dev libxmu-dev
+	libxinerama-dev libxslt libxml2 which"
+install="$pkgname.post-install $pkgname.post-deinstall"
+subpackages="$pkgname-doc $pkgname-lang"
+source="http://joewing.net/projects/jwm/releases/$pkgname-$pkgver.tar.xz
+	simple.jwmrc
+	slitaz.jwmrc
+	jwm.desktop"
+options="!check"
+
+prepare() {
+	sed -i '/^ICONS/ s|$| jwm-red.svg|' contrib/Makefile.in
+}
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--sysconfdir=/etc/xdg/jwm \
+		--disable-rpath
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	# Store original author settings
+	mv "$pkgdir"/etc/xdg/jwm/system.jwmrc "$pkgdir"/etc/xdg/jwm/original.jwmrc
+
+	# Convert 2.2 to 2.3 SliTaz JWM settings, pretty-print and install them
+	export XMLLINT_INDENT=$'\t'
+	for i in simple slitaz; do
+		xsltproc xslt/jwm-2.3.xslt "$srcdir"/$i.jwmrc \
+		| sed 's|^[ \t]||g' \
+		| xmllint --format - \
+		> "$pkgdir"/etc/xdg/jwm/${i/slitaz/system}.jwmrc
+	done
+
+	# Autostart
+	install -Dm644 "$srcdir"/jwm.desktop "$pkgdir"/usr/share/xsessions/jwm.desktop
+}
+
+sha512sums="dab0241518e52aa2e3e1ef3f67b6965ceb683bdb0224de7d3a653d76440606d70e86e35047eda40ea53a80aa227408be77739ad7c53d51f53026e3d113ab7efc  jwm-2.3.7.tar.xz
+915488053e4a3c207e964ae3cd8399fcae0cbaeab8eb491c4fbf9b421d1563a93d3bcc5d285b35a69602e99cd88354cca5e166839161bc0423e3184249a266cb  simple.jwmrc
+0f4dd7ae0fff2a65b5112dd86688a170663de812583e5a2e6071c213fbe4e4b9c0b6ed78c0e26931586fbae1265bfb40fc3ae8f80c9f62881b5a7a911b9363cf  slitaz.jwmrc
+5e4ea01153c81ec3f1ba4d645556617628fc8acd96d60eb4a314347848a71cd22c6c139b7f1638e8532d66b0dce2defcc68722674835226c336489fbb2723b27  jwm.desktop"
