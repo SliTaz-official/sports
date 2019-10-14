@@ -1,0 +1,23 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="hsetroot"
+pkgver="1.0.4"
+pkgrel=0
+pkgdesc="Tool to set desktop wallpaper"
+url="https://github.com/himdel/hsetroot"
+arch="all"
+license="GPL-2.0"
+makedepends="libx11-dev imlib2-dev libxinerama-dev"
+source="$pkgname-$pkgver.tar.gz::https://github.com/himdel/$pkgname/archive/$pkgver.tar.gz"
+options="!check"
+
+build() {
+	LDFLAGS="$LDFLAGS,--no-as-needed" make
+}
+
+package() {
+	install -Dm755 hsetroot    "$pkgdir"/usr/bin/hsetroot
+	install -Dm755 hsr-outputs "$pkgdir"/usr/bin/hsr-outputs
+}
+
+sha512sums="15c8c84c61d2f39ab75c225bc170e10bc5abf73ddc6474044701dc6bd86a03fb1cfc0dd94f655b66b62463730372db8191c875fa1b2e90038eb356c0465ff4bd  hsetroot-1.0.4.tar.gz"
