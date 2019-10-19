@@ -1,0 +1,22 @@
+--- a/README.md
++++ b/README.md
+@@ -53,6 +53,7 @@
+ `argon2` is a command-line utility to test specific Argon2 instances
+ on your system. To show usage instructions, run
+ `./argon2 -h` as
++
+ ```
+ Usage:  ./argon2 [-h] salt [-i|-d|-id] [-t iterations] [-m memory] [-p parallelism] [-l hash length] [-e|-r] [-v (10|13)]
+         Password is read from stdin
+@@ -70,9 +71,11 @@
+         -v (10|13)      Argon2 version (defaults to the most recent version, currently 13)
+         -h              Print argon2 usage
+ ```
++
+ For example, to hash "password" using "somesalt" as a salt and doing 2
+ iterations, consuming 64 MiB, using four parallel threads and an output hash
+ of 24 bytes
++
+ ```
+ $ echo -n "password" | ./argon2 somesalt -t 2 -m 16 -p 4 -l 24
+ Type:           Argon2i

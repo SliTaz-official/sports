@@ -1,0 +1,50 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="argon2"
+pkgver="20171227"
+pkgrel=0
+pkgdesc="Password-hashing function (reference C implementation)"
+url="https://github.com/P-H-C/phc-winner-argon2"
+arch="all"
+license="Apache"
+subpackages="$pkgname-dev $pkgname-doc lib$pkgname:_lib"
+source="$pkgname-$pkgver.tar.gz::https://github.com/P-H-C/phc-winner-argon2/archive/$pkgver.tar.gz
+	libargon2.pc.in
+	README.patch"
+builddir="$srcdir/phc-winner-argon2-$pkgver"
+
+prepare() {
+	default_prepare
+
+	# Make pkg-config file
+	sed "s|@VERSION@|$pkgver|" "$srcdir"/libargon2.pc.in >libargon2.pc
+}
+
+build() {
+	make OPTTARGET=none
+}
+
+check() {
+	make test
+}
+
+package() {
+	make OPTTARGET=none DESTDIR="$pkgdir" install
+	install -Dm644 libargon2.pc "$pkgdir"/usr/lib/pkgconfig/libargon2.pc
+
+	install -Dm644 man/argon2.1 "$pkgdir"/usr/share/man/man1/argon2.1
+
+	docdir="$pkgdir"/usr/share/doc/$pkgname-$pkgver
+	mkdir -p "$docdir"
+	cp README.md argon2-specs.pdf "$docdir"
+}
+
+_lib() {
+	mkdir -p "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/*.so.* "$subpkgdir"/usr/lib
+	pkgdesc="$pkgdesc (shared library)"
+}
+
+sha512sums="9c9e1a3905e61ac6913d1e073c104477e419ddd0506adc4487e88e98d19165ed8901fe8bb11246ed0cc71b3523c190da9692d5926642f86be09c3e67510afe4d  argon2-20171227.tar.gz
+87f6fc7ed059fe5fe77328869d4a8c58503c095f7560f54a7339a729999b79b090fabfb55821ccc2ce1b96f86316add691f540623637a80ea6437e99961d57c4  libargon2.pc.in
+eef8960112e5620fa97e2284614f76d7fcb1193afadec08d2bd7315f40dc70dfc1040b6f4823d0b00a21622069f557405c13856138e114c552c82123185c1fcb  README.patch"
