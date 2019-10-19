@@ -2,12 +2,12 @@
 # Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
 pkgname="argon2"
 pkgver="20171227"
-pkgrel=0
+pkgrel=1
 pkgdesc="Password-hashing function (reference C implementation)"
 url="https://github.com/P-H-C/phc-winner-argon2"
 arch="all"
 license="Apache"
-subpackages="$pkgname-dev $pkgname-doc lib$pkgname:_lib"
+subpackages="$pkgname-dev $pkgname-doc $pkgname-libs"
 source="$pkgname-$pkgver.tar.gz::https://github.com/P-H-C/phc-winner-argon2/archive/$pkgver.tar.gz
 	libargon2.pc.in
 	README.patch"
@@ -37,12 +37,6 @@ package() {
 	docdir="$pkgdir"/usr/share/doc/$pkgname-$pkgver
 	mkdir -p "$docdir"
 	cp README.md argon2-specs.pdf "$docdir"
-}
-
-_lib() {
-	mkdir -p "$subpkgdir"/usr/lib
-	mv "$pkgdir"/usr/lib/*.so.* "$subpkgdir"/usr/lib
-	pkgdesc="$pkgdesc (shared library)"
 }
 
 sha512sums="9c9e1a3905e61ac6913d1e073c104477e419ddd0506adc4487e88e98d19165ed8901fe8bb11246ed0cc71b3523c190da9692d5926642f86be09c3e67510afe4d  argon2-20171227.tar.gz
