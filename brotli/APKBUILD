@@ -1,0 +1,47 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Pascal Bellard <pascal.bellard@slitaz.org>
+pkgname="brotli"
+pkgver="1.0.7"
+pkgrel=0
+pkgdesc="A generic-purpose lossless compression algorithm"
+url="https://github.com/google/brotli"
+arch="all"
+license="MIT"
+makedepends="cmake python3-dev"
+subpackages="$pkgname-static $pkgname-dev $pkgname-doc $pkgname-libs $pkgname-python:_python"
+source="$pkgname-$pkgver.tar.gz::https://github.com/google/brotli/archive/v$pkgver.tar.gz"
+options="!check"
+
+prepare() {
+	mkdir build
+}
+
+build() {
+	cd build
+	cmake .. \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+	make
+}
+
+package() {
+	cd build
+	make DESTDIR="$pkgdir" install
+
+	docdir="$pkgdir"/usr/share/doc/$pkgname-$pkgver
+	mkdir -p "$docdir"
+	cp "$builddir"/docs/*.pdf "$docdir"
+
+	mkdir -p "$pkgdir"/usr/share/man/man1 "$pkgdir"/usr/share/man/man3
+	cp "$builddir"/docs/*.1 "$pkgdir"/usr/share/man/man1
+	cp "$builddir"/docs/*.3 "$pkgdir"/usr/share/man/man3
+}
+
+_python() {
+	cd "$builddir"
+	python3 -B setup.py install --root="$subpkgdir"
+	pkgdesc="$pkgdesc (use in Python3)"
+}
+
+sha512sums="a82362aa36d2f2094bca0b2808d9de0d57291fb3a4c29d7c0ca0a37e73087ec5ac4df299c8c363e61106fccf2fe7f58b5cf76eb97729e2696058ef43b1d3930a  brotli-1.0.7.tar.gz"
