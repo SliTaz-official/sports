@@ -1,0 +1,30 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="fdk-aac"
+pkgver="0.1.6"
+pkgrel=0
+pkgdesc="High quality Advanced Audio Coding library"
+url="https://sourceforge.net/projects/opencore-amr/"
+arch="all"
+license="Apache2"
+subpackages="$pkgname-dev $pkgname-doc"
+source="https://downloads.sourceforge.net/opencore-amr/$pkgname-$pkgver.tar.gz"
+options="!check"
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--disable-static
+	sed -i 's| -shared | -Wl,-Os,--as-needed\0|g' libtool
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+
+	docdir="$pkgdir"/usr/share/doc/$pkgname-$pkgver
+	mkdir -p "$docdir"
+	cp documentation/* "$docdir"
+}
+
+sha512sums="d4d14debeb6e424f4e2a1458ed7bebaa2c45ce54170c6e679286fd965f52286b6a6c1e944edbb4ea2302c3bb789c0f3cdab9c0d89618014ba4250b2f04d71d12  fdk-aac-0.1.6.tar.gz"
