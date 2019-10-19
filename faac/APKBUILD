@@ -1,0 +1,26 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Paul Issot <paul@slitaz.org>
+pkgname="faac"
+pkgver="1.29.9.2"
+pkgrel=0
+pkgdesc="Open source MPEG-4 and MPEG-2 AAC encoder"
+url="https://www.audiocoding.com/"
+arch="all"
+license="GPL-2.0"
+subpackages="$pkgname-dev $pkgname-doc"
+source="https://downloads.sourceforge.net/faac/$pkgname-$pkgver.tar.gz"
+options="!check"
+
+build() {
+	./configure \
+		--prefix=/usr \
+		--disable-static
+	sed -i 's| -shared | -Wl,-Os,--as-needed\0|g' libtool
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" install
+}
+
+sha512sums="71aaf060d087e866700a3a7c7d447e85709f65709e148610c4b34f5a3e095fa4a5c19f49450610949fd7db12345422b8a116a1d061899c127ad9a1bc30e79c7c  faac-1.29.9.2.tar.gz"
