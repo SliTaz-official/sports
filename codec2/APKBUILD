@@ -1,0 +1,45 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Pascal Bellard <pascal.bellard@slitaz.org>
+pkgname="codec2"
+# no releases available on this GitHub repo; get version major.minor from CMakeLists.txt
+pkgver="0.9_p20191009"
+_commit="34292702a68102a70f8367f1feab9f39ef17ce7c"
+pkgrel=0
+pkgdesc="An open source low bit rate speech codec"
+url="https://github.com/drowe67/codec2"
+arch="all"
+license="LGPL-2.1"
+makedepends="cmake libsamplerate-dev speex-dev"
+subpackages="$pkgname-dev $pkgname-doc lib$pkgname:_lib"
+source="$pkgname-$pkgver.tar.gz::https://github.com/drowe67/codec2/archive/$_commit.tar.gz"
+builddir="$srcdir/$pkgname-$_commit"
+options="!check"
+
+prepare() {
+	mkdir build
+}
+
+build() {
+	cd build
+	cmake .. \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_INSTALL_LIBDIR=lib
+}
+
+package() {
+	cd build
+	make DESTDIR="$pkgdir" install
+
+	docdir="$pkgdir"/usr/share/doc/$pkgname-$pkgver
+	mkdir -p "$docdir"
+	cp ../README* ../INSTALL "$docdir"
+}
+
+_lib() {
+	mkdir -p "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/*.so.* "$subpkgdir"/usr/lib
+	pkgdesc="$pkgdesc (shared library)"
+}
+
+sha512sums="0e30e6f5a4378471bea02c5a06688bc920fd7fd7f602a30156cabd8c5ffd59063deb40db633d8f14ca3e235393769f6d6f4d9ca37e62925daf5b0a317e88fc56  codec2-0.9_p20191009.tar.gz"
