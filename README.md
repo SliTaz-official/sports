@@ -3,13 +3,11 @@
 Due to the small number of interested developers, it has become difficult to update the SliTaz distribution.
 As an experiment, I (Lexeii) decided to try to build a SliTaz distribution based on packages from another distribution.
 
-Adélie Linux distribution was selected.
-It uses packages in `*.apk` (Alpine Package Keeper) format, from the Alpine Linux.
+Alpine Linux distribution was selected.
+It uses packages in `*.apk` (Alpine Package Keeper) format.
 Packages are compiled using Musl.
 
-Although both distributions, Alpine Linux and Adélie Linux, use the same package format, packages are not compatible on the same distribution.
-
-This repository contains additional packages that are not available in Adélie, and which were ported from SliTaz.
+This repository contains additional packages that are not available in Alpine, and which were ported from SliTaz.
 
 ## What now?
 
