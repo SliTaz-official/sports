@@ -3,12 +3,12 @@
 pkgname="aalib"
 _pkgver="1.4rc5" # original version, not acceptable by abuild
 pkgver="1.4_rc5" # fixed version
-pkgrel=0
+pkgrel=1
 pkgdesc="A portable ASCII art graphic library"
 url="http://aa-project.sourceforge.net/aalib/"
 arch="all"
 license="LGPL2"
-makedepends="ncurses-dev libxt-dev"
+makedepends="ncurses-dev libxt-dev linux-headers"
 subpackages="$pkgname-dev $pkgname-doc"
 source="http://downloads.sourceforge.net/aa-project/$pkgname-$_pkgver.tar.gz
 	aclocal-fixes.patch"
