@@ -1,7 +1,7 @@
 # Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
 # Maintainer: Paul Issott <paul@slitaz.org>
 pkgname="accessx"
-pkgver="0.951"
+pkgver="0951"
 pkgrel=0
 pkgdesc="Set and display Xkeyboard (XCB) Accessx features"
 url="http://cita.disability.uiuc.edu/software/accessx/freewareaccessx.php"
@@ -9,7 +9,7 @@ arch="all"
 license="GPL2"
 depends="tk tcl"
 makedepends="libx11-dev libxext-dev tk-dev"
-source="http://cita.disability.uiuc.edu/software/accessx/files/$pkgname${pkgver/./}.tar.gz
+source="http://cita.disability.uiuc.edu/software/accessx/files/$pkgname$pkgver.tar.gz
 	accessx-0951.patch"
 builddir="$srcdir/$pkgname"
 options="!check"
