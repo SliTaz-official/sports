@@ -1,7 +1,7 @@
 # Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
 # Maintainer: Pascal Bellard <pascal.bellard@slitaz.org>
 pkgname="aespipe"
-pkgver="2.4e"
+pkgver="2.4f"
 pkgrel=0
 pkgdesc="AES encrypting or decrypting pipe"
 url="http://loop-aes.sourceforge.net/aespipe.README"
@@ -26,4 +26,4 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="e038f710ac971e5ba740648c0f255e8bc9fcea9be1a6b76208a453f21f013e1662c006d4f4495fa2b2560fd9b0c236947462a9b337a120073c6a5335b29f077e  aespipe-v2.4e.tar.bz2"
+sha512sums="75b6b2069a0e013dbded29b07b990fc783cc04ce05fc37e6591dae7e8190485960735ec1a1af18d065be57d0b7ec23dbe520e920f92e9c01170b7a23eb32eb3f  aespipe-v2.4f.tar.bz2"
