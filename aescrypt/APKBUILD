@@ -2,12 +2,12 @@
 # Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
 pkgname="aescrypt"
 pkgver="3.14"
-pkgrel=0
+pkgrel=1
 pkgdesc="File encryption software"
 url="https://www.aescrypt.com/"
 arch="all"
 license="PublicDomain"
-subpackages="$pkgname-gui:_gui $pkgname-doc"
+subpackages="$pkgname-gui:_gui:noarch $pkgname-doc"
 source="${url}download/v3/linux/$pkgname-$pkgver.tgz
 	gui-yad.patch"
 
