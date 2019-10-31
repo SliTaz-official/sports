@@ -7,7 +7,7 @@ pkgdesc="SliTaz config files"
 url="http://www.slitaz.org/"
 arch="noarch"
 license="GPL3"
-makedepends="gettext-tiny"
+makedepends="gettext"
 subpackages="slitaz-themes $pkgname-base"
 source="$pkgname-$pkgver.tar.bz2::http://hg.slitaz.org/$pkgname/archive/$pkgver.tar.bz2"
 
