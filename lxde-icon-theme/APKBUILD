@@ -2,7 +2,7 @@
 # Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
 pkgname="lxde-icon-theme"
 pkgver="0.5.1"
-pkgrel=0
+pkgrel=1
 pkgdesc="LXDE standard icon theme"
 url="https://lxde.org/"
 arch="noarch"
@@ -11,6 +11,11 @@ depends="$pkgname-base"
 subpackages="$pkgname-base"
 source="https://downloads.sourceforge.net/lxde/$pkgname-$pkgver.tar.xz"
 options="!check"
+
+prepare() {
+	# busybox cp don't know this option, so install cp or just:
+	sed -i 's|--no-preserve=ownership||' ./Makefile.in
+}
 
 build() {
 	./configure \
