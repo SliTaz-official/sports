@@ -1,6 +1,6 @@
 # Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
 # Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
-pkgname="sakura2"
+pkgname="sakura-gtk2"
 _orig="sakura"
 pkgver="2.4.2"
 pkgrel=0
@@ -8,7 +8,7 @@ pkgdesc="Simple GTK+2 and VTE-based terminal emulator"
 url="http://www.pleyades.net/david/projects/sakura"
 arch="all"
 license="GPL2"
-makedepends="cmake glib-dev gtk+2.0-dev vte028-dev"
+makedepends="cmake glib-dev gtk+2.0-dev vte-dev"
 subpackages="$pkgname-doc $pkgname-lang"
 source="https://launchpad.net/sakura/trunk/$pkgver/+download/$_orig-$pkgver.tar.bz2
 	sakura-icon.patch
