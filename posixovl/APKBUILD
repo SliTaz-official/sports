@@ -15,6 +15,7 @@ options="!check"
 
 prepare() {
 	default_prepare
+	sed -i 's|/bin/bash|/bin/sh|' ./autogen.sh
 	./autogen.sh
 }
 
