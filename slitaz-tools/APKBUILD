@@ -7,6 +7,7 @@ pkgdesc="SliTaz tools provide installer and utils usable on terminal"
 url="http://www.slitaz.org/"
 arch="noarch"
 license="GPL3"
+makedepends="gettext"
 subpackages="$pkgname-boxes tazdrop"
 source="$pkgname-$pkgver.tar.bz2::http://hg.slitaz.org/$pkgname/archive/$pkgver.tar.bz2 \
         zone-mini.tab iso3166.tab"
