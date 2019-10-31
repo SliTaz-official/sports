@@ -1,8 +1,0 @@
-#!/bin/sh
-
-grep -q '^lxdm' /etc/passwd && exit 0
-
-groupadd -r lxdm 2>/dev/null
-useradd -c "LXDE login manager" -s /sbin/nologin -g lxdm -m -d /var/lib/lxdm -r lxdm 2>/dev/null
-
-exit 0

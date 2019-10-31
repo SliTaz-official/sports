@@ -1,5 +1,0 @@
-#!/bin/sh
-
-sed -i '/^sessions/ s|,jwm||'  /etc/slim.conf
-
-exit 0
