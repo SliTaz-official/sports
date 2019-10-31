@@ -1,7 +1,7 @@
 # Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
 # Maintainer: Pascal Bellard <pascal.bellard@slitaz.org>
 pkgname="arp-scan"
-pkgver="1.9.5"
+pkgver="1.9.6"
 pkgrel=0
 pkgdesc="The ARP Scanner"
 url="https://github.com/royhills/arp-scan"
@@ -31,4 +31,4 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="a10c510dc668b103fc508619d04e5870fdf6f576b79222904cfe988b4e9255604ce1a724100318a662d5f77d33270bc733f0e3091fb9da034a54b9ab402cbcab  arp-scan-1.9.5.tar.gz"
+sha512sums="c2d56ab8c6e1a046919892f6c2750593d6fbb3a539c3e1736184bd37ff7ae6033f84b62a3d2b4f56c0f2cdc1752002cb010ce77f701ee2f87b6f14b2e1753fe6  arp-scan-1.9.6.tar.gz"
