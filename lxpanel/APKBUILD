@@ -3,14 +3,15 @@
 pkgname="lxpanel"
 _commit="b9ad6f2"
 pkgver="0.10.0"
-pkgrel=0
+pkgrel=1
 pkgdesc="LXDE panel"
 url="https://wiki.lxde.org/en/LXPanel"
 arch="all"
 license="GPL2"
-makedepends="automake libtool intltool gtk+2.0-dev menu-cache-dev alsa-lib-dev
-	wireless-tools-dev libxml2-dev lxmenu-data libwnck2-dev libfm-dev
-	libfm-extra-dev keybinder-dev curl-dev"
+depends="lxmenu-data"
+makedepends="automake autoconf libtool intltool gtk+2.0-dev menu-cache-dev
+	alsa-lib-dev wireless-tools-dev libxml2-dev libwnck-dev libfm-dev keybinder-dev
+	curl-dev dbus-glib-dev libexif-dev libindicator-gtk2-dev"
 subpackages="$pkgname-extra $pkgname-dev $pkgname-doc $pkgname-lang"
 source="$pkgname-$_commit.tar.xz::https://git.lxde.org/gitweb/?p=lxde/lxpanel.git;a=snapshot;h=$_commit;sf=txz
 	cpu-color.patch
@@ -27,11 +28,12 @@ prepare() {
 
 build() {
 	CFLAGS="$CFLAGS -lgmodule-2.0"
+	# prepend plugin name in --with-plugins="..." to disable it
+	# netstat: problems with plugin unresolved yet
 	./configure \
 		--prefix=/usr \
-		--with-plugins="netstatus, -netstat, volume, cpu, deskno, batt, kbled, xkb, thermal, cpufreq, monitors, -indicator, weather"
-		# netstat: problems with plugin unresolved yet
-		# indicator: disabled, require libindicator
+		--with-plugins="netstatus, -netstat, volume, cpu, deskno, batt, kbled, xkb, thermal, cpufreq, monitors, indicator, weather" \
+		--enable-indicator-support
 	sed -i 's| -shared | -Wl,-Os,--as-needed\0|g' libtool
 	make
 }
@@ -46,13 +48,15 @@ package() {
 
 extra() {
 	mkdir -p "$subpkgdir/usr/lib/lxpanel/plugins"
-	mv "$pkgdir/usr/lib/lxpanel/plugins/kbled.so" "$subpkgdir/usr/lib/lxpanel/plugins"
+	mv "$pkgdir/usr/lib/lxpanel/plugins/kbled.so" \
+	   "$pkgdir/usr/lib/lxpanel/plugins/indicator.so" \
+	   "$subpkgdir/usr/lib/lxpanel/plugins"
 	mkdir -p "$subpkgdir/usr/share/lxpanel/images"
 	cd "$pkgdir/usr/share/lxpanel/images"
 	mv ns-*.png *lock-*.png xkb-flags/ background.png file-manager.png \
 		gnome-*.png mute.png stock_volume.png volume-*.png window-manager.png \
 		"$subpkgdir/usr/share/lxpanel/images"
-	cd -
+	cd "$builddir"
 
 	pkgdesc="$pkgdesc (extra files and plugins)"
 }
