@@ -1,7 +1,7 @@
 # Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
 # Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
 pkgname="lxtask"
-pkgver="0.1.8"
+pkgver="0.1.9"
 pkgrel=0
 pkgdesc="LXDE task manager"
 url="https://wiki.lxde.org/en/LXTask"
@@ -22,4 +22,4 @@ package() {
 	make DESTDIR="$pkgdir" install
 }
 
-sha512sums="095904df6ecea699a2ea44ca6f1677d8882b1bb26926b716bd0d6a65ce5aece99e3ac833d5bf08dcadb42e269baa1d3bd7c6e974e58a64f6da147763e9a40c6a  lxtask-0.1.8.tar.xz"
+sha512sums="21a28a86180e2c0d11f591707fe4333cb78224316d6c33e581f5a38a36baf619e22c426f58a6e4eaaa5701119b909a956691fc00ef47dff140443148f2941f4d  lxtask-0.1.9.tar.xz"
