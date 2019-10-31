@@ -7,6 +7,7 @@ pkgdesc="SliTaz Linux tree and the necessary files for the base system"
 url="http://www.slitaz.org/"
 arch="all"
 license="BSD AND GPL3"
+makedepends="gettext"
 source="$pkgname-$pkgver.tar.bz2::http://hg.slitaz.org/$pkgname/archive/$pkgver.tar.bz2"
 
 build() {
