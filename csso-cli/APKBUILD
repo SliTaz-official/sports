@@ -1,0 +1,29 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="csso-cli"
+pkgver="3.0.0"
+pkgrel=0
+pkgdesc="Command line interface for CSSO"
+url="https://github.com/css/csso-cli"
+arch="noarch"
+license="MIT"
+depends="nodejs"
+makedepends="npm"
+source="$pkgname-$pkgver.tar.gz::https://github.com/css/csso-cli/archive/v$pkgver.tar.gz"
+options="!check"
+
+build() {
+	npm install --only=prod
+}
+
+package() {
+	mod="$pkgdir"/usr/lib/node_modules/$pkgname
+	mkdir -p "$pkgdir"/usr/bin "$mod"
+	cp -r bin/ node_modules *.js *.json LICENSE *.md "$mod"
+	ln -s ../lib/node_modules/$pkgname/bin/csso "$pkgdir"/usr/bin
+
+	find "$pkgdir" -type f ! -name csso -exec chmod a-x {} \;
+	find "$pkgdir" -type f -name .DS_Store -delete
+}
+
+sha512sums="3b926a17382b0076308fd6051ae233c2ee48469161798e3033cf6800c38a2e4ee2c4349f9fe22dad051a70934007ca5428fd103ff321a91a4ed42044966c56be  csso-cli-3.0.0.tar.gz"
