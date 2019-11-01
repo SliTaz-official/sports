@@ -1,0 +1,34 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="znotes"
+pkgver="0.4.5.20150825"
+_commit="6423c5eb3f532fb8dd09a25a189838f27c463723"
+pkgrel=0
+pkgdesc="Lightweigh crossplatform application for notes management"
+#url="http://znotes.sourceforge.net/"
+#url="https://github.com/proton/zNotes"
+#url="https://www.linux-apps.com/content/show.php/zNotes?content=113117"
+url="https://www.linux-apps.com/p/1132348/"
+arch="all"
+license="GPL-3.0"
+makedepends="qt5-qttools-dev"
+subpackages="$pkgname-lang"
+langdir="/usr/share/$pkgname/translations"
+source="$pkgname-$pkgver.tar.gz::https://github.com/proton/zNotes/archive/$_commit.tar.gz"
+builddir="$srcdir/zNotes-$_commit"
+
+build() {
+	lrelease-qt5 znotes.pro
+	qmake-qt5 \
+		QMAKE_CFLAGS_RELEASE="$CPPFLAGS $CFLAGS" \
+		QMAKE_CXXFLAGS_RELEASE="$CPPFLAGS $CXXFLAGS" \
+		QMAKE_LFLAGS_RELEASE="$LDFLAGS" \
+		PREFIX=/usr
+	make
+}
+
+package() {
+	make INSTALL_ROOT="$pkgdir" install
+}
+
+sha512sums="080a6bf7e817f07a6468eef685cb09486eb61f21d59dcb3268b0c498324c4c92c6cca51fd6c46393cf70c1c17b77cd614cc73fe2d246c0631bf49a24000ba6f5  znotes-0.4.5.20150825.tar.gz"
