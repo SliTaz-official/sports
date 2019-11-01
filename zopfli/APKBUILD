@@ -1,0 +1,28 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Pascal Bellard <pascal.bellard@slitaz.org>
+pkgname="zopfli"
+pkgver="1.0.2"
+pkgrel=0
+pkgdesc="A good, but slow, deflate or zlib compressor"
+url="https://github.com/google/zopfli"
+arch="all"
+license="Apache-2.0"
+subpackages="$pkgname-doc"
+source="$url/archive/$pkgname-$pkgver.tar.gz"
+builddir="$srcdir/$pkgname-$pkgname-$pkgver"
+options="!check" # not provided
+
+build() {
+	make zopfli zopflipng
+}
+
+package() {
+	install -Dm755 zopfli    "$pkgdir"/usr/bin/zopfli
+	install -Dm755 zopflipng "$pkgdir"/usr/bin/zopflipng
+
+	docdir="$pkgdir"/usr/share/doc/$pkgname-$pkgver
+	mkdir -p "$docdir"
+	cp README* "$docdir"
+}
+
+sha512sums="290a9506a0c1f3d0510230ca21017e1d2bed830f3f96f9d38c9f27210d89123c3baebd05a1da988eccd5395a7b007f6690f08eb9087550a06eaa69d7531f074e  zopfli-1.0.2.tar.gz"
