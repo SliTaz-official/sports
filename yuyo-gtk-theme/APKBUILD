@@ -1,0 +1,21 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Yuri Pourre <yuripourre@gmail.com>
+pkgname="yuyo-gtk-theme"
+pkgver="0.3"
+pkgrel=0
+pkgdesc="GTK theme belonging to the Ubuntu MATE project"
+url="https://web.archive.org/web/20150801205755/https://github.com/snwh/yuyo-gtk-theme"
+arch="noarch"
+license="GPL-3.0-or-later"
+depends="" # gtk2-engine-murrine
+makedepends="jdupes"
+source="http://archive.ubuntu.com/ubuntu/pool/universe/y/$pkgname/${pkgname}_$pkgver.tar.gz"
+options="!check"
+
+package() {
+	mkdir -p "$pkgdir"/usr/share/themes
+	cp -r "$builddir"/Yuyo* "$pkgdir"/usr/share/themes
+	jdupes -l -R "$pkgdir"/usr/share/themes
+}
+
+sha512sums="ece18dbbaf1c72fd0a7431dedb07333bd727a8bebddef0696e5ae8ccb61c4af9d74dbe066b8c420051d38509275d5334e1eb525b9213099ece08518abf87c0df  yuyo-gtk-theme_0.3.tar.gz"
