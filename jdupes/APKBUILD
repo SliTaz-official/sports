@@ -1,0 +1,22 @@
+# Contributor: Aleksey Bobylev <al.bobylev@gmail.com>
+# Maintainer: Aleksey Bobylev <al.bobylev@gmail.com>
+pkgname="jdupes"
+pkgver="1.13.2"
+pkgrel=0
+pkgdesc="A powerful duplicate file finder and an enhanced fork of fdupes"
+url="https://github.com/jbruchon/jdupes"
+arch="all"
+license="MIT"
+subpackages="$pkgname-doc"
+source="$pkgname-$pkgver.tar.gz::https://github.com/jbruchon/$pkgname/archive/v$pkgver.tar.gz"
+options="!check" # make test: ./test.sh: Command not found
+
+build() {
+	make
+}
+
+package() {
+	make DESTDIR="$pkgdir" PREFIX=/usr install
+}
+
+sha512sums="80eb0053753df79e85c8c82c8bfc31ca31e55c2f6b184bb45a3baf644e00439b6c601239310325d366cc98a0f86c323b7aa487b40c9ee2bf2034735dafb89914  jdupes-1.13.2.tar.gz"
